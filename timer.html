@@ -16,18 +16,36 @@ html, body {
   overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff;
 }
 
-/* ── RANK BUTTON top-left ── */
-.rank-btn {
+/* ── TOP-LEFT GROUP (rank + trophy) ── */
+.top-left-group {
   position: fixed; top: 1.6rem; left: 1.8rem;
+  display: flex; align-items: center; gap: 6px; z-index: 10;
+  transition: opacity 0.5s ease;
+}
+
+/* ── RANK BUTTON ── */
+.rank-btn {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 3px; padding: 10px 18px; border-radius: 2px; background: #0e0e0e;
   box-shadow: 0 0 0 1px #f0f0f0, 0 4px 0 0 #a0a0a0, 0 5px 14px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.05);
-  border: none; cursor: pointer; z-index: 10;
+  border: none; cursor: pointer;
   font-family: 'JetBrains Mono', monospace; transition: all 0.07s ease; min-width: 80px;
 }
 .rank-btn:active { transform: translateY(3px); box-shadow: 0 0 0 1px #f0f0f0, 0 1px 0 0 #a0a0a0; }
-.rank-btn-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #444; font-weight: 400; }
+.rank-btn-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #888; font-weight: 400; }
 .rank-btn-name  { font-size: 11px; font-weight: 500; color: #eee; letter-spacing: 0.05em; white-space: nowrap; }
+
+/* ── TROPHY BUTTON (leaderboard) ── */
+.trophy-btn {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 2px; background: #0e0e0e;
+  box-shadow: 0 0 0 1px #f0f0f0, 0 4px 0 0 #a0a0a0, 0 5px 14px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.05);
+  border: none; cursor: pointer; color: #666;
+  transition: all 0.07s ease, color 0.2s ease;
+}
+.trophy-btn:hover  { color: #bbb; }
+.trophy-btn:active { transform: translateY(3px); box-shadow: 0 0 0 1px #f0f0f0, 0 1px 0 0 #a0a0a0; }
 
 /* ── HS BOX top-right ── */
 .hs-box {
@@ -35,16 +53,16 @@ html, body {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 3px; padding: 10px 18px; border-radius: 2px; background: #0e0e0e;
   box-shadow: 0 0 0 1px #f0f0f0, 0 4px 0 0 #a0a0a0, 0 5px 14px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.05);
-  min-width: 116px; z-index: 10;
+  min-width: 116px; z-index: 10; transition: opacity 0.5s ease;
 }
 @keyframes hsFlash {
   0%   { box-shadow: 0 0 0 1px #fff, 0 4px 0 0 #ccc, 0 0 40px rgba(255,255,255,0.25); }
   100% { box-shadow: 0 0 0 1px #f0f0f0, 0 4px 0 0 #a0a0a0, 0 5px 14px rgba(255,255,255,0.04); }
 }
 .hs-box.new { animation: hsFlash 0.5s ease; }
-.hs-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #444; font-weight: 400; }
+.hs-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #888; font-weight: 400; }
 .hs-time  { font-size: 14px; font-weight: 500; letter-spacing: 0.03em; font-variant-numeric: tabular-nums; color: #eee; }
-.hs-time.empty { color: #2a2a2a; }
+.hs-time.empty { color: #555; }
 
 /* ── MAIN TIMER ── */
 .wrap { display: flex; flex-direction: column; align-items: center; gap: 3.5rem; }
@@ -52,7 +70,7 @@ html, body {
   font-size: clamp(72px, 15vw, 152px); font-weight: 500; letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums; line-height: 1; user-select: none; transition: color 0.35s ease;
 }
-#display.paused  { color: #2e2e2e; }
+#display.paused  { color: #555; }
 #display.running { color: #f2f2f2; }
 .controls { display: flex; align-items: center; gap: 1.2rem; }
 .btn {
@@ -61,14 +79,37 @@ html, body {
   padding: 10px 22px; border-radius: 2px; position: relative; transition: all 0.07s ease;
   -webkit-user-select: none; user-select: none;
 }
-.btn.reset { background: #0c0c0c; color: #444; box-shadow: 0 0 0 1px #2a2a2a, 0 4px 0 0 #1a1a1a, 0 5px 8px rgba(0,0,0,0.5); }
-.btn.reset:hover  { color: #888; box-shadow: 0 0 0 1px #3a3a3a, 0 4px 0 0 #1a1a1a, 0 5px 8px rgba(0,0,0,0.5); }
+.btn.reset { background: #0c0c0c; color: #666; box-shadow: 0 0 0 1px #2a2a2a, 0 4px 0 0 #1a1a1a, 0 5px 8px rgba(0,0,0,0.5); transition: all 0.07s ease, opacity 0.5s ease, transform 0.5s cubic-bezier(0.4,0,0.2,1); }
+.btn.reset:hover  { color: #aaa; box-shadow: 0 0 0 1px #3a3a3a, 0 4px 0 0 #1a1a1a, 0 5px 8px rgba(0,0,0,0.5); }
 .btn.reset:active { transform: translateY(3px); box-shadow: 0 0 0 1px #2a2a2a, 0 1px 0 0 #1a1a1a, 0 2px 4px rgba(0,0,0,0.4); }
 .btn.primary { background: #161616; color: #d0d0d0; box-shadow: 0 0 0 1px #383838, 0 4px 0 0 #0a0a0a, 0 5px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04); }
 .btn.primary:hover  { color: #fff; background: #1c1c1c; box-shadow: 0 0 0 1px #484848, 0 4px 0 0 #0a0a0a, 0 6px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06); }
 .btn.primary:active { transform: translateY(3px); background: #111; box-shadow: 0 0 0 1px #303030, 0 1px 0 0 #0a0a0a, 0 2px 6px rgba(0,0,0,0.5); }
 .btn:active::after  { content: ''; position: absolute; inset: 0; border-radius: 2px; background: rgba(255,255,255,0.03); }
-.dot { width: 3px; height: 3px; border-radius: 50%; background: #222; }
+.dot { width: 3px; height: 3px; border-radius: 50%; background: #444; transition: opacity 0.5s ease; }
+
+/* ── ZEN MODE ── */
+body.zen .top-left-group,
+body.zen .hs-box,
+body.zen .settings-btn,
+body.zen .sync-dot,
+body.zen .btn.reset,
+body.zen .dot {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Pause button floats to bottom-center in zen */
+#pauseBtn {
+  transition: bottom 0.55s cubic-bezier(0.4,0,0.2,1), left 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1);
+}
+body.zen #pauseBtn {
+  position: fixed;
+  bottom: 2.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+}
 
 /* ── RANK MODAL ── */
 .modal-overlay {
@@ -89,16 +130,16 @@ html, body {
   padding: 1.4rem 1.6rem 1.2rem; border-bottom: 1px solid #191919;
   display: flex; align-items: flex-start; justify-content: space-between; flex-shrink: 0;
 }
-.modal-title { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: #555; font-weight: 400; }
+.modal-title { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: #777; font-weight: 400; }
 .modal-header-actions { display: flex; align-items: center; gap: 0.8rem; }
-.modal-close { background: none; border: none; cursor: pointer; color: #333; font-size: 18px; line-height: 1; padding: 0 2px; transition: color 0.2s; font-family: inherit; }
-.modal-close:hover { color: #888; }
+.modal-close { background: none; border: none; cursor: pointer; color: #555; font-size: 18px; line-height: 1; padding: 0 2px; transition: color 0.2s; font-family: inherit; }
+.modal-close:hover { color: #aaa; }
 
 /* ── LEADERBOARD ICON in modal header ── */
 .leaderboard-icon-btn {
   display: flex; align-items: center; gap: 6px;
   background: #111; border: 1px solid #1e1e1e; border-radius: 2px;
-  cursor: pointer; color: #3a3a3a;
+  cursor: pointer; color: #666;
   padding: 5px 10px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase;
@@ -115,22 +156,22 @@ html, body {
 .rank-hero-img { width: 56px; height: 56px; border-radius: 3px; background: #161616; border: 1px solid #252525; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .rank-hero-img img { width: 100%; height: 100%; object-fit: cover; }
 .rank-hero-info { flex: 1; }
-.rank-hero-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #333; margin-bottom: 4px; }
+.rank-hero-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #666; margin-bottom: 4px; }
 .rank-hero-name  { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #f0f0f0; margin-bottom: 6px; line-height: 1; }
-.rank-hero-pts   { font-size: 11px; color: #444; letter-spacing: 0.1em; }
-.rank-hero-pts span { color: #999; }
-.rank-hero-username { font-size: 10px; color: #333; letter-spacing: 0.25em; margin-top: 4px; }
-.rank-hero-username span { color: #555; }
+.rank-hero-pts   { font-size: 11px; color: #777; letter-spacing: 0.1em; }
+.rank-hero-pts span { color: #bbb; }
+.rank-hero-username { font-size: 10px; color: #555; letter-spacing: 0.25em; margin-top: 4px; }
+.rank-hero-username span { color: #888; }
 .progress-wrap { padding: 1.2rem 1.6rem; border-bottom: 1px solid #141414; flex-shrink: 0; }
 .progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.progress-next { font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase; color: #333; }
+.progress-next { font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase; color: #666; }
 .progress-pct  { font-size: 11px; font-weight: 500; color: #7c3aed; }
 .progress-track { height: 3px; background: #1a1a1a; border-radius: 2px; overflow: hidden; }
 .progress-fill {
   height: 100%; width: 0%; background: linear-gradient(90deg, #4c1d95, #7c3aed, #a78bfa);
   border-radius: 2px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 0 8px rgba(124,58,237,0.5);
 }
-.progress-label { margin-top: 6px; font-size: 9px; color: #2e2e2e; letter-spacing: 0.2em; }
+.progress-label { margin-top: 6px; font-size: 9px; color: #555; letter-spacing: 0.2em; }
 .rank-list-wrap { overflow-y: auto; flex: 1; padding: 0.8rem 0; }
 .rank-list-wrap::-webkit-scrollbar { width: 4px; }
 .rank-list-wrap::-webkit-scrollbar-track { background: transparent; }
@@ -144,12 +185,12 @@ html, body {
 .rank-item-img.locked { opacity: 0.3; filter: grayscale(1); }
 .rank-item-info { flex: 1; }
 .rank-item-name { font-size: 12px; font-weight: 500; color: #d0d0d0; letter-spacing: 0.03em; margin-bottom: 2px; }
-.rank-item-name.locked { color: #333; }
-.rank-item-pts  { font-size: 9px; color: #333; letter-spacing: 0.2em; }
+.rank-item-name.locked { color: #555; }
+.rank-item-pts  { font-size: 9px; color: #555; letter-spacing: 0.2em; }
 .rank-item-status { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; }
-.rank-item-status.unlocked { color: #4a4a4a; }
+.rank-item-status.unlocked { color: #666; }
 .rank-item-status.current  { color: #7c3aed; }
-.rank-item-status.locked   { color: #222; }
+.rank-item-status.locked   { color: #3a3a3a; }
 .current-badge { font-size: 8px; letter-spacing: 0.3em; text-transform: uppercase; color: #7c3aed; border: 1px solid #2e1a6e; padding: 2px 7px; border-radius: 1px; background: #0d0a1f; }
 .rank-item.eternal .rank-item-name { color: #f59e0b; }
 .rank-item.eternal .rank-item-img  { border-color: #44260a; box-shadow: 0 0 12px rgba(245,158,11,0.15); }
@@ -172,10 +213,10 @@ html, body {
   width: 36px; height: 36px; background: #0e0e0e;
   border: 1px solid #1e1e1e; border-radius: 3px;
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; color: #2e2e2e; z-index: 50;
-  transition: color 0.2s, border-color 0.2s; box-shadow: 0 4px 0 #0a0a0a;
+  cursor: pointer; color: #555; z-index: 50;
+  transition: color 0.2s, border-color 0.2s, opacity 0.5s ease; box-shadow: 0 4px 0 #0a0a0a;
 }
-.settings-btn:hover  { color: #777; border-color: #333; }
+.settings-btn:hover  { color: #aaa; border-color: #444; }
 .settings-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #0a0a0a; }
 
 .settings-popup {
@@ -192,7 +233,7 @@ html, body {
   background: none; border: none; cursor: pointer;
   font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 400;
   letter-spacing: 0.3em; text-transform: uppercase;
-  color: #555; padding: 9px 16px; border-radius: 2px;
+  color: #777; padding: 9px 16px; border-radius: 2px;
   width: 100%; white-space: nowrap; transition: color 0.15s, background 0.15s;
 }
 .logout-btn:hover { color: #ddd; background: #141414; }
@@ -227,7 +268,7 @@ html, body {
 }
 .identity-sub {
   font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
-  color: #333; text-align: center; margin-bottom: 2.4rem; line-height: 1.7;
+  color: #666; text-align: center; margin-bottom: 2.4rem; line-height: 1.7;
 }
 .identity-input-wrap {
   width: 100%; position: relative; margin-bottom: 0.8rem;
@@ -248,10 +289,10 @@ html, body {
   border-color: #2a2a2a;
   box-shadow: 0 0 0 1px #1e1e1e, 0 0 20px rgba(124,58,237,0.06);
 }
-.identity-input::placeholder { color: #282828; }
+.identity-input::placeholder { color: #444; }
 .identity-error {
   font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase;
-  color: #6b2020; height: 1.2rem; margin-bottom: 1.6rem;
+  color: #9b3030; height: 1.2rem; margin-bottom: 1.6rem;
   transition: opacity 0.2s;
   text-align: center;
 }
@@ -265,7 +306,7 @@ html, body {
   padding: 14px 22px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px; font-weight: 500; letter-spacing: 0.5em; text-transform: uppercase;
-  color: #555; cursor: pointer;
+  color: #888; cursor: pointer;
   box-shadow: 0 4px 0 0 #0a0a0a;
   transition: all 0.07s ease, color 0.2s, background 0.2s;
   position: relative; overflow: hidden;
@@ -284,7 +325,7 @@ html, body {
 .identity-rules {
   margin-top: 1.4rem;
   font-size: 8px; letter-spacing: 0.3em; text-transform: uppercase;
-  color: #1e1e1e; text-align: center; line-height: 2;
+  color: #444; text-align: center; line-height: 2;
 }
 
 /* ── SYNC STATUS indicator ── */
@@ -292,11 +333,20 @@ html, body {
   position: fixed; bottom: 1.8rem; right: 1.8rem;
   width: 6px; height: 6px; border-radius: 50%;
   background: #1e1e1e; z-index: 50;
-  transition: background 0.4s, box-shadow 0.4s;
+  transition: background 0.4s, box-shadow 0.4s, opacity 0.5s ease;
 }
 .sync-dot.syncing { background: #7c3aed; box-shadow: 0 0 8px rgba(124,58,237,0.6); }
 .sync-dot.synced  { background: #2a4a2a; box-shadow: none; }
 .sync-dot.error   { background: #4a1a1a; }
+
+/* ── ZEN HINT ── */
+.zen-hint {
+  position: fixed; bottom: 6.8rem; left: 50%; transform: translateX(-50%);
+  font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: #333; z-index: 5; pointer-events: none;
+  opacity: 0; transition: opacity 1s ease;
+}
+body.zen .zen-hint { opacity: 1; }
 </style>
 </head>
 <body>
@@ -323,11 +373,22 @@ html, body {
   </div>
 </div>
 
-<!-- Rank button top-left -->
-<button class="rank-btn" id="rankBtn">
-  <span class="rank-btn-label">rank</span>
-  <span class="rank-btn-name" id="rankBtnName">—</span>
-</button>
+<!-- Top-left group: rank + leaderboard -->
+<div class="top-left-group">
+  <button class="rank-btn" id="rankBtn">
+    <span class="rank-btn-label">rank</span>
+    <span class="rank-btn-name" id="rankBtnName">—</span>
+  </button>
+  <button class="trophy-btn" id="trophyBtn" title="Leaderboard">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 9H4a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h.5"/>
+      <path d="M18 9h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-.5"/>
+      <path d="M6 4h12v10a6 6 0 0 1-12 0V4z"/>
+      <line x1="12" y1="20" x2="12" y2="24"/>
+      <line x1="8"  y1="24" x2="16" y2="24"/>
+    </svg>
+  </button>
+</div>
 
 <!-- HS box top-right -->
 <div class="hs-box" id="hsBox">
@@ -347,6 +408,9 @@ html, body {
     <button class="btn primary" id="pauseBtn">Start</button>
   </div>
 </div>
+
+<!-- Zen hint -->
+<div class="zen-hint">click to exit zen</div>
 
 <!-- Rank-up toast -->
 <div class="rankup-toast" id="rankupToast"></div>
@@ -613,6 +677,11 @@ document.getElementById('leaderboardBtn').addEventListener('click', () => {
   window.open('leaderboard.html', '_blank');
 });
 
+/* ── TROPHY BUTTON ── */
+document.getElementById('trophyBtn').addEventListener('click', () => {
+  window.open('leaderboard.html', '_blank');
+});
+
 /* ── WORKER ── */
 const workerSrc = `let iv=null;self.onmessage=function(e){if(e.data==='start'){if(!iv)iv=setInterval(()=>self.postMessage('tick'),500);}else if(e.data==='stop'){clearInterval(iv);iv=null;}};`;
 try {
@@ -639,6 +708,23 @@ function rafTick() {
   rafId = requestAnimationFrame(rafTick);
 }
 
+/* ── ZEN MODE ── */
+function enterZen() { document.body.classList.add('zen'); }
+function exitZen()  { document.body.classList.remove('zen'); }
+
+// Click anywhere on body exits zen (but not the pause button itself — that's handled separately)
+document.body.addEventListener('click', function(e) {
+  if (!document.body.classList.contains('zen')) return;
+  // Pause button click exits zen AND toggles pause — handled in pauseBtn listener
+  // Any other click just exits zen
+  if (e.target !== pauseBtn) exitZen();
+});
+
+// Escape key exits zen
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.body.classList.contains('zen')) exitZen();
+});
+
 /* ── TIMER CORE ── */
 const display  = document.getElementById('display');
 const pauseBtn = document.getElementById('pauseBtn');
@@ -650,12 +736,16 @@ pauseBtn.addEventListener('click', () => {
     display.className = 'running'; pauseBtn.textContent = 'Pause';
     if (worker) worker.postMessage('start');
     rafId = requestAnimationFrame(rafTick);
+    // Enter zen mode when starting
+    enterZen();
   } else {
     const delta = performance.now() - startTime;
     sessionMs += delta; totalStudiedMs += delta;
     running = false; cancelAnimationFrame(rafId);
     if (worker) worker.postMessage('stop');
     display.className = 'paused'; pauseBtn.textContent = 'Resume';
+    // Exit zen when pausing
+    exitZen();
     scheduleSync();
   }
 });
@@ -669,6 +759,7 @@ resetBtn.addEventListener('click', () => {
   cancelAnimationFrame(rafId); if (worker) worker.postMessage('stop');
   display.textContent = '00:00:00'; display.className = 'paused'; pauseBtn.textContent = 'Start';
   rankBtnName.textContent = RANKS[getRankIndex(msToPoints(totalStudiedMs))].name;
+  exitZen();
   scheduleSync();
 });
 
