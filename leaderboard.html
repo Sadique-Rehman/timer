@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard</title>
+<link rel="icon" type="image/jpeg" href="logo2.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  min-height: 100%;
+  background: #0c0c0c;
+  font-family: 'JetBrains Mono', monospace;
+  color: #fff;
+}
+
+/* ── PAGE ── */
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3.2rem 2rem 4rem;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.header-eyebrow {
+  font-size: 8px; letter-spacing: 0.55em; text-transform: uppercase;
+  color: #252525; margin-bottom: 5px;
+}
+.header-title {
+  font-size: 18px; font-weight: 600; letter-spacing: 0.02em; color: #d8d8d8;
+}
+.back-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: none; border: none; cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase;
+  color: #252525; transition: color 0.2s; padding: 4px 0;
+}
+.back-btn:hover { color: #666; }
+
+/* ── LIVE STATUS BAR ── */
+.status-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.6rem 0.9rem;
+  background: #0e0e0e;
+  border: 1px solid #181818;
+  border-bottom: none;
+  font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase;
+}
+.status-left { display: flex; align-items: center; gap: 7px; color: #252525; }
+.live-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #1c1c1c; flex-shrink: 0;
+  transition: background 0.4s, box-shadow 0.4s;
+}
+.live-dot.active { background: #1e3a1e; box-shadow: 0 0 5px rgba(30,58,30,1); }
+#liveBadgeText { color: #252525; }
+#lastUpdated   { color: #1e1e1e; }
+
+/* ── TABLE SHELL ── */
+.lb-wrap {
+  border: 1px solid #181818;
+  overflow: hidden;
+}
+
+/* ── TABLE ── */
+.lb-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* ── THEAD ── */
+.lb-thead tr {
+  background: #0e0e0e;
+  border-bottom: 1px solid #1e1e1e;
+}
+.lb-thead th {
+  font-size: 7px; letter-spacing: 0.5em; text-transform: uppercase;
+  color: #252525; font-weight: 400;
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+  border-right: 1px solid #161616;
+}
+.lb-thead th:last-child { border-right: none; }
+.lb-thead th.right  { text-align: right; }
+.lb-thead th.center { text-align: center; }
+
+/* ── ROWS ── */
+.lb-row {
+  border-bottom: 1px solid #111;
+  transition: background 0.12s;
+  animation: rowIn 0.25s ease both;
+  position: relative;
+}
+@keyframes rowIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.lb-row:last-child { border-bottom: none; }
+.lb-row:hover { background: #101010; }
+
+/* Top 3 */
+.lb-row.rank-1 { background: #0f0e0a; }
+.lb-row.rank-1:hover { background: #131209; }
+.lb-row.rank-2 { background: #0d0d0d; }
+.lb-row.rank-3 { background: #0c0c0c; }
+
+/* ── CELLS ── */
+td {
+  padding: 0.8rem 0.9rem;
+  vertical-align: middle;
+  border-right: 1px solid #111;
+  font-size: 11px;
+}
+td:last-child { border-right: none; }
+
+/* ── COL: # ── */
+.col-pos {
+  width: 44px; min-width: 44px;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.06em; color: #1e1e1e;
+  text-align: center; font-variant-numeric: tabular-nums;
+}
+.lb-row.rank-1 .col-pos { color: #7a6830; }
+.lb-row.rank-2 .col-pos { color: #3e3e3e; }
+.lb-row.rank-3 .col-pos { color: #2a2a2a; }
+
+/* ── COL: PLAYER ── */
+.col-user { min-width: 140px; }
+.col-username {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.03em; color: #b0b0b0;
+  display: flex; align-items: center; gap: 7px;
+}
+.lb-row.rank-1 .col-username { color: #e8e8e8; }
+.lb-row.rank-2 .col-username { color: #d0d0d0; }
+.lb-row.rank-3 .col-username { color: #c0c0c0; }
+.you-tag {
+  font-size: 7px; letter-spacing: 0.35em; text-transform: uppercase;
+  color: #4a2d9e; border: 1px solid #2a1a5e; padding: 1px 5px; border-radius: 1px;
+  background: #0a0814; flex-shrink: 0;
+}
+
+/* ── COL: RANK ── */
+.col-rank { min-width: 180px; }
+.col-rank-inner {
+  display: flex; align-items: center; gap: 10px;
+}
+.rank-icon-wrap {
+  width: 28px; height: 28px; flex-shrink: 0;
+  background: #111; border: 1px solid #191919; border-radius: 1px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.rank-icon-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.lb-row.rank-1 .rank-icon-wrap { border-color: #2a2010; box-shadow: 0 0 8px rgba(100,75,20,0.2); }
+.col-rank-name {
+  font-size: 11px; font-weight: 400; color: #383838; letter-spacing: 0.04em;
+}
+.lb-row.rank-1 .col-rank-name { color: #9a7c2e; }
+.lb-row.rank-2 .col-rank-name { color: #585858; }
+.lb-row.rank-3 .col-rank-name { color: #484848; }
+.eternal-name { color: #f59e0b !important; }
+
+/* ── COL: HRS ── */
+.col-score { text-align: right; white-space: nowrap; }
+.col-score-val {
+  font-size: 12px; font-weight: 500; color: #303030;
+  font-variant-numeric: tabular-nums;
+}
+.col-score-unit {
+  font-size: 8px; color: #1e1e1e; letter-spacing: 0.3em;
+  text-transform: uppercase; margin-left: 4px;
+}
+.lb-row.rank-1 .col-score-val { color: #888; }
+.lb-row.rank-2 .col-score-val { color: #555; }
+.lb-row.rank-3 .col-score-val { color: #444; }
+
+/* ── SELF ROW ── */
+.lb-row.is-me { background: #0b091a !important; }
+.lb-row.is-me:hover { background: #0e0c20 !important; }
+.lb-row.is-me::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: #4c1d95;
+}
+.lb-row.is-me .col-username { color: #7c5fe0; }
+.lb-row.is-me .col-score-val { color: #5a3ab0; }
+.lb-row.is-me td { border-right-color: #130f28; }
+
+/* ── EMPTY ── */
+.lb-empty {
+  text-align: center; padding: 3.5rem 0;
+  font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase; color: #181818;
+}
+
+/* ── FOOTER ── */
+.footer {
+  margin-top: 0;
+  padding: 0.6rem 0.9rem;
+  background: #0e0e0e;
+  border: 1px solid #181818;
+  border-top: none;
+  font-size: 7px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: #1a1a1a;
+  display: flex; justify-content: space-between;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="header-eyebrow">Global</div>
+      <div class="header-title">Leaderboard</div>
+    </div>
+    <button class="back-btn" onclick="window.close()">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      back
+    </button>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-left">
+      <div class="live-dot" id="liveDot"></div>
+      <span id="liveBadgeText">—</span>
+    </div>
+    <span id="lastUpdated">—</span>
+  </div>
+
+  <div class="lb-wrap">
+    <table class="lb-table">
+      <thead class="lb-thead">
+        <tr>
+          <th class="center" style="width:44px">#</th>
+          <th>Player</th>
+          <th>Rank</th>
+          <th class="right">Hours</th>
+        </tr>
+      </thead>
+      <tbody id="lbBody">
+        <tr><td colspan="4"><div class="lb-empty">—</div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <span>top 50 · rank points descending</span>
+    <span>realtime</span>
+  </div>
+
+</div>
+
+<script type="module">
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import {
+    getFirestore, collection, query, orderBy, limit,
+    onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDOQZw95uqm6B4TP_qGKlwqt2LYKfvITXM",
+    authDomain: "eternal-one-timer.firebaseapp.com",
+    projectId: "eternal-one-timer",
+    storageBucket: "eternal-one-timer.firebasestorage.app",
+    messagingSenderId: "1010437979682",
+    appId: "1:1010437979682:web:7a23edfd4e45439ba7547b",
+    measurementId: "G-6JR43ZSEN3"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  /* ── RANK DATA ── */
+  const RANK_IMAGES = [
+    './rank_png/Bronze_1_Rank.png',
+    './rank_png/Bronze_3_Rank.png',
+    './rank_png/Silver_1_Rank.png',
+    './rank_png/Silver_3_Rank.png',
+    './rank_png/Gold_1_Rank.png',
+    './rank_png/Gold_3_Rank.png',
+    './rank_png/Platinum_1_Rank.png',
+    './rank_png/Platinum_3_Rank.png',
+    './rank_png/Diamond_1_Rank.png',
+    './rank_png/Diamond_3_Rank.png',
+    './rank_png/Ascendant_1_Rank.png',
+    './rank_png/Ascendant_3_Rank.png',
+    './rank_png/Immortal_1_Rank.png',
+    './rank_png/Immortal_3_Rank.png',
+    './rank_png/Radiant_Rank.png',
+  ];
+  const RANKS = [
+    { name: 'Wanderer I',      pts: 0   },
+    { name: 'Wanderer II',     pts: 5   },
+    { name: 'Seeker I',        pts: 10  },
+    { name: 'Seeker II',       pts: 15  },
+    { name: 'Shadow I',        pts: 20  },
+    { name: 'Shadow II',       pts: 30  },
+    { name: 'Phantom I',       pts: 40  },
+    { name: 'Phantom II',      pts: 55  },
+    { name: 'Reaper I',        pts: 70  },
+    { name: 'Reaper II',       pts: 90  },
+    { name: 'Abyss Walker I',  pts: 110 },
+    { name: 'Abyss Walker II', pts: 140 },
+    { name: 'Eternal I',       pts: 170 },
+    { name: 'Eternal II',      pts: 210 },
+    { name: 'THE ETERNAL ONE', pts: 250 },
+  ];
+
+  function getRank(pts) {
+    let idx = 0;
+    for (let i = 0; i < RANKS.length; i++) { if (pts >= RANKS[i].pts) idx = i; else break; }
+    return RANKS[idx].name;
+  }
+  function getRankIndex(pts) {
+    let idx = 0;
+    for (let i = 0; i < RANKS.length; i++) { if (pts >= RANKS[i].pts) idx = i; else break; }
+    return idx;
+  }
+  function getRankIcon(pts) {
+    return RANK_IMAGES[getRankIndex(pts)] || '';
+  }
+
+  /* ── UI ELEMENTS ── */
+  const lbBody      = document.getElementById('lbBody');
+  const liveDot     = document.getElementById('liveDot');
+  const liveBadge   = document.getElementById('liveBadgeText');
+  const lastUpdated = document.getElementById('lastUpdated');
+
+  let currentUid = null;
+  let unsubscribe = null;
+
+  /* ── AUTH ── */
+  onAuthStateChanged(auth, user => {
+    if (!user) { window.location.href = 'index.html'; return; }
+    currentUid = user.uid;
+    startRealtimeLeaderboard();
+  });
+
+  function startRealtimeLeaderboard() {
+    const q = query(
+      collection(db, 'users'),
+      orderBy('rankPoints', 'desc'),
+      limit(50)
+    );
+
+    if (unsubscribe) unsubscribe();
+
+    unsubscribe = onSnapshot(q, snapshot => {
+      liveDot.classList.add('active');
+      liveBadge.textContent = 'live · ' + snapshot.size + ' players';
+
+      const now = new Date();
+      lastUpdated.textContent = 'updated ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      renderLeaderboard(snapshot.docs);
+    }, err => {
+      console.error('Leaderboard error:', err);
+      liveBadge.textContent = 'error loading';
+      liveDot.classList.remove('active');
+    });
+  }
+
+  function renderLeaderboard(docs) {
+    // Filter only users with a username
+    const users = docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .filter(u => u.username);
+
+    if (users.length === 0) {
+      lbBody.innerHTML = '<tr><td colspan="5"><div class="lb-empty">no players yet</div></td></tr>';
+      return;
+    }
+
+    lbBody.innerHTML = '';
+
+    users.forEach((u, i) => {
+      const pos       = i + 1;
+      const pts       = Number(u.rankPoints || 0);
+      const rankName  = getRank(pts);
+      const rankImg   = getRankIcon(pts);
+      const isEternal = rankName === 'THE ETERNAL ONE';
+      const isMe      = u.id === currentUid;
+      const hrs       = pts.toFixed(1);
+
+      let rowClass = 'lb-row';
+      if (pos === 1) rowClass += ' rank-1';
+      else if (pos === 2) rowClass += ' rank-2';
+      else if (pos === 3) rowClass += ' rank-3';
+      if (isMe) rowClass += ' is-me';
+
+      const animDelay = Math.min(i * 30, 300);
+
+      const tr = document.createElement('tr');
+      tr.className = rowClass;
+      tr.style.animationDelay = animDelay + 'ms';
+
+      // Position
+      const posDisplay = pos === 1 ? '01' : pos === 2 ? '02' : pos === 3 ? '03' : String(pos).padStart(2, '0');
+
+      tr.innerHTML = `
+        <td class="col-pos">${posDisplay}</td>
+        <td class="col-user">
+          <div class="col-username">
+            ${escapeHtml(u.username)}
+            ${isMe ? '<span class="you-tag">you</span>' : ''}
+          </div>
+        </td>
+        <td class="col-rank">
+          <div class="col-rank-inner">
+            <div class="rank-icon-wrap">
+              <img src="${rankImg}" alt="${rankName}" onerror="this.style.display='none'">
+            </div>
+            <span class="col-rank-name ${isEternal ? 'eternal-name' : ''}">${rankName}</span>
+          </div>
+        </td>
+        <td class="col-score">
+          <span class="col-score-val">${hrs}</span><span class="col-score-unit">h</span>
+        </td>
+      `;
+
+      lbBody.appendChild(tr);
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+</script>
+</body>
+</html>
