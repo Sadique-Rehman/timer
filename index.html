@@ -13,27 +13,25 @@
     signInWithPopup, GoogleAuthProvider, onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
   
-  // ── PASTE YOUR FIREBASE CONFIG HERE ────────────────────
   const firebaseConfig = {
-  apiKey: "AIzaSyDOQZw95uqm6B4TP_qGKlwqt2LYKfvITXM",
-  authDomain: "eternal-one-timer.firebaseapp.com",
-  projectId: "eternal-one-timer",
-  storageBucket: "eternal-one-timer.firebasestorage.app",
-  messagingSenderId: "1010437979682",
-  appId: "1:1010437979682:web:7a23edfd4e45439ba7547b",
-  measurementId: "G-6JR43ZSEN3"
-};
-  // ───────────────────────────────────────────────────────
+    apiKey: "AIzaSyDOQZw95uqm6B4TP_qGKlwqt2LYKfvITXM",
+    authDomain: "eternal-one-timer.firebaseapp.com",
+    projectId: "eternal-one-timer",
+    storageBucket: "eternal-one-timer.firebasestorage.app",
+    messagingSenderId: "1010437979682",
+    appId: "1:1010437979682:web:7a23edfd4e45439ba7547b",
+    measurementId: "G-6JR43ZSEN3"
+  };
 
-  const app      = initializeApp(firebaseConfig);
-  const auth     = getAuth(app);
-  const gProvider= new GoogleAuthProvider();
+  const app       = initializeApp(firebaseConfig);
+  const auth      = getAuth(app);
+  const gProvider = new GoogleAuthProvider();
 
   onAuthStateChanged(auth, user => { if (user) redirect(); });
 
   function redirect() {
     document.getElementById('overlay').classList.add('show');
-    setTimeout(() => { window.location.href = 'timer.html'; }, 900);
+    setTimeout(() => { window.location.href = 'intro.html'; }, 900);
   }
   function setError(msg) { document.getElementById('err').textContent = msg; }
   function setLoading(on) {
@@ -132,13 +130,9 @@ input:focus { border-color: #333; box-shadow: 0 0 0 3px rgba(100,60,220,0.07); }
 .btn-primary:hover  { border-color: #3a3a3a; color: #e0e0e0; }
 .btn-primary:active { transform: translateY(2px); box-shadow: 0 2px 0 #0a0a0a; }
 .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-
-/* divider */
 .divider { display: flex; align-items: center; gap: 10px; margin: 0.9rem 0; }
 .divider-line { flex: 1; height: 1px; background: #161616; }
 .divider-text { font-size: 9px; color: #222; letter-spacing: 0.2em; }
-
-/* google button */
 .btn-google {
   width: 100%; background: #0f0f0f; border: 1px solid #1e1e1e;
   border-radius: 4px; padding: 11px;
@@ -151,7 +145,6 @@ input:focus { border-color: #333; box-shadow: 0 0 0 3px rgba(100,60,220,0.07); }
 .btn-google:active { transform: scale(0.99); }
 .btn-google:disabled { opacity: 0.4; cursor: not-allowed; }
 .g-icon { width: 14px; height: 14px; flex-shrink: 0; }
-
 .link-row { text-align: center; margin-top: 1.4rem; }
 .link-row a {
   font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
