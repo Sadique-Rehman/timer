@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Eternal One</title>
+<link rel="icon" type="image/jpeg" href="logo2.jpeg">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth, signInWithEmailAndPassword,
+    signInWithPopup, GoogleAuthProvider, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyDOQZw95uqm6B4TP_qGKlwqt2LYKfvITXM",
+    authDomain: "eternal-one-timer.firebaseapp.com",
+    projectId: "eternal-one-timer",
+    storageBucket: "eternal-one-timer.firebasestorage.app",
+    messagingSenderId: "1010437979682",
+    appId: "1:1010437979682:web:7a23edfd4e45439ba7547b",
+    measurementId: "G-6JR43ZSEN3"
+  };
+
+  const app       = initializeApp(firebaseConfig);
+  const auth      = getAuth(app);
+  const gProvider = new GoogleAuthProvider();
+
+  onAuthStateChanged(auth, user => { if (user) redirect(); });
+
+  function redirect() {
+    document.getElementById('overlay').classList.add('show');
+    setTimeout(() => { window.location.href = 'timer.html'; }, 900);
+  }
+  function setError(msg) { document.getElementById('err').textContent = msg; }
+  function setLoading(on) {
+    ['loginBtn','googleBtn'].forEach(id => {
+      document.getElementById(id).disabled = on;
+    });
+    document.getElementById('loginBtn').textContent = on ? '...' : 'Login';
+  }
+
+  window.__login = async () => {
+    setError('');
+    const e = document.getElementById('email').value.trim();
+    const p = document.getElementById('pass').value;
+    if (!e || !p) { setError('fill in both fields'); return; }
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, e, p);
+      redirect();
+    } catch (err) { setError(friendlyError(err.code)); setLoading(false); }
+  };
+
+  window.__google = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      await signInWithPopup(auth, gProvider);
+      redirect();
+    } catch (err) {
+      if (err.code !== 'auth/popup-closed-by-user') setError(friendlyError(err.code));
+      setLoading(false);
+    }
+  };
+
+  function friendlyError(code) {
+    const map = {
+      'auth/user-not-found':    'no account with that email',
+      'auth/wrong-password':    'wrong password',
+      'auth/invalid-email':     'invalid email',
+      'auth/too-many-requests': 'too many attempts — try later',
+      'auth/invalid-credential':'wrong email or password',
+    };
+    return map[code] || 'something went wrong';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Enter') window.__login(); });
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%; background: #090909;
+  font-family: 'JetBrains Mono', monospace; color: #e0e0e0;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+body::before {
+  content: ''; position: fixed;
+  width: 600px; height: 600px; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  background: radial-gradient(circle, rgba(90,40,200,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.card {
+  width: min(360px, 92vw); opacity: 0;
+  animation: up 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s forwards;
+}
+@keyframes up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.logo { display: flex; flex-direction: column; align-items: center; margin-bottom: 2.8rem; gap: 10px; }
+.logo-mark {
+  width: 44px; height: 44px; border-radius: 10px;
+  border: 1px solid #1e1e1e; background: #111;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.logo-mark img { width: 100%; height: 100%; object-fit: contain; }
+.app-name { font-size: 11px; letter-spacing: 0.45em; text-transform: uppercase; color: #555; font-weight: 400; }
+.field { margin-bottom: 0.75rem; }
+input {
+  width: 100%; background: #0f0f0f; border: 1px solid #1c1c1c;
+  border-radius: 4px; padding: 11px 14px;
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  font-weight: 300; color: #ccc; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input::placeholder { color: #252525; }
+input:focus { border-color: #333; box-shadow: 0 0 0 3px rgba(100,60,220,0.07); }
+.err { font-size: 10px; color: #5a2020; letter-spacing: 0.15em; min-height: 16px; margin-bottom: 0.6rem; text-align: center; }
+.btn-primary {
+  width: 100%; background: #111; border: 1px solid #2a2a2a;
+  border-radius: 4px; padding: 11px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.4em; text-transform: uppercase; color: #bbb;
+  cursor: pointer; transition: all 0.15s; margin-bottom: 0.55rem;
+  box-shadow: 0 4px 0 #0a0a0a;
+}
+.btn-primary:hover  { border-color: #3a3a3a; color: #e0e0e0; }
+.btn-primary:active { transform: translateY(2px); box-shadow: 0 2px 0 #0a0a0a; }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.divider { display: flex; align-items: center; gap: 10px; margin: 0.9rem 0; }
+.divider-line { flex: 1; height: 1px; background: #161616; }
+.divider-text { font-size: 9px; color: #222; letter-spacing: 0.2em; }
+.btn-google {
+  width: 100%; background: #0f0f0f; border: 1px solid #1e1e1e;
+  border-radius: 4px; padding: 11px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase; color: #444;
+  cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.btn-google:hover  { border-color: #2a2a2a; color: #888; }
+.btn-google:active { transform: scale(0.99); }
+.btn-google:disabled { opacity: 0.4; cursor: not-allowed; }
+.g-icon { width: 14px; height: 14px; flex-shrink: 0; }
+.link-row { text-align: center; margin-top: 1.4rem; }
+.link-row a {
+  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: #282828; text-decoration: none; transition: color 0.2s;
+}
+.link-row a:hover { color: #666; }
+.overlay {
+  position: fixed; inset: 0; background: #090909; z-index: 99;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+}
+.overlay.show { opacity: 1; pointer-events: all; }
+.overlay-text { font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: #2a2a2a; }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"><span class="overlay-text">entering</span></div>
+
+<div class="card">
+  <div class="logo">
+    <div class="logo-mark"><img src="logo2.jpeg" alt="THE LOGO"></div>
+    <div class="app-name">The Eternal One</div>
+  </div>
+
+  <div class="field">
+    <input type="email" id="email" placeholder="email" autocomplete="email" spellcheck="false">
+  </div>
+  <div class="field">
+    <input type="password" id="pass" placeholder="password" autocomplete="current-password">
+  </div>
+
+  <div class="err" id="err"></div>
+
+  <button class="btn-primary" id="loginBtn" onclick="__login()">Login</button>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-text">or</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <button class="btn-google" id="googleBtn" onclick="__google()">
+    <svg class="g-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" opacity="0.6"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" opacity="0.6"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" opacity="0.6"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" opacity="0.6"/>
+    </svg>
+    Continue with Google
+  </button>
+
+  <div class="link-row"><a href="register.html">create account →</a></div>
+</div>
+
+</body>
+</html>

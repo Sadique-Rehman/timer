@@ -3,202 +3,294 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Eternal One</title>
+<title>The Eternal One — Enter</title>
 <link rel="icon" type="image/jpeg" href="logo2.jpeg">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import {
-    getAuth, signInWithEmailAndPassword,
-    signInWithPopup, GoogleAuthProvider, onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  
-  const firebaseConfig = {
-    apiKey: "AIzaSyDOQZw95uqm6B4TP_qGKlwqt2LYKfvITXM",
-    authDomain: "eternal-one-timer.firebaseapp.com",
-    projectId: "eternal-one-timer",
-    storageBucket: "eternal-one-timer.firebasestorage.app",
-    messagingSenderId: "1010437979682",
-    appId: "1:1010437979682:web:7a23edfd4e45439ba7547b",
-    measurementId: "G-6JR43ZSEN3"
-  };
-
-  const app       = initializeApp(firebaseConfig);
-  const auth      = getAuth(app);
-  const gProvider = new GoogleAuthProvider();
-
-  onAuthStateChanged(auth, user => { if (user) redirect(); });
-
-  function redirect() {
-    document.getElementById('overlay').classList.add('show');
-    setTimeout(() => { window.location.href = 'intro.html'; }, 900);
-  }
-  function setError(msg) { document.getElementById('err').textContent = msg; }
-  function setLoading(on) {
-    ['loginBtn','googleBtn'].forEach(id => {
-      document.getElementById(id).disabled = on;
-    });
-    document.getElementById('loginBtn').textContent = on ? '...' : 'Login';
-  }
-
-  window.__login = async () => {
-    setError('');
-    const e = document.getElementById('email').value.trim();
-    const p = document.getElementById('pass').value;
-    if (!e || !p) { setError('fill in both fields'); return; }
-    setLoading(true);
-    try {
-      await signInWithEmailAndPassword(auth, e, p);
-      redirect();
-    } catch (err) { setError(friendlyError(err.code)); setLoading(false); }
-  };
-
-  window.__google = async () => {
-    setError('');
-    setLoading(true);
-    try {
-      await signInWithPopup(auth, gProvider);
-      redirect();
-    } catch (err) {
-      if (err.code !== 'auth/popup-closed-by-user') setError(friendlyError(err.code));
-      setLoading(false);
-    }
-  };
-
-  function friendlyError(code) {
-    const map = {
-      'auth/user-not-found':    'no account with that email',
-      'auth/wrong-password':    'wrong password',
-      'auth/invalid-email':     'invalid email',
-      'auth/too-many-requests': 'too many attempts — try later',
-      'auth/invalid-credential':'wrong email or password',
-    };
-    return map[code] || 'something went wrong';
-  }
-
-  document.addEventListener('keydown', e => { if (e.key === 'Enter') window.__login(); });
-</script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
+:root {
+  --bg: #070810;
+  --accent: #3b82f6;
+  --accent2: #93c5fd;
+  --accent-dim: rgba(59,130,246,0.1);
+  --white: #eff2ff;
+  --muted: #38405e;
+  --muted2: #1a1f38;
+}
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body {
-  height: 100%; background: #090909;
-  font-family: 'JetBrains Mono', monospace; color: #e0e0e0;
-  display: flex; align-items: center; justify-content: center; overflow: hidden;
-}
-body::before {
-  content: ''; position: fixed;
-  width: 600px; height: 600px; top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  background: radial-gradient(circle, rgba(90,40,200,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-.card {
-  width: min(360px, 92vw); opacity: 0;
-  animation: up 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s forwards;
-}
-@keyframes up {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.logo { display: flex; flex-direction: column; align-items: center; margin-bottom: 2.8rem; gap: 10px; }
-.logo-mark {
-  width: 44px; height: 44px; border-radius: 10px;
-  border: 1px solid #1e1e1e; background: #111;
-  display: flex; align-items: center; justify-content: center; overflow: hidden;
-}
-.logo-mark img { width: 100%; height: 100%; object-fit: contain; }
-.app-name { font-size: 11px; letter-spacing: 0.45em; text-transform: uppercase; color: #555; font-weight: 400; }
-.field { margin-bottom: 0.75rem; }
-input {
-  width: 100%; background: #0f0f0f; border: 1px solid #1c1c1c;
-  border-radius: 4px; padding: 11px 14px;
-  font-family: 'JetBrains Mono', monospace; font-size: 13px;
-  font-weight: 300; color: #ccc; outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-input::placeholder { color: #252525; }
-input:focus { border-color: #333; box-shadow: 0 0 0 3px rgba(100,60,220,0.07); }
-.err { font-size: 10px; color: #5a2020; letter-spacing: 0.15em; min-height: 16px; margin-bottom: 0.6rem; text-align: center; }
-.btn-primary {
-  width: 100%; background: #111; border: 1px solid #2a2a2a;
-  border-radius: 4px; padding: 11px;
-  font-family: 'JetBrains Mono', monospace; font-size: 10px;
-  letter-spacing: 0.4em; text-transform: uppercase; color: #bbb;
-  cursor: pointer; transition: all 0.15s; margin-bottom: 0.55rem;
-  box-shadow: 0 4px 0 #0a0a0a;
-}
-.btn-primary:hover  { border-color: #3a3a3a; color: #e0e0e0; }
-.btn-primary:active { transform: translateY(2px); box-shadow: 0 2px 0 #0a0a0a; }
-.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-.divider { display: flex; align-items: center; gap: 10px; margin: 0.9rem 0; }
-.divider-line { flex: 1; height: 1px; background: #161616; }
-.divider-text { font-size: 9px; color: #222; letter-spacing: 0.2em; }
-.btn-google {
-  width: 100%; background: #0f0f0f; border: 1px solid #1e1e1e;
-  border-radius: 4px; padding: 11px;
-  font-family: 'JetBrains Mono', monospace; font-size: 10px;
-  letter-spacing: 0.3em; text-transform: uppercase; color: #444;
-  cursor: pointer; transition: all 0.15s;
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-}
-.btn-google:hover  { border-color: #2a2a2a; color: #888; }
-.btn-google:active { transform: scale(0.99); }
-.btn-google:disabled { opacity: 0.4; cursor: not-allowed; }
-.g-icon { width: 14px; height: 14px; flex-shrink: 0; }
-.link-row { text-align: center; margin-top: 1.4rem; }
-.link-row a {
-  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
-  color: #282828; text-decoration: none; transition: color 0.2s;
-}
-.link-row a:hover { color: #666; }
-.overlay {
-  position: fixed; inset: 0; background: #090909; z-index: 99;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-}
-.overlay.show { opacity: 1; pointer-events: all; }
-.overlay-text { font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: #2a2a2a; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); font-family: 'JetBrains Mono', monospace; color: var(--white); overflow-x: hidden; }
+
+#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+#glow { position: fixed; width: 700px; height: 700px; border-radius: 50%; pointer-events: none; z-index: 1; background: radial-gradient(circle, rgba(59,130,246,0.045) 0%, transparent 70%); transform: translate(-50%,-50%); transition: left 0.5s ease, top 0.5s ease; }
+
+section { position: relative; z-index: 2; }
+
+/* HERO */
+.hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem; }
+.hero-eye { font-size: 9px; letter-spacing: 0.7em; text-transform: uppercase; color: var(--accent); margin-bottom: 2.5rem; opacity: 0; animation: up 0.8s ease 0.2s forwards; }
+.hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px,16vw,200px); line-height: 0.88; opacity: 0; animation: up 1s ease 0.4s forwards; }
+.hero-title .bl { color: var(--accent); }
+.hero-sub { margin-top: 2.8rem; font-size: clamp(11px,1.5vw,13px); font-weight: 300; line-height: 2.3; color: var(--muted); opacity: 0; animation: up 1s ease 0.7s forwards; }
+.hero-cta { margin-top: 3.5rem; opacity: 0; animation: up 1s ease 1s forwards; }
+.scroll-hint { position: absolute; bottom: 2.5rem; font-size: 8px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--muted2); opacity: 0; animation: fadein 1s ease 2.5s forwards, pulse-fade 3s ease 3.5s infinite; }
+
+/* BUTTON */
+.btn { display: inline-flex; align-items: center; gap: 12px; background: var(--accent-dim); border: 1px solid var(--accent); padding: 15px 38px; border-radius: 2px; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--accent2); cursor: pointer; transition: box-shadow 0.3s; position: relative; overflow: hidden; }
+.btn::before { content: ''; position: absolute; inset: 0; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); z-index: 0; }
+.btn:hover::before { transform: scaleX(1); }
+.btn:hover { color: #fff; box-shadow: 0 0 50px rgba(59,130,246,0.3); }
+.btn span, .btn svg { position: relative; z-index: 1; }
+.btn:hover svg { transform: translateX(4px); }
+.btn svg { transition: transform 0.3s; }
+
+/* HOW IT WORKS */
+.how { padding: 9rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 5rem; }
+.sec-tag { font-size: 8px; letter-spacing: 0.7em; text-transform: uppercase; color: var(--accent); text-align: center; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1px; max-width: 860px; width: 100%; background: var(--muted2); border: 1px solid var(--muted2); }
+.card { background: var(--bg); padding: 2.4rem 2rem; position: relative; overflow: hidden; opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease, background 0.2s; }
+.card.in { opacity: 1; transform: translateY(0); }
+.card:hover { background: #0b0d1c; }
+.card-n { position: absolute; top: 1.4rem; right: 1.6rem; font-size: 8px; color: var(--muted2); letter-spacing: 0.3em; }
+.card-icon { font-size: 20px; margin-bottom: 1.2rem; display: block; }
+.card-title { font-size: 13px; font-weight: 500; color: var(--white); margin-bottom: 0.6rem; }
+.card-text { font-size: 10px; font-weight: 300; line-height: 2; color: var(--muted); letter-spacing: 0.04em; }
+
+/* RANKS */
+.ranks { padding: 9rem 0; display: flex; flex-direction: column; align-items: center; gap: 4rem; }
+.ranks-hd { text-align: center; padding: 0 2rem; }
+.ranks-hd h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px,8vw,90px); line-height: 0.95; opacity: 0; transform: translateY(20px); transition: opacity 0.8s, transform 0.8s; }
+.ranks-hd h2.in { opacity: 1; transform: translateY(0); }
+.ranks-hd p { margin-top: 1.2rem; font-size: 11px; font-weight: 300; line-height: 2.2; color: var(--muted); opacity: 0; transition: opacity 0.8s ease 0.25s; }
+.ranks-hd p.in { opacity: 1; }
+
+.ranks-row { display: flex; gap: 12px; overflow-x: auto; padding: 1rem 3rem 2.5rem; scrollbar-width: none; -ms-overflow-style: none; width: 100%; align-items: flex-end; }
+.ranks-row::-webkit-scrollbar { display: none; }
+
+.rk { flex-shrink: 0; width: 140px; height: 185px; border-radius: 3px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; position: relative; opacity: 0; transform: translateY(16px); transition: opacity 0.5s, transform 0.5s; cursor: default; }
+.rk.in { opacity: 1; transform: translateY(0); }
+.rk:hover { transform: translateY(-7px) scale(1.05) !important; transition: transform 0.28s ease !important; }
+
+.rk-t1 { background: #0b0d15; border: 1px solid #18203a; }
+.rk-t2 { background: #080e18; border: 1px solid #102848; }
+.rk-t3 { background: #08101c; border: 1px solid #143060; }
+.rk-t4 { background: #080c1e; border: 1px solid #182070; }
+.rk-t5 { background: #070c20; border: 1px solid #1c2080; }
+.rk-t6 { background: #070b22; border: 1px solid #202490; }
+.rk-t7 { background: #060924; border: 1px solid #2428a8; }
+
+.rk-t1:hover { box-shadow: 0 12px 40px rgba(59,130,246,0.06); }
+.rk-t2:hover { box-shadow: 0 12px 40px rgba(59,130,246,0.10); }
+.rk-t3:hover { box-shadow: 0 12px 50px rgba(80,150,255,0.14); }
+.rk-t4:hover { box-shadow: 0 12px 50px rgba(100,160,255,0.18); }
+.rk-t5:hover { box-shadow: 0 14px 55px rgba(120,175,255,0.22); }
+.rk-t6:hover { box-shadow: 0 14px 60px rgba(140,195,255,0.26); }
+.rk-t7:hover { box-shadow: 0 16px 65px rgba(160,210,255,0.3); }
+
+.rk-sym { font-size: 28px; line-height: 1; }
+.rk-name { font-size: 9px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; text-align: center; padding: 0 8px; line-height: 1.5; }
+.rk-xp { font-size: 8px; color: var(--muted2); letter-spacing: 0.25em; }
+
+.rk-t1 .rk-name { color: #2a3658; }
+.rk-t2 .rk-name { color: #2a5078; }
+.rk-t3 .rk-name { color: #3060aa; }
+.rk-t4 .rk-name { color: #4070c8; }
+.rk-t5 .rk-name { color: #5085dc; }
+.rk-t6 .rk-name { color: #60a0f0; }
+.rk-t7 .rk-name { color: #80b8ff; }
+
+.rk-eternal { width: 176px; height: 228px; background: #050612; border: 1px solid rgba(147,197,253,0.22); animation: float-e 4s ease-in-out infinite; }
+.rk-eternal .rk-name { font-size: 10px; letter-spacing: 0.2em; color: #bdd9ff; text-shadow: 0 0 18px rgba(147,197,253,0.7), 0 0 36px rgba(59,130,246,0.4); }
+.rk-eternal .rk-sym { font-size: 42px; animation: pulse-s 2.5s ease infinite; filter: drop-shadow(0 0 10px rgba(147,197,253,0.6)); }
+.rk-eternal .rk-xp { color: rgba(147,197,253,0.3); }
+.rk-eternal:hover { box-shadow: 0 18px 80px rgba(147,197,253,0.28) !important; transform: translateY(-9px) scale(1.05) !important; }
+
+@keyframes float-e { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes pulse-s { 0%,100% { filter: drop-shadow(0 0 10px rgba(147,197,253,0.6)); } 50% { filter: drop-shadow(0 0 26px rgba(147,197,253,1)) drop-shadow(0 0 50px rgba(59,130,246,0.5)); } }
+
+/* STATEMENT */
+.statement { padding: 9rem 2rem; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.st { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px,6vw,62px); line-height: 1.15; color: var(--muted); opacity: 0; transform: translateY(20px); transition: opacity 0.7s, transform 0.7s, color 0.7s; }
+.st.in { opacity: 1; transform: translateY(0); color: var(--white); }
+.st:nth-child(2) { transition-delay: 0.12s; }
+.st-div { width: 1px; height: 50px; background: var(--muted2); margin: 2rem auto; }
+.st.bl { color: var(--muted); }
+.st.bl.in { color: var(--accent2); }
+.st.bl:nth-child(4) { transition-delay: 0.28s; }
+.st.bl:nth-child(5) { transition-delay: 0.44s; }
+
+/* FINAL CTA */
+.final { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem; position: relative; }
+.final::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(59,130,246,0.05) 0%, transparent 65%); pointer-events: none; }
+.final-big { font-family: 'Bebas Neue', sans-serif; font-size: clamp(70px,14vw,160px); line-height: 0.9; opacity: 0; transform: translateY(20px); transition: opacity 0.8s, transform 0.8s; }
+.final-big.in { opacity: 1; transform: translateY(0); }
+.final-sub { margin-top: 2rem; font-size: 11px; font-weight: 300; line-height: 2.3; color: var(--muted); max-width: 320px; opacity: 0; transition: opacity 0.8s ease 0.2s; }
+.final-sub.in { opacity: 1; }
+.final-cta { margin-top: 3rem; opacity: 0; transition: opacity 0.8s ease 0.4s; }
+.final-cta.in { opacity: 1; }
+
+/* ANIMS */
+@keyframes up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulse-fade { 0%,100% { opacity: 0.3; } 50% { opacity: 0.9; } }
+
+#page-out { position: fixed; inset: 0; background: var(--bg); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.65s ease; }
+#page-out.go { opacity: 1; pointer-events: all; }
+
+@media (max-width: 600px) { .cards { grid-template-columns: 1fr 1fr; } .ranks-row { padding: 1rem 1.5rem 2rem; } .rk { width: 122px; height: 165px; } .rk-eternal { width: 152px; height: 205px; } }
+@media (max-width: 400px) { .cards { grid-template-columns: 1fr; } }
+::-webkit-scrollbar { width: 3px; } ::-webkit-scrollbar-thumb { background: var(--muted2); }
 </style>
 </head>
 <body>
 
-<div class="overlay" id="overlay"><span class="overlay-text">entering</span></div>
+<canvas id="particles"></canvas>
+<div id="glow"></div>
+<div id="page-out"></div>
 
-<div class="card">
-  <div class="logo">
-    <div class="logo-mark"><img src="logo2.jpeg" alt="THE LOGO"></div>
-    <div class="app-name">The Eternal One</div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eye">The Eternal One · Study System</div>
+  <h1 class="hero-title">Study Like<br>It's a <span class="bl">Game.</span></h1>
+  <p class="hero-sub">Not a normal timer.<br>Every hour you study earns XP.<br>XP unlocks ranks. Ranks build identity.</p>
+  <div class="hero-cta">
+    <a class="btn" href="#" id="enterBtn">
+      <span>Enter Focus Mode</span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
   </div>
+  <div class="scroll-hint">scroll down</div>
+</section>
 
-  <div class="field">
-    <input type="email" id="email" placeholder="email" autocomplete="email" spellcheck="false">
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="sec-tag">How it works</div>
+  <div class="cards">
+    <div class="card">
+      <span class="card-n">01</span>
+      <span class="card-icon">⏱</span>
+      <div class="card-title">Start the timer</div>
+      <p class="card-text">Hit start. Study. Every hour you log earns 1 XP. Pause when you stop — only real time counts.</p>
+    </div>
+    <div class="card" style="transition-delay:.1s">
+      <span class="card-n">02</span>
+      <span class="card-icon">⚡</span>
+      <div class="card-title">Earn XP, rank up</div>
+      <p class="card-text">XP stacks across all sessions. Hit the threshold, your rank upgrades automatically. No resets.</p>
+    </div>
+    <div class="card" style="transition-delay:.2s">
+      <span class="card-n">03</span>
+      <span class="card-icon">🏆</span>
+      <div class="card-title">Beat your record</div>
+      <p class="card-text">Your longest single session is tracked. Every time you beat it, the timer lights up. Chase it.</p>
+    </div>
+    <div class="card" style="transition-delay:.3s">
+      <span class="card-n">04</span>
+      <span class="card-icon">∞</span>
+      <div class="card-title">Become the Eternal One</div>
+      <p class="card-text">250 XP. 250 total hours of study. The final rank. Most people never get close.</p>
+    </div>
   </div>
-  <div class="field">
-    <input type="password" id="pass" placeholder="password" autocomplete="current-password">
+</section>
+
+<!-- RANKS -->
+<section class="ranks">
+  <div class="ranks-hd">
+    <h2>Every Hour<br>Has Meaning.</h2>
+    <p>You are not tracking time.<br>You are building identity.</p>
   </div>
-
-  <div class="err" id="err"></div>
-
-  <button class="btn-primary" id="loginBtn" onclick="__login()">Login</button>
-
-  <div class="divider">
-    <div class="divider-line"></div>
-    <span class="divider-text">or</span>
-    <div class="divider-line"></div>
+  <div class="ranks-row">
+    <div class="rk rk-t1"><span class="rk-sym">🌫</span><div class="rk-name">Wanderer I</div><div class="rk-xp">0 XP</div></div>
+    <div class="rk rk-t1"><span class="rk-sym">🌫</span><div class="rk-name">Wanderer II</div><div class="rk-xp">5 XP</div></div>
+    <div class="rk rk-t2"><span class="rk-sym">🔭</span><div class="rk-name">Seeker I</div><div class="rk-xp">10 XP</div></div>
+    <div class="rk rk-t2"><span class="rk-sym">🔭</span><div class="rk-name">Seeker II</div><div class="rk-xp">15 XP</div></div>
+    <div class="rk rk-t3"><span class="rk-sym">🌑</span><div class="rk-name">Shadow I</div><div class="rk-xp">20 XP</div></div>
+    <div class="rk rk-t3"><span class="rk-sym">🌑</span><div class="rk-name">Shadow II</div><div class="rk-xp">30 XP</div></div>
+    <div class="rk rk-t4"><span class="rk-sym">👻</span><div class="rk-name">Phantom I</div><div class="rk-xp">40 XP</div></div>
+    <div class="rk rk-t4"><span class="rk-sym">👻</span><div class="rk-name">Phantom II</div><div class="rk-xp">55 XP</div></div>
+    <div class="rk rk-t5"><span class="rk-sym">💀</span><div class="rk-name">Reaper I</div><div class="rk-xp">70 XP</div></div>
+    <div class="rk rk-t5"><span class="rk-sym">💀</span><div class="rk-name">Reaper II</div><div class="rk-xp">90 XP</div></div>
+    <div class="rk rk-t6"><span class="rk-sym">🌊</span><div class="rk-name">Abyss Walker I</div><div class="rk-xp">110 XP</div></div>
+    <div class="rk rk-t6"><span class="rk-sym">🌊</span><div class="rk-name">Abyss Walker II</div><div class="rk-xp">140 XP</div></div>
+    <div class="rk rk-t7"><span class="rk-sym">♾</span><div class="rk-name">Eternal I</div><div class="rk-xp">170 XP</div></div>
+    <div class="rk rk-t7"><span class="rk-sym">♾</span><div class="rk-name">Eternal II</div><div class="rk-xp">210 XP</div></div>
+    <div class="rk rk-eternal"><span class="rk-sym">⚡</span><div class="rk-name">The Eternal One</div><div class="rk-xp">250 XP</div></div>
   </div>
+</section>
 
-  <button class="btn-google" id="googleBtn" onclick="__google()">
-    <svg class="g-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" opacity="0.6"/>
-      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" opacity="0.6"/>
-      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" opacity="0.6"/>
-      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" opacity="0.6"/>
-    </svg>
-    Continue with Google
-  </button>
+<!-- STATEMENT -->
+<section class="statement">
+  <div class="st">Most people wait</div>
+  <div class="st">for motivation.</div>
+  <div class="st-div"></div>
+  <div class="st bl">This system</div>
+  <div class="st bl">trains consistency.</div>
+</section>
 
-  <div class="link-row"><a href="register.html">create account →</a></div>
-</div>
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="final-big">Ready to<br>Enter?</div>
+  <p class="final-sub">One session changes nothing.<br>Hundreds change who you become.</p>
+  <div class="final-cta">
+    <a class="btn" href="#" id="startBtn">
+      <span>Start Timer</span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+</section>
 
+<script>
+/* PARTICLES */
+const cv = document.getElementById('particles'), cx = cv.getContext('2d');
+let W, H, pts = [];
+function resize() { W = cv.width = innerWidth; H = cv.height = document.body.scrollHeight; }
+window.addEventListener('resize', resize); resize();
+
+function P() {
+  this.init = function() {
+    this.x = Math.random()*W; this.y = Math.random()*H;
+    this.r = Math.random()*1.2+0.3;
+    this.vx = (Math.random()-.5)*.22; this.vy = -Math.random()*.28-.05;
+    this.life = 0; this.max = Math.random()*400+200;
+    this.blue = Math.random()>.45;
+  };
+  this.init(); this.life = Math.random()*this.max;
+  this.draw = function() {
+    let a=0;
+    if(this.life<80) a=this.life/80*.3;
+    else if(this.life>this.max-80) a=(this.max-this.life)/80*.3;
+    else a=.3;
+    cx.save(); cx.globalAlpha=a;
+    cx.fillStyle=this.blue?'#3b82f6':'#93c5fd';
+    cx.beginPath(); cx.arc(this.x,this.y,this.r,0,Math.PI*2); cx.fill(); cx.restore();
+    this.x+=this.vx; this.y+=this.vy; this.life++;
+    if(this.life>=this.max) this.init();
+  };
+}
+for(let i=0;i<100;i++) pts.push(new P());
+function loop() { cx.clearRect(0,0,W,H); pts.forEach(p=>p.draw()); requestAnimationFrame(loop); }
+loop();
+
+/* MOUSE GLOW */
+const glw = document.getElementById('glow');
+document.addEventListener('mousemove', e => { glw.style.left=e.clientX+'px'; glw.style.top=e.clientY+'px'; });
+
+/* SCROLL REVEALS */
+const io = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('in'); }), {threshold:.15});
+document.querySelectorAll('.st, .final-big, .final-sub, .final-cta, .ranks-hd h2, .ranks-hd p').forEach(el=>io.observe(el));
+
+const cio = new IntersectionObserver(e => { e.forEach(x => { if(x.isIntersecting) { document.querySelectorAll('.card').forEach((c,i)=>setTimeout(()=>c.classList.add('in'),i*90)); cio.disconnect(); } }); },{threshold:.1});
+const fc = document.querySelector('.card'); if(fc) cio.observe(fc);
+
+const rio = new IntersectionObserver(e => { e.forEach(x => { if(x.isIntersecting) { document.querySelectorAll('.rk').forEach((c,i)=>setTimeout(()=>c.classList.add('in'),i*50)); rio.disconnect(); } }); },{threshold:.05});
+const fr = document.querySelector('.rk'); if(fr) rio.observe(fr);
+
+/* NAV */
+function go() { const o=document.getElementById('page-out'); o.classList.add('go'); setTimeout(()=>window.location.href='login.html',650); }
+document.getElementById('enterBtn').addEventListener('click',e=>{e.preventDefault();go();});
+document.getElementById('startBtn').addEventListener('click',e=>{e.preventDefault();go();});
+
+/* canvas on scroll */
+let t; window.addEventListener('scroll',()=>{clearTimeout(t);t=setTimeout(()=>{cv.height=H=document.body.scrollHeight;},200);});
+</script>
 </body>
 </html>
