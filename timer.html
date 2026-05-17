@@ -9,51 +9,32 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ─── RESET ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
-  height: 100%;
-  background: #0c0c0c;
+  height: 100%; background: #0c0c0c;
   font-family: 'JetBrains Mono', monospace;
-  overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-  color: #fff;
+  overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff;
 }
 
-/* ─── TOP-LEFT RANK BUTTON ──────────────────────────────── */
+/* ── RANK BUTTON top-left ── */
 .rank-btn {
-  position: fixed;
-  top: 1.6rem; left: 1.8rem;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 3px;
-  padding: 10px 18px;
-  border-radius: 2px;
-  background: #0e0e0e;
-  box-shadow: 0 0 0 1px #f0f0f0, 0 4px 0 0 #a0a0a0,
-              0 5px 14px rgba(255,255,255,0.04),
-              inset 0 1px 0 rgba(255,255,255,0.05);
-  border: none;
-  cursor: pointer;
-  z-index: 10;
-  font-family: 'JetBrains Mono', monospace;
-  transition: all 0.07s ease;
-  min-width: 80px;
+  position: fixed; top: 1.6rem; left: 1.8rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; padding: 10px 18px; border-radius: 2px; background: #0e0e0e;
+  box-shadow: 0 0 0 1px #f0f0f0, 0 4px 0 0 #a0a0a0, 0 5px 14px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.05);
+  border: none; cursor: pointer; z-index: 10;
+  font-family: 'JetBrains Mono', monospace; transition: all 0.07s ease; min-width: 80px;
 }
 .rank-btn:active { transform: translateY(3px); box-shadow: 0 0 0 1px #f0f0f0, 0 1px 0 0 #a0a0a0; }
 .rank-btn-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #444; font-weight: 400; }
 .rank-btn-name  { font-size: 11px; font-weight: 500; color: #eee; letter-spacing: 0.05em; white-space: nowrap; }
 
-/* ─── TOP-RIGHT HS BOX ──────────────────────────────────── */
+/* ── HS BOX top-right ── */
 .hs-box {
   position: fixed; top: 1.6rem; right: 1.8rem;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 3px; padding: 10px 18px;
-  border-radius: 2px; background: #0e0e0e;
-  box-shadow: 0 0 0 1px #f0f0f0, 0 4px 0 0 #a0a0a0,
-              0 5px 14px rgba(255,255,255,0.04),
-              inset 0 1px 0 rgba(255,255,255,0.05);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; padding: 10px 18px; border-radius: 2px; background: #0e0e0e;
+  box-shadow: 0 0 0 1px #f0f0f0, 0 4px 0 0 #a0a0a0, 0 5px 14px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.05);
   min-width: 116px; z-index: 10;
 }
 @keyframes hsFlash {
@@ -65,92 +46,54 @@ html, body {
 .hs-time  { font-size: 14px; font-weight: 500; letter-spacing: 0.03em; font-variant-numeric: tabular-nums; color: #eee; }
 .hs-time.empty { color: #2a2a2a; }
 
-/* ─── MAIN TIMER ────────────────────────────────────────── */
+/* ── MAIN TIMER ── */
 .wrap { display: flex; flex-direction: column; align-items: center; gap: 3.5rem; }
 #display {
-  font-size: clamp(72px, 15vw, 152px);
-  font-weight: 500; letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-  line-height: 1; user-select: none;
-  transition: color 0.35s ease;
+  font-size: clamp(72px, 15vw, 152px); font-weight: 500; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums; line-height: 1; user-select: none; transition: color 0.35s ease;
 }
 #display.paused  { color: #2e2e2e; }
 #display.running { color: #f2f2f2; }
-
 .controls { display: flex; align-items: center; gap: 1.2rem; }
 .btn {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 400;
-  letter-spacing: 0.25em; text-transform: uppercase;
-  cursor: pointer; border: none; outline: none;
-  padding: 10px 22px; border-radius: 2px;
-  position: relative; transition: all 0.07s ease;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 400;
+  letter-spacing: 0.25em; text-transform: uppercase; cursor: pointer; border: none; outline: none;
+  padding: 10px 22px; border-radius: 2px; position: relative; transition: all 0.07s ease;
   -webkit-user-select: none; user-select: none;
 }
-.btn.reset {
-  background: #0c0c0c; color: #444;
-  box-shadow: 0 0 0 1px #2a2a2a, 0 4px 0 0 #1a1a1a, 0 5px 8px rgba(0,0,0,0.5);
-}
+.btn.reset { background: #0c0c0c; color: #444; box-shadow: 0 0 0 1px #2a2a2a, 0 4px 0 0 #1a1a1a, 0 5px 8px rgba(0,0,0,0.5); }
 .btn.reset:hover  { color: #888; box-shadow: 0 0 0 1px #3a3a3a, 0 4px 0 0 #1a1a1a, 0 5px 8px rgba(0,0,0,0.5); }
 .btn.reset:active { transform: translateY(3px); box-shadow: 0 0 0 1px #2a2a2a, 0 1px 0 0 #1a1a1a, 0 2px 4px rgba(0,0,0,0.4); }
-.btn.primary {
-  background: #161616; color: #d0d0d0;
-  box-shadow: 0 0 0 1px #383838, 0 4px 0 0 #0a0a0a, 0 5px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04);
-}
+.btn.primary { background: #161616; color: #d0d0d0; box-shadow: 0 0 0 1px #383838, 0 4px 0 0 #0a0a0a, 0 5px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04); }
 .btn.primary:hover  { color: #fff; background: #1c1c1c; box-shadow: 0 0 0 1px #484848, 0 4px 0 0 #0a0a0a, 0 6px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06); }
 .btn.primary:active { transform: translateY(3px); background: #111; box-shadow: 0 0 0 1px #303030, 0 1px 0 0 #0a0a0a, 0 2px 6px rgba(0,0,0,0.5); }
 .btn:active::after  { content: ''; position: absolute; inset: 0; border-radius: 2px; background: rgba(255,255,255,0.03); }
 .dot { width: 3px; height: 3px; border-radius: 50%; background: #222; }
 
-/* ─── RANK MODAL OVERLAY ────────────────────────────────── */
+/* ── RANK MODAL ── */
 .modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.82);
-  backdrop-filter: blur(6px);
-  z-index: 100;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.3s ease;
+  position: fixed; inset: 0; background: rgba(0,0,0,0.82); backdrop-filter: blur(6px);
+  z-index: 100; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
 }
 .modal-overlay.open { opacity: 1; pointer-events: all; }
 .modal {
-  width: min(560px, 94vw);
-  max-height: 88vh;
-  background: #0f0f0f;
-  border: 1px solid #1e1e1e;
-  border-radius: 4px;
+  width: min(560px, 94vw); max-height: 88vh; background: #0f0f0f;
+  border: 1px solid #1e1e1e; border-radius: 4px;
   box-shadow: 0 0 0 1px #2a2a2a, 0 40px 80px rgba(0,0,0,0.8), 0 0 60px rgba(120,60,255,0.04);
   display: flex; flex-direction: column;
-  transform: translateY(18px) scale(0.98);
-  transition: transform 0.3s ease;
-  overflow: hidden;
+  transform: translateY(18px) scale(0.98); transition: transform 0.3s ease; overflow: hidden;
 }
 .modal-overlay.open .modal { transform: translateY(0) scale(1); }
 .modal-header {
-  padding: 1.4rem 1.6rem 1.2rem;
-  border-bottom: 1px solid #191919;
-  display: flex; align-items: flex-start; justify-content: space-between;
-  flex-shrink: 0;
+  padding: 1.4rem 1.6rem 1.2rem; border-bottom: 1px solid #191919;
+  display: flex; align-items: flex-start; justify-content: space-between; flex-shrink: 0;
 }
 .modal-title { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: #555; font-weight: 400; }
-.modal-close {
-  background: none; border: none; cursor: pointer;
-  color: #333; font-size: 18px; line-height: 1;
-  padding: 0 2px; transition: color 0.2s; font-family: inherit;
-}
+.modal-close { background: none; border: none; cursor: pointer; color: #333; font-size: 18px; line-height: 1; padding: 0 2px; transition: color 0.2s; font-family: inherit; }
 .modal-close:hover { color: #888; }
-.rank-hero {
-  padding: 1.4rem 1.6rem;
-  border-bottom: 1px solid #141414;
-  display: flex; gap: 1.2rem; align-items: center;
-  flex-shrink: 0;
-}
-.rank-hero-img {
-  width: 56px; height: 56px; border-radius: 3px;
-  background: #161616; border: 1px solid #252525;
-  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-}
+.rank-hero { padding: 1.4rem 1.6rem; border-bottom: 1px solid #141414; display: flex; gap: 1.2rem; align-items: center; flex-shrink: 0; }
+.rank-hero-img { width: 56px; height: 56px; border-radius: 3px; background: #161616; border: 1px solid #252525; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .rank-hero-img img { width: 100%; height: 100%; object-fit: cover; }
 .rank-hero-info { flex: 1; }
 .rank-hero-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #333; margin-bottom: 4px; }
@@ -159,39 +102,23 @@ html, body {
 .rank-hero-pts span { color: #999; }
 .progress-wrap { padding: 1.2rem 1.6rem; border-bottom: 1px solid #141414; flex-shrink: 0; }
 .progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.progress-next  { font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase; color: #333; }
-.progress-pct   { font-size: 11px; font-weight: 500; color: #7c3aed; }
+.progress-next { font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase; color: #333; }
+.progress-pct  { font-size: 11px; font-weight: 500; color: #7c3aed; }
 .progress-track { height: 3px; background: #1a1a1a; border-radius: 2px; overflow: hidden; }
 .progress-fill {
-  height: 100%; width: 0%;
-  background: linear-gradient(90deg, #4c1d95, #7c3aed, #a78bfa);
-  border-radius: 2px;
-  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
-  box-shadow: 0 0 8px rgba(124,58,237,0.5);
+  height: 100%; width: 0%; background: linear-gradient(90deg, #4c1d95, #7c3aed, #a78bfa);
+  border-radius: 2px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 0 8px rgba(124,58,237,0.5);
 }
 .progress-label { margin-top: 6px; font-size: 9px; color: #2e2e2e; letter-spacing: 0.2em; }
 .rank-list-wrap { overflow-y: auto; flex: 1; padding: 0.8rem 0; }
 .rank-list-wrap::-webkit-scrollbar { width: 4px; }
 .rank-list-wrap::-webkit-scrollbar-track { background: transparent; }
 .rank-list-wrap::-webkit-scrollbar-thumb { background: #1e1e1e; border-radius: 2px; }
-.rank-item {
-  display: flex; align-items: center; gap: 1rem;
-  padding: 0.75rem 1.6rem;
-  transition: background 0.15s;
-  position: relative;
-}
+.rank-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1.6rem; transition: background 0.15s; position: relative; }
 .rank-item:hover { background: #111; }
 .rank-item.current { background: #0d0d18; }
-.rank-item.current::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-  width: 2px; background: linear-gradient(180deg, #4c1d95, #7c3aed);
-}
-.rank-item-img {
-  width: 36px; height: 36px; border-radius: 2px;
-  background: #161616; border: 1px solid #202020;
-  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-}
+.rank-item.current::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, #4c1d95, #7c3aed); }
+.rank-item-img { width: 36px; height: 36px; border-radius: 2px; background: #161616; border: 1px solid #202020; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .rank-item-img img { width: 100%; height: 100%; object-fit: cover; }
 .rank-item-img.locked { opacity: 0.3; filter: grayscale(1); }
 .rank-item-info { flex: 1; }
@@ -202,75 +129,52 @@ html, body {
 .rank-item-status.unlocked { color: #4a4a4a; }
 .rank-item-status.current  { color: #7c3aed; }
 .rank-item-status.locked   { color: #222; }
-.current-badge {
-  font-size: 8px; letter-spacing: 0.3em; text-transform: uppercase;
-  color: #7c3aed; border: 1px solid #2e1a6e; padding: 2px 7px;
-  border-radius: 1px; background: #0d0a1f;
-}
+.current-badge { font-size: 8px; letter-spacing: 0.3em; text-transform: uppercase; color: #7c3aed; border: 1px solid #2e1a6e; padding: 2px 7px; border-radius: 1px; background: #0d0a1f; }
 .rank-item.eternal .rank-item-name { color: #f59e0b; }
 .rank-item.eternal .rank-item-img  { border-color: #44260a; box-shadow: 0 0 12px rgba(245,158,11,0.15); }
 .rank-item.eternal.current::before { background: linear-gradient(180deg, #92400e, #f59e0b); }
 .rank-item.eternal .rank-item-status.current { color: #f59e0b; }
-.progress-fill.eternal {
-  background: linear-gradient(90deg, #78350f, #f59e0b, #fde68a);
-  box-shadow: 0 0 8px rgba(245,158,11,0.5);
-}
+.progress-fill.eternal { background: linear-gradient(90deg, #78350f, #f59e0b, #fde68a); box-shadow: 0 0 8px rgba(245,158,11,0.5); }
 .progress-pct.eternal { color: #f59e0b; }
 .rankup-toast {
   position: fixed; bottom: 2.5rem; left: 50%; transform: translateX(-50%) translateY(20px);
-  background: #0d0a1f; border: 1px solid #2e1a6e;
-  box-shadow: 0 0 30px rgba(124,58,237,0.2);
-  padding: 12px 24px; border-radius: 3px;
-  font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
-  color: #a78bfa; z-index: 200;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  white-space: nowrap;
+  background: #0d0a1f; border: 1px solid #2e1a6e; box-shadow: 0 0 30px rgba(124,58,237,0.2);
+  padding: 12px 24px; border-radius: 3px; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: #a78bfa; z-index: 200; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease; white-space: nowrap;
 }
 .rankup-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* ─── SETTINGS ───────────────────────────────────────────── */
+/* ── SETTINGS bottom-left ── */
 .settings-btn {
-  position: fixed;
-  bottom: 1.8rem; left: 1.8rem;
-  width: 36px; height: 36px;
-  background: #0e0e0e;
-  border: 1px solid #1e1e1e;
-  border-radius: 3px;
+  position: fixed; bottom: 1.8rem; left: 1.8rem;
+  width: 36px; height: 36px; background: #0e0e0e;
+  border: 1px solid #1e1e1e; border-radius: 3px;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; color: #2e2e2e; z-index: 50;
-  transition: color 0.2s, border-color 0.2s;
-  box-shadow: 0 4px 0 #0a0a0a;
+  transition: color 0.2s, border-color 0.2s; box-shadow: 0 4px 0 #0a0a0a;
 }
 .settings-btn:hover  { color: #777; border-color: #333; }
 .settings-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #0a0a0a; }
 
 .settings-popup {
-  position: fixed;
-  bottom: 5.2rem; left: 1.8rem;
-  background: #0e0e0e;
-  border: 1px solid #222;
-  border-radius: 3px;
-  padding: 4px;
-  z-index: 51;
-  opacity: 0; pointer-events: none;
-  transform: translateY(6px);
+  position: fixed; bottom: 5.2rem; left: 1.8rem;
+  background: #0e0e0e; border: 1px solid #2a2a2a; border-radius: 3px;
+  padding: 4px; z-index: 999;
+  opacity: 0; pointer-events: none; transform: translateY(6px);
   transition: opacity 0.15s ease, transform 0.15s ease;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.8);
 }
 .settings-popup.open { opacity: 1; pointer-events: all; transform: translateY(0); }
-
 .logout-btn {
   display: flex; align-items: center; gap: 8px;
   background: none; border: none; cursor: pointer;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; font-weight: 400;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 400;
   letter-spacing: 0.3em; text-transform: uppercase;
-  color: #444; padding: 9px 14px; border-radius: 2px;
-  width: 100%; white-space: nowrap;
-  transition: color 0.15s, background 0.15s;
+  color: #555; padding: 9px 16px; border-radius: 2px;
+  width: 100%; white-space: nowrap; transition: color 0.15s, background 0.15s;
 }
-.logout-btn:hover { color: #ccc; background: #141414; }
+.logout-btn:hover { color: #ddd; background: #141414; }
 </style>
 </head>
 <body>
@@ -308,8 +212,9 @@ html, body {
       <button class="modal-close" id="modalClose">✕</button>
     </div>
     <div class="rank-hero">
+      <!-- ░░ HERO RANK IMAGE — changes with current rank ░░ -->
       <div class="rank-hero-img">
-        <img class="rank-hero-image" src="Wander1.webp" alt="Wanderer 1">
+        <img id="heroImg" src="" alt="rank">
       </div>
       <div class="rank-hero-info">
         <div class="rank-hero-label">current rank</div>
@@ -331,7 +236,7 @@ html, body {
   </div>
 </div>
 
-<!-- Settings button bottom-left -->
+<!-- Settings bottom-left -->
 <button class="settings-btn" id="settingsBtn" aria-label="Settings">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="12" cy="12" r="3"/>
@@ -339,7 +244,6 @@ html, body {
   </svg>
 </button>
 
-<!-- Settings popup -->
 <div class="settings-popup" id="settingsPopup">
   <button class="logout-btn" id="logoutBtn">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -352,114 +256,103 @@ html, body {
 </div>
 
 <script>
-/* ══════════════════════════════════════════
-   RANKING DATA
-══════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   RANK IMAGES
+   ↓↓ CHANGE THESE PATHS TO YOUR IMAGE FILES ↓↓
+══════════════════════════════════════════════════════════ */
+const RANK_IMAGES = [
+  './rank_png/wanderer1.png',      // 0  Wanderer I
+  './rank_png/wanderer2.png',      // 1  Wanderer II
+  './rank_png/seeker1.png',        // 2  Seeker I
+  './rank_png/seeker2.png',        // 3  Seeker II
+  './rank_png/shadow1.png',        // 4  Shadow I
+  './rank_png/shadow2.png',        // 5  Shadow II
+  './rank_png/phantom1.png',       // 6  Phantom I
+  './rank_png/phantom2.png',       // 7  Phantom II
+  './rank_png/reaper1.png',        // 8  Reaper I
+  './rank_png/reaper2.png',        // 9  Reaper II
+  './rank_png/abysswalker1.png',   // 10 Abyss Walker I
+  './rank_png/abysswalker2.png',   // 11 Abyss Walker II
+  './rank_png/eternal1.png',       // 12 Eternal I
+  './rank_png/eternal2.png',       // 13 Eternal II
+  './rank_png/theeternalone.png',  // 14 THE ETERNAL ONE
+];
+/* ══════════════════════════════════════════════════════════ */
+
+/* ── RANKING DATA ── */
 const RANKS = [
-  { name: 'Wanderer I',     pts: 0   },
-  { name: 'Wanderer II',    pts: 5   },
-  { name: 'Seeker I',       pts: 10  },
-  { name: 'Seeker II',      pts: 15  },
-  { name: 'Shadow I',       pts: 20  },
-  { name: 'Shadow II',      pts: 30  },
-  { name: 'Phantom I',      pts: 40  },
-  { name: 'Phantom II',     pts: 55  },
-  { name: 'Reaper I',       pts: 70  },
-  { name: 'Reaper II',      pts: 90  },
-  { name: 'Abyss Walker I', pts: 110 },
-  { name: 'Abyss Walker II',pts: 140 },
-  { name: 'Eternal I',      pts: 170 },
-  { name: 'Eternal II',     pts: 210 },
-  { name: 'THE ETERNAL ONE',pts: 250 },
+  { name: 'Wanderer I',      pts: 0   },
+  { name: 'Wanderer II',     pts: 5   },
+  { name: 'Seeker I',        pts: 10  },
+  { name: 'Seeker II',       pts: 15  },
+  { name: 'Shadow I',        pts: 20  },
+  { name: 'Shadow II',       pts: 30  },
+  { name: 'Phantom I',       pts: 40  },
+  { name: 'Phantom II',      pts: 55  },
+  { name: 'Reaper I',        pts: 70  },
+  { name: 'Reaper II',       pts: 90  },
+  { name: 'Abyss Walker I',  pts: 110 },
+  { name: 'Abyss Walker II', pts: 140 },
+  { name: 'Eternal I',       pts: 170 },
+  { name: 'Eternal II',      pts: 210 },
+  { name: 'THE ETERNAL ONE', pts: 250 },
 ];
 
 function getRankIndex(pts) {
   let idx = 0;
-  for (let i = 0; i < RANKS.length; i++) {
-    if (pts >= RANKS[i].pts) idx = i; else break;
-  }
+  for (let i = 0; i < RANKS.length; i++) { if (pts >= RANKS[i].pts) idx = i; else break; }
   return idx;
 }
-
 function getRankProgress(pts) {
   const idx  = getRankIndex(pts);
   const cur  = RANKS[idx];
   const next = RANKS[idx + 1];
   if (!next) return { pct: 100, label: 'MAX', nextName: null };
   const pct = ((pts - cur.pts) / (next.pts - cur.pts)) * 100;
-  return {
-    pct: Math.min(100, Math.max(0, pct)),
-    label: `${(pts - cur.pts).toFixed(1)} / ${(next.pts - cur.pts)} pts`,
-    nextName: next.name,
-  };
+  return { pct: Math.min(100, Math.max(0, pct)), label: `${(pts - cur.pts).toFixed(1)} / ${next.pts - cur.pts} pts`, nextName: next.name };
 }
 
-/* ══════════════════════════════════════════
-   STORAGE
-══════════════════════════════════════════ */
-const LS_TOTAL = 'timer_total_ms';
-const LS_HS    = 'timer_hs';
+/* ── STORAGE ── */
+const LS_TOTAL = 'timer_total_ms', LS_HS = 'timer_hs';
 function saveTotal(ms) { localStorage.setItem(LS_TOTAL, Math.floor(ms)); }
 function loadTotal()   { return parseInt(localStorage.getItem(LS_TOTAL) || '0', 10); }
 function saveHS(ms)    { localStorage.setItem(LS_HS, Math.floor(ms)); }
 function loadHS()      { return parseInt(localStorage.getItem(LS_HS) || '0', 10); }
 
-/* ══════════════════════════════════════════
-   TIMER STATE
-══════════════════════════════════════════ */
-let totalStudiedMs = loadTotal();
-let sessionMs      = 0;
-let startTime      = 0;
-let running        = false;
-let rafId          = null;
-let worker         = null;
-let highscore      = loadHS();
-let brokeDuring    = false;
-let prevRankIdx    = getRankIndex(totalStudiedMs / 3600000);
+/* ── TIMER STATE ── */
+let totalStudiedMs = loadTotal(), sessionMs = 0, startTime = 0;
+let running = false, rafId = null, worker = null;
+let highscore = loadHS(), brokeDuring = false;
+let prevRankIdx = getRankIndex(totalStudiedMs / 3600000);
 
-/* ══════════════════════════════════════════
-   HELPERS
-══════════════════════════════════════════ */
 function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
-function formatTime(ms) {
-  const s = Math.floor(ms / 1000);
-  return pad(Math.floor(s/3600)) + ':' + pad(Math.floor((s%3600)/60)) + ':' + pad(s%60);
-}
+function formatTime(ms) { const s = Math.floor(ms/1000); return pad(Math.floor(s/3600))+':'+pad(Math.floor((s%3600)/60))+':'+pad(s%60); }
 function msToPoints(ms) { return ms / 3600000; }
 
-/* ══════════════════════════════════════════
-   HS
-══════════════════════════════════════════ */
-const hsBox    = document.getElementById('hsBox');
+/* ── HS ── */
+const hsBox = document.getElementById('hsBox');
 const hsTimeEl = document.getElementById('hsTime');
-
 function renderHS() {
   if (highscore === 0) { hsTimeEl.textContent = '--:--:--'; hsTimeEl.className = 'hs-time empty'; return; }
-  hsTimeEl.textContent = formatTime(highscore);
-  hsTimeEl.className = 'hs-time';
+  hsTimeEl.textContent = formatTime(highscore); hsTimeEl.className = 'hs-time';
 }
 renderHS();
-
 function checkHS(ms) {
   if (ms > highscore) {
     highscore = ms; saveHS(ms);
-    hsTimeEl.textContent = formatTime(highscore);
-    hsTimeEl.className = 'hs-time';
+    hsTimeEl.textContent = formatTime(highscore); hsTimeEl.className = 'hs-time';
     if (!brokeDuring) {
       brokeDuring = true;
-      hsBox.classList.remove('new');
-      void hsBox.offsetWidth;
-      hsBox.classList.add('new');
+      hsBox.classList.remove('new'); void hsBox.offsetWidth; hsBox.classList.add('new');
       setTimeout(() => hsBox.classList.remove('new'), 600);
     }
   }
 }
 
-/* ══════════════════════════════════════════
-   RANK UI
-══════════════════════════════════════════ */
+/* ── RANK UI ── */
 const rankBtnName   = document.getElementById('rankBtnName');
 const heroName      = document.getElementById('heroName');
+const heroImg       = document.getElementById('heroImg');
 const heroPts       = document.getElementById('heroPts');
 const heroHrs       = document.getElementById('heroHrs');
 const progressNext  = document.getElementById('progressNext');
@@ -468,7 +361,7 @@ const progressFill  = document.getElementById('progressFill');
 const progressLabel = document.getElementById('progressLabel');
 const rankList      = document.getElementById('rankList');
 const rankupToast   = document.getElementById('rankupToast');
-let toastTimer      = null;
+let toastTimer = null;
 
 function showRankUp(name) {
   rankupToast.textContent = `rank up → ${name}`;
@@ -478,43 +371,30 @@ function showRankUp(name) {
 }
 
 function updateRankUI(pts) {
-  const idx      = getRankIndex(pts);
-  const rank     = RANKS[idx];
-  const prog     = getRankProgress(pts);
+  const idx       = getRankIndex(pts);
+  const rank      = RANKS[idx];
+  const prog      = getRankProgress(pts);
   const isEternal = idx === RANKS.length - 1;
 
   rankBtnName.textContent = rank.name;
   heroName.textContent    = rank.name;
+  heroImg.src             = RANK_IMAGES[idx] || '';
+  heroImg.alt             = rank.name;
   heroPts.textContent     = pts.toFixed(2);
   heroHrs.textContent     = pts.toFixed(1) + 'h';
 
-  if (prog.nextName) {
-    progressNext.textContent  = 'next → ' + prog.nextName;
-    progressLabel.textContent = prog.label;
-  } else {
-    progressNext.textContent  = 'max rank achieved';
-    progressLabel.textContent = '—';
-  }
-  progressPct.textContent  = prog.pct.toFixed(1) + '%';
-  progressFill.style.width = prog.pct + '%';
+  progressNext.textContent  = prog.nextName ? 'next → ' + prog.nextName : 'max rank achieved';
+  progressLabel.textContent = prog.nextName ? prog.label : '—';
+  progressPct.textContent   = prog.pct.toFixed(1) + '%';
+  progressFill.style.width  = prog.pct + '%';
+  progressFill.classList.toggle('eternal', isEternal);
+  progressPct.classList.toggle('eternal', isEternal);
 
-  if (isEternal) {
-    progressFill.classList.add('eternal');
-    progressPct.classList.add('eternal');
-  } else {
-    progressFill.classList.remove('eternal');
-    progressPct.classList.remove('eternal');
-  }
-
-  buildRankList(idx, pts);
-
-  if (idx > prevRankIdx) {
-    showRankUp(rank.name);
-    prevRankIdx = idx;
-  }
+  buildRankList(idx);
+  if (idx > prevRankIdx) { showRankUp(rank.name); prevRankIdx = idx; }
 }
 
-function buildRankList(currentIdx, pts) {
+function buildRankList(currentIdx) {
   rankList.innerHTML = '';
   RANKS.forEach((r, i) => {
     const isCurrent  = i === currentIdx;
@@ -525,65 +405,45 @@ function buildRankList(currentIdx, pts) {
     const item = document.createElement('div');
     item.className = 'rank-item' + (isCurrent ? ' current' : '') + (isEternal ? ' eternal' : '');
 
+    /* ── rank image per item ── */
     const imgWrap = document.createElement('div');
     imgWrap.className = 'rank-item-img' + (isLocked ? ' locked' : '');
     const img = document.createElement('img');
-    img.className = 'rank-item-image';
-    img.src = ''; img.alt = '';
+    img.src = RANK_IMAGES[i] || '';   // ← pulls from RANK_IMAGES array above
+    img.alt = r.name;
     imgWrap.appendChild(img);
 
     const info = document.createElement('div');
     info.className = 'rank-item-info';
-
     const name = document.createElement('div');
     name.className = 'rank-item-name' + (isLocked ? ' locked' : '');
     name.textContent = r.name;
-
     const ptsEl = document.createElement('div');
     ptsEl.className = 'rank-item-pts';
     ptsEl.textContent = r.pts + ' pts' + (RANKS[i+1] ? ' → ' + RANKS[i+1].pts : '+');
-
-    info.appendChild(name);
-    info.appendChild(ptsEl);
+    info.appendChild(name); info.appendChild(ptsEl);
 
     const status = document.createElement('div');
     status.className = 'rank-item-status ' + (isCurrent ? 'current' : isUnlocked ? 'unlocked' : 'locked');
-
     if (isCurrent) {
       const badge = document.createElement('span');
-      badge.className = 'current-badge';
-      badge.textContent = 'current';
+      badge.className = 'current-badge'; badge.textContent = 'current';
       status.appendChild(badge);
-    } else {
-      status.textContent = isUnlocked ? 'done' : 'locked';
-    }
+    } else { status.textContent = isUnlocked ? 'done' : 'locked'; }
 
-    item.appendChild(imgWrap);
-    item.appendChild(info);
-    item.appendChild(status);
+    item.appendChild(imgWrap); item.appendChild(info); item.appendChild(status);
     rankList.appendChild(item);
-
     if (isCurrent) setTimeout(() => item.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 100);
   });
 }
 
-/* ══════════════════════════════════════════
-   MODAL
-══════════════════════════════════════════ */
+/* ── MODAL ── */
 const modalOverlay = document.getElementById('modalOverlay');
-const rankBtn      = document.getElementById('rankBtn');
-const modalClose   = document.getElementById('modalClose');
-
-rankBtn.addEventListener('click', () => {
-  updateRankUI(msToPoints(totalStudiedMs));
-  modalOverlay.classList.add('open');
-});
-modalClose.addEventListener('click', () => modalOverlay.classList.remove('open'));
+document.getElementById('rankBtn').addEventListener('click', () => { updateRankUI(msToPoints(totalStudiedMs)); modalOverlay.classList.add('open'); });
+document.getElementById('modalClose').addEventListener('click', () => modalOverlay.classList.remove('open'));
 modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) modalOverlay.classList.remove('open'); });
 
-/* ══════════════════════════════════════════
-   TIMER CORE
-══════════════════════════════════════════ */
+/* ── TIMER CORE ── */
 const display  = document.getElementById('display');
 const pauseBtn = document.getElementById('pauseBtn');
 const resetBtn = document.getElementById('resetBtn');
@@ -593,12 +453,10 @@ try {
   worker = new Worker(URL.createObjectURL(new Blob([workerSrc], { type: 'application/javascript' })));
   worker.onmessage = () => {
     if (!running) return;
-    const sesMs     = sessionMs + (performance.now() - startTime);
+    const sesMs = sessionMs + (performance.now() - startTime);
     const liveTotal = totalStudiedMs + (performance.now() - startTime);
-    display.textContent = formatTime(sesMs);
-    checkHS(sesMs);
-    const pts    = msToPoints(liveTotal);
-    const newIdx = getRankIndex(pts);
+    display.textContent = formatTime(sesMs); checkHS(sesMs);
+    const pts = msToPoints(liveTotal); const newIdx = getRankIndex(pts);
     if (newIdx > prevRankIdx) { prevRankIdx = newIdx; showRankUp(RANKS[newIdx].name); rankBtnName.textContent = RANKS[newIdx].name; }
     if (modalOverlay.classList.contains('open')) updateRankUI(pts);
   };
@@ -606,12 +464,10 @@ try {
 
 function rafTick() {
   if (!running) return;
-  const sesMs     = sessionMs + (performance.now() - startTime);
+  const sesMs = sessionMs + (performance.now() - startTime);
   const liveTotal = totalStudiedMs + (performance.now() - startTime);
-  display.textContent = formatTime(sesMs);
-  checkHS(sesMs);
-  const pts    = msToPoints(liveTotal);
-  const newIdx = getRankIndex(pts);
+  display.textContent = formatTime(sesMs); checkHS(sesMs);
+  const pts = msToPoints(liveTotal); const newIdx = getRankIndex(pts);
   if (newIdx > prevRankIdx) { prevRankIdx = newIdx; showRankUp(RANKS[newIdx].name); rankBtnName.textContent = RANKS[newIdx].name; }
   if (modalOverlay.classList.contains('open')) updateRankUI(pts);
   rafId = requestAnimationFrame(rafTick);
@@ -619,43 +475,28 @@ function rafTick() {
 
 pauseBtn.addEventListener('click', () => {
   if (!running) {
-    running = true;
-    startTime = performance.now();
-    display.className = 'running';
-    pauseBtn.textContent = 'Pause';
+    running = true; startTime = performance.now();
+    display.className = 'running'; pauseBtn.textContent = 'Pause';
     if (worker) worker.postMessage('start');
     rafId = requestAnimationFrame(rafTick);
   } else {
     const delta = performance.now() - startTime;
-    sessionMs      += delta;
-    totalStudiedMs += delta;
-    saveTotal(totalStudiedMs);
-    running = false;
-    cancelAnimationFrame(rafId);
+    sessionMs += delta; totalStudiedMs += delta; saveTotal(totalStudiedMs);
+    running = false; cancelAnimationFrame(rafId);
     if (worker) worker.postMessage('stop');
-    display.className = 'paused';
-    pauseBtn.textContent = 'Resume';
+    display.className = 'paused'; pauseBtn.textContent = 'Resume';
   }
 });
 
 resetBtn.addEventListener('click', () => {
-  if (running) {
-    const delta = performance.now() - startTime;
-    totalStudiedMs += delta;
-    saveTotal(totalStudiedMs);
-  }
+  if (running) { const delta = performance.now() - startTime; totalStudiedMs += delta; saveTotal(totalStudiedMs); }
   running = false; sessionMs = 0; startTime = 0; brokeDuring = false;
-  cancelAnimationFrame(rafId);
-  if (worker) worker.postMessage('stop');
-  display.textContent = '00:00:00';
-  display.className = 'paused';
-  pauseBtn.textContent = 'Start';
+  cancelAnimationFrame(rafId); if (worker) worker.postMessage('stop');
+  display.textContent = '00:00:00'; display.className = 'paused'; pauseBtn.textContent = 'Start';
   rankBtnName.textContent = RANKS[getRankIndex(msToPoints(totalStudiedMs))].name;
 });
 
-/* ══════════════════════════════════════════
-   SETTINGS / LOGOUT
-══════════════════════════════════════════ */
+/* ── SETTINGS POPUP (plain JS, no module conflict) ── */
 const settingsBtn   = document.getElementById('settingsBtn');
 const settingsPopup = document.getElementById('settingsPopup');
 const logoutBtn     = document.getElementById('logoutBtn');
@@ -672,21 +513,51 @@ document.addEventListener('click', function(e) {
 });
 
 logoutBtn.addEventListener('click', function() {
-  /* ── Firebase logout (uncomment when Firebase is added) ──
-  import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  signOut(getAuth()).then(() => { window.location.href = 'login.html'; });
-  ── Without Firebase: just redirect ── */
-  window.location.href = 'index.html';
+  // Firebase signOut is handled in the module script below
+  // This button triggers the global __logout exposed by that module
+  if (typeof window.__logout === 'function') {
+    window.__logout();
+  } else {
+    window.location.href = 'index.html';
+  }
 });
 
-/* ══════════════════════════════════════════
-   INIT
-══════════════════════════════════════════ */
+/* ── INIT ── */
 (function init() {
   rankBtnName.textContent = RANKS[getRankIndex(msToPoints(totalStudiedMs))].name;
   prevRankIdx = getRankIndex(msToPoints(totalStudiedMs));
   renderHS();
 })();
+</script>
+
+<!-- Firebase module — separate from main script to avoid conflicts -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey:            "AIzaSyDOQZw95uqm6B4TP_qGKlwqt2LYKfvITXM",
+    authDomain:        "eternal-one-timer.firebaseapp.com",
+    projectId:         "eternal-one-timer",
+    storageBucket:     "eternal-one-timer.firebasestorage.app",
+    messagingSenderId: "1010437979682",
+    appId:             "1:1010437979682:web:7a23edfd4e45439ba7547b"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Redirect to login if not authenticated
+  onAuthStateChanged(auth, user => {
+    if (!user) window.location.href = 'index.html';
+  });
+
+  // Expose logout to plain JS above
+  window.__logout = async function() {
+    try { await signOut(auth); } catch(e) {}
+    window.location.href = 'index.html';
+  };
 </script>
 </body>
 </html>
