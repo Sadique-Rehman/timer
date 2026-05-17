@@ -81,11 +81,11 @@ html, body {
   table-layout: fixed; /* FIX: prevents misalignment */
 }
 
-/* ── COLUMN WIDTHS — fixed so header and body always align ── */
+/* ── COLUMN WIDTHS ── */
 .lb-table col.c-pos   { width: 52px; }
-.lb-table col.c-user  { width: auto; }
-.lb-table col.c-rank  { width: 200px; }
-.lb-table col.c-score { width: 100px; }
+.lb-table col.c-user  { width: 28%; }
+.lb-table col.c-rank  { width: 42%; }
+.lb-table col.c-score { width: 15%; }
 
 /* ── THEAD ── */
 .lb-thead tr {
@@ -99,7 +99,6 @@ html, body {
   padding: 0.65rem 0.9rem;
   text-align: left;
   border-right: 1px solid #1a1a1a;
-  overflow: hidden;
 }
 .lb-thead th:last-child { border-right: none; }
 .lb-thead th.right  { text-align: right; }
@@ -130,7 +129,6 @@ td {
   vertical-align: middle;
   border-right: 1px solid #141414;
   font-size: 11px;
-  overflow: hidden;
 }
 td:last-child { border-right: none; }
 
@@ -145,7 +143,6 @@ td:last-child { border-right: none; }
 .lb-row.rank-3 .col-pos { color: #666; }      /* FIX */
 
 /* ── COL: PLAYER ── */
-.col-user {}
 .col-username {
   font-size: 12px; font-weight: 500; letter-spacing: 0.03em; color: #aaa; /* FIX: was #b0b0b0 → keep same */
   display: flex; align-items: center; gap: 7px;
@@ -160,7 +157,6 @@ td:last-child { border-right: none; }
 }
 
 /* ── COL: RANK ── */
-.col-rank {}
 .col-rank-inner {
   display: flex; align-items: center; gap: 8px;
 }
