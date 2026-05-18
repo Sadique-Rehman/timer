@@ -1,220 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Timer</title>
-<link rel="icon" type="image/jpeg" href="logo2.jpeg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="timer.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer</title>
+  <link rel="icon" type="image/jpeg" href="logo2.jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="timer.css">
 </head>
 <body>
 
-<!-- RED BULL BACKGROUND LAYER — add your image here via CSS later -->
-<div class="redbull-bg-layer" id="redbullBgLayer"></div>
+  <!-- =========================
+       BACKGROUND LAYER
+       Red Bull theme image is shown/hidden via CSS based on data-theme attribute.
+  ========================= -->
+  <div class="redbull-bg-layer" id="redbullBgLayer"></div>
 
-<!-- IDENTITY OVERLAY -->
-<div id="identityOverlay">
-  <div class="identity-box">
-    <div class="identity-title">Choose Your Player</div>
-    <div class="identity-sub">This name will appear on the global leaderboard.</div>
-    <div class="identity-input-wrap">
-      <input class="identity-input" id="usernameInput" type="text" placeholder="your_name" maxlength="16" autocomplete="off" spellcheck="false">
+
+  <!-- =========================
+       IDENTITY / USERNAME OVERLAY
+       Shown on first login when user has no username set.
+  ========================= -->
+  <div id="identityOverlay">
+    <div class="identity-box">
+      <div class="identity-title">Choose Your Player</div>
+      <div class="identity-sub">This name will appear on the global leaderboard.</div>
+      <div class="identity-input-wrap">
+        <input
+          class="identity-input"
+          id="usernameInput"
+          type="text"
+          placeholder="your_name"
+          maxlength="16"
+          autocomplete="off"
+          spellcheck="false"
+        >
+      </div>
+      <div class="identity-error" id="identityError">—</div>
+      <button class="identity-begin-btn" id="identityBeginBtn">BEGIN</button>
+      <div class="identity-rules">3–16 chars · letters · numbers · underscore</div>
     </div>
-    <div class="identity-error" id="identityError">—</div>
-    <button class="identity-begin-btn" id="identityBeginBtn">BEGIN</button>
-    <div class="identity-rules">3–16 chars · letters · numbers · underscore</div>
   </div>
-</div>
 
-<!-- Top-left: rank + trophy -->
-<div class="top-left-group">
-  <button class="rank-btn" id="rankBtn">
-    <span class="rank-btn-label">rank</span>
-    <span class="rank-btn-name" id="rankBtnName">—</span>
-  </button>
-  <button class="trophy-btn" id="trophyBtn" title="Leaderboard">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6 9H4a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h.5"/>
-      <path d="M18 9h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-.5"/>
-      <path d="M6 4h12v10a6 6 0 0 1-12 0V4z"/>
-      <line x1="12" y1="20" x2="12" y2="24"/>
-      <line x1="8"  y1="24" x2="16" y2="24"/>
+
+  <!-- =========================
+       TOP BAR — LEFT
+       Rank button + leaderboard trophy shortcut.
+  ========================= -->
+  <div class="top-left-group">
+    <button class="rank-btn" id="rankBtn">
+      <span class="rank-btn-label">rank</span>
+      <span class="rank-btn-name" id="rankBtnName">—</span>
+    </button>
+
+    <button class="trophy-btn" id="trophyBtn" title="Leaderboard">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9H4a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h.5"/>
+        <path d="M18 9h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-.5"/>
+        <path d="M6 4h12v10a6 6 0 0 1-12 0V4z"/>
+        <line x1="12" y1="20" x2="12" y2="24"/>
+        <line x1="8"  y1="24" x2="16" y2="24"/>
+      </svg>
+    </button>
+  </div>
+
+
+  <!-- =========================
+       TOP BAR — RIGHT
+       Personal best (high score) display box.
+  ========================= -->
+  <div class="hs-box" id="hsBox">
+    <span class="hs-label">best</span>
+    <span class="hs-time empty" id="hsTime">--:--:--</span>
+  </div>
+
+
+  <!-- =========================
+       SYNC STATUS INDICATOR
+       Bottom-right dot reflecting Firestore sync state.
+  ========================= -->
+  <div class="sync-dot" id="syncDot"></div>
+
+
+  <!-- =========================
+       MAIN TIMER
+       Central display with start/pause/reset controls.
+  ========================= -->
+  <div class="wrap">
+    <div id="display" class="paused">00:00:00</div>
+    <div class="controls">
+      <button class="btn reset" id="resetBtn">Reset</button>
+      <div class="dot"></div>
+      <button class="btn primary" id="pauseBtn">Start</button>
+    </div>
+  </div>
+
+
+  <!-- =========================
+       ZEN MODE HINT
+       Shown only when zen mode is active (body.zen).
+  ========================= -->
+  <div class="zen-hint">click to exit zen</div>
+
+
+  <!-- =========================
+       RANK-UP TOAST
+       Temporary notification shown on rank promotion.
+  ========================= -->
+  <div class="rankup-toast" id="rankupToast"></div>
+
+
+  <!-- =========================
+       RANK MODAL
+       Full rank progression view with progress bar and rank list.
+  ========================= -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <span class="modal-title">Ranking</span>
+        <div class="modal-header-actions">
+          <button class="leaderboard-icon-btn" id="leaderboardBtn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9H4a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h.5"/>
+              <path d="M18 9h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-.5"/>
+              <path d="M6 4h12v10a6 6 0 0 1-12 0V4z"/>
+              <line x1="12" y1="20" x2="12" y2="24"/>
+              <line x1="8"  y1="24" x2="16" y2="24"/>
+            </svg>
+            Leaderboard
+          </button>
+          <button class="modal-close" id="modalClose">✕</button>
+        </div>
+      </div>
+
+      <!-- Current Rank Hero -->
+      <div class="rank-hero">
+        <div class="rank-hero-img"><img id="heroImg" src="" alt="rank"></div>
+        <div class="rank-hero-info">
+          <div class="rank-hero-label">current rank</div>
+          <div class="rank-hero-name" id="heroName">—</div>
+          <div class="rank-hero-pts"><span id="heroPts">0</span> pts · <span id="heroHrs">0h</span> studied</div>
+          <div class="rank-hero-username">id · <span id="heroUsername">—</span></div>
+        </div>
+      </div>
+
+      <!-- Progress to Next Rank -->
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span class="progress-next" id="progressNext">next rank</span>
+          <span class="progress-pct"  id="progressPct">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-label" id="progressLabel">—</div>
+      </div>
+
+      <!-- Full Rank List (populated by JS) -->
+      <div class="rank-list-wrap" id="rankList"></div>
+
+    </div>
+  </div>
+
+
+  <!-- =========================
+       SETTINGS — BOTTOM LEFT
+       Gear icon button + slide-up popup menu.
+  ========================= -->
+  <button class="settings-btn" id="settingsBtn" aria-label="Settings">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
     </svg>
   </button>
-</div>
 
-<!-- HS box top-right -->
-<div class="hs-box" id="hsBox">
-  <span class="hs-label">best</span>
-  <span class="hs-time empty" id="hsTime">--:--:--</span>
-</div>
-
-<!-- Sync dot -->
-<div class="sync-dot" id="syncDot"></div>
-
-<!-- Main timer -->
-<div class="wrap">
-  <div id="display" class="paused">00:00:00</div>
-  <div class="controls">
-    <button class="btn reset" id="resetBtn">Reset</button>
-    <div class="dot"></div>
-    <button class="btn primary" id="pauseBtn">Start</button>
+  <!-- Settings Popup Menu -->
+  <div class="settings-popup" id="settingsPopup">
+    <button class="themes-btn" id="themesBtn">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 2a10 10 0 0 1 0 20"/>
+        <path d="M2 12h20"/>
+      </svg>
+      Themes
+    </button>
+    <button class="logout-btn" id="logoutBtn">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      Logout
+    </button>
   </div>
-</div>
 
-<!-- Zen hint -->
-<div class="zen-hint">click to exit zen</div>
 
-<!-- Rank-up toast -->
-<div class="rankup-toast" id="rankupToast"></div>
+  <!-- =========================
+       THEME SELECTION MODAL
+       Three-card picker: Dark / Light / Red Bull F1.
+  ========================= -->
+  <div class="theme-modal-overlay" id="themeModalOverlay">
+    <div class="theme-modal" id="themeModal">
 
-<!-- Rank modal -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">Ranking</span>
-      <div class="modal-header-actions">
-        <button class="leaderboard-icon-btn" id="leaderboardBtn">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 9H4a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h.5"/>
-            <path d="M18 9h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-.5"/>
-            <path d="M6 4h12v10a6 6 0 0 1-12 0V4z"/>
-            <line x1="12" y1="20" x2="12" y2="24"/>
-            <line x1="8"  y1="24" x2="16" y2="24"/>
-          </svg>
-          Leaderboard
+      <!-- Modal Header -->
+      <div class="theme-modal-header">
+        <span class="theme-modal-title">Select Theme</span>
+        <button class="theme-modal-close" id="themeModalClose">✕</button>
+      </div>
+
+      <!-- Theme Cards -->
+      <div class="theme-cards">
+
+        <!-- Dark (default) -->
+        <button class="theme-card" data-theme-id="dark" tabindex="0">
+          <div class="theme-preview preview-dark">
+            <div class="pv-bar">
+              <div class="pv-pill"></div>
+              <div class="pv-pill"></div>
+            </div>
+            <div class="pv-time">00:00:00</div>
+            <div class="pv-btns">
+              <div class="pv-btn-r"></div>
+              <div class="pv-btn-g"></div>
+            </div>
+          </div>
+          <div class="theme-card-label">Dark</div>
+          <div class="theme-card-tick">
+            <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+            </svg>
+          </div>
         </button>
-        <button class="modal-close" id="modalClose">✕</button>
-      </div>
-    </div>
-    <div class="rank-hero">
-      <div class="rank-hero-img"><img id="heroImg" src="" alt="rank"></div>
-      <div class="rank-hero-info">
-        <div class="rank-hero-label">current rank</div>
-        <div class="rank-hero-name" id="heroName">—</div>
-        <div class="rank-hero-pts"><span id="heroPts">0</span> pts · <span id="heroHrs">0h</span> studied</div>
-        <div class="rank-hero-username">id · <span id="heroUsername">—</span></div>
-      </div>
-    </div>
-    <div class="progress-wrap">
-      <div class="progress-meta">
-        <span class="progress-next" id="progressNext">next rank</span>
-        <span class="progress-pct" id="progressPct">0%</span>
-      </div>
-      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="progress-label" id="progressLabel">—</div>
-    </div>
-    <div class="rank-list-wrap" id="rankList"></div>
-  </div>
-</div>
 
-<!-- Settings bottom-left -->
-<button class="settings-btn" id="settingsBtn" aria-label="Settings">
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="3"/>
-    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-  </svg>
-</button>
-
-<!-- Settings popup — Themes button added ABOVE Logout -->
-<div class="settings-popup" id="settingsPopup">
-  <button class="themes-btn" id="themesBtn">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/>
-      <path d="M12 2a10 10 0 0 1 0 20"/>
-      <path d="M2 12h20"/>
-    </svg>
-    Themes
-  </button>
-  <button class="logout-btn" id="logoutBtn">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-      <polyline points="16 17 21 12 16 7"/>
-      <line x1="21" y1="12" x2="9" y2="12"/>
-    </svg>
-    Logout
-  </button>
-</div>
-
-<!-- ══ THEME SELECTION MODAL ══ -->
-<div class="theme-modal-overlay" id="themeModalOverlay">
-  <div class="theme-modal" id="themeModal">
-    <div class="theme-modal-header">
-      <span class="theme-modal-title">Select Theme</span>
-      <button class="theme-modal-close" id="themeModalClose">✕</button>
-    </div>
-    <div class="theme-cards">
-
-      <!-- Dark (default) -->
-      <button class="theme-card" data-theme-id="dark" tabindex="0">
-        <div class="theme-preview preview-dark">
-          <div class="pv-bar">
-            <div class="pv-pill"></div>
-            <div class="pv-pill"></div>
+        <!-- Light -->
+        <button class="theme-card" data-theme-id="light" tabindex="0">
+          <div class="theme-preview preview-light">
+            <div class="pv-bar">
+              <div class="pv-pill"></div>
+              <div class="pv-pill"></div>
+            </div>
+            <div class="pv-time">00:00:00</div>
+            <div class="pv-btns">
+              <div class="pv-btn-r"></div>
+              <div class="pv-btn-g"></div>
+            </div>
           </div>
-          <div class="pv-time">00:00:00</div>
-          <div class="pv-btns">
-            <div class="pv-btn-r"></div>
-            <div class="pv-btn-g"></div>
+          <div class="theme-card-label">Light</div>
+          <div class="theme-card-tick">
+            <svg viewBox="0 0 10 10" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+            </svg>
           </div>
-        </div>
-        <div class="theme-card-label">Dark</div>
-        <div class="theme-card-tick">
-          <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1.5,5 4,7.5 8.5,2.5"/>
-          </svg>
-        </div>
-      </button>
+        </button>
 
-      <!-- Light -->
-      <button class="theme-card" data-theme-id="light" tabindex="0">
-        <div class="theme-preview preview-light">
-          <div class="pv-bar">
-            <div class="pv-pill"></div>
-            <div class="pv-pill"></div>
+        <!-- Red Bull F1 -->
+        <button class="theme-card" data-theme-id="redbull" tabindex="0">
+          <div class="theme-preview preview-redbull">
+            <div class="pv-bar">
+              <div class="pv-pill"></div>
+              <div class="pv-pill"></div>
+            </div>
+            <div class="pv-time">00:00:00</div>
+            <div class="pv-btns">
+              <div class="pv-btn-r"></div>
+              <div class="pv-btn-g"></div>
+            </div>
           </div>
-          <div class="pv-time">00:00:00</div>
-          <div class="pv-btns">
-            <div class="pv-btn-r"></div>
-            <div class="pv-btn-g"></div>
+          <div class="theme-card-label">Red Bull F1</div>
+          <div class="theme-card-tick">
+            <svg viewBox="0 0 10 10" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+            </svg>
           </div>
-        </div>
-        <div class="theme-card-label">Light</div>
-        <div class="theme-card-tick">
-          <svg viewBox="0 0 10 10" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1.5,5 4,7.5 8.5,2.5"/>
-          </svg>
-        </div>
-      </button>
+        </button>
 
-      <!-- Red Bull -->
-      <button class="theme-card" data-theme-id="redbull" tabindex="0">
-        <div class="theme-preview preview-redbull">
-          <div class="pv-bar">
-            <div class="pv-pill"></div>
-            <div class="pv-pill"></div>
-          </div>
-          <div class="pv-time">00:00:00</div>
-          <div class="pv-btns">
-            <div class="pv-btn-r"></div>
-            <div class="pv-btn-g"></div>
-          </div>
-        </div>
-        <div class="theme-card-label">Red Bull F1</div>
-        <div class="theme-card-tick">
-          <svg viewBox="0 0 10 10" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1.5,5 4,7.5 8.5,2.5"/>
-          </svg>
-        </div>
-      </button>
+      </div><!-- /.theme-cards -->
+    </div><!-- /.theme-modal -->
+  </div><!-- /.theme-modal-overlay -->
 
-    </div>
-  </div>
-</div>
 
- <script type="module" src="timer.js"></script>
+  <script type="module" src="timer.js"></script>
 </body>
 </html>
