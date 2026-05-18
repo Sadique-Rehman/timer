@@ -16,7 +16,7 @@ html, body {
   overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff;
 }
 
-/* ── TOP-LEFT GROUP (rank + trophy) ── */
+/* ── TOP-LEFT GROUP ── */
 .top-left-group {
   position: fixed; top: 1.6rem; left: 1.8rem;
   display: flex; align-items: center; gap: 6px; z-index: 10;
@@ -32,19 +32,19 @@ html, body {
   font-family: 'JetBrains Mono', monospace; transition: all 0.07s ease; min-width: 80px;
 }
 .rank-btn:active { transform: translateY(3px); box-shadow: 0 0 0 1px #f0f0f0, 0 1px 0 0 #a0a0a0; }
-.rank-btn-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #888; font-weight: 400; }
-.rank-btn-name  { font-size: 11px; font-weight: 500; color: #eee; letter-spacing: 0.05em; white-space: nowrap; }
+.rank-btn-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #aaa; font-weight: 500; }
+.rank-btn-name  { font-size: 11px; font-weight: 600; color: #fff; letter-spacing: 0.05em; white-space: nowrap; }
 
-/* ── TROPHY BUTTON (leaderboard) ── */
+/* ── TROPHY BUTTON ── */
 .trophy-btn {
   width: 44px; height: 44px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 2px; background: #0e0e0e;
   box-shadow: 0 0 0 1px #f0f0f0, 0 4px 0 0 #a0a0a0, 0 5px 14px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.05);
-  border: none; cursor: pointer; color: #666;
+  border: none; cursor: pointer; color: #aaa;
   transition: all 0.07s ease, color 0.2s ease;
 }
-.trophy-btn:hover  { color: #bbb; }
+.trophy-btn:hover  { color: #fff; }
 .trophy-btn:active { transform: translateY(3px); box-shadow: 0 0 0 1px #f0f0f0, 0 1px 0 0 #a0a0a0; }
 
 /* ── HS BOX top-right ── */
@@ -60,9 +60,9 @@ html, body {
   100% { box-shadow: 0 0 0 1px #f0f0f0, 0 4px 0 0 #a0a0a0, 0 5px 14px rgba(255,255,255,0.04); }
 }
 .hs-box.new { animation: hsFlash 0.5s ease; }
-.hs-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #888; font-weight: 400; }
-.hs-time  { font-size: 14px; font-weight: 500; letter-spacing: 0.03em; font-variant-numeric: tabular-nums; color: #eee; }
-.hs-time.empty { color: #555; }
+.hs-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #aaa; font-weight: 500; }
+.hs-time  { font-size: 14px; font-weight: 600; letter-spacing: 0.03em; font-variant-numeric: tabular-nums; color: #fff; }
+.hs-time.empty { color: #666; }
 
 /* ── MAIN TIMER ── */
 .wrap { display: flex; flex-direction: column; align-items: center; gap: 3.5rem; }
@@ -70,23 +70,31 @@ html, body {
   font-size: clamp(72px, 15vw, 152px); font-weight: 500; letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums; line-height: 1; user-select: none; transition: color 0.35s ease;
 }
-#display.paused  { color: #555; }
+#display.paused  { color: #666; }
 #display.running { color: #f2f2f2; }
+
 .controls { display: flex; align-items: center; gap: 1.2rem; }
 .btn {
-  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 400;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
   letter-spacing: 0.25em; text-transform: uppercase; cursor: pointer; border: none; outline: none;
   padding: 10px 22px; border-radius: 2px; position: relative; transition: all 0.07s ease;
   -webkit-user-select: none; user-select: none;
 }
-.btn.reset { background: #0c0c0c; color: #666; box-shadow: 0 0 0 1px #2a2a2a, 0 4px 0 0 #1a1a1a, 0 5px 8px rgba(0,0,0,0.5); transition: all 0.07s ease, opacity 0.5s ease, transform 0.5s cubic-bezier(0.4,0,0.2,1); }
-.btn.reset:hover  { color: #aaa; box-shadow: 0 0 0 1px #3a3a3a, 0 4px 0 0 #1a1a1a, 0 5px 8px rgba(0,0,0,0.5); }
+.btn.reset {
+  background: #0c0c0c; color: #aaa;
+  box-shadow: 0 0 0 1px #2a2a2a, 0 4px 0 0 #1a1a1a, 0 5px 8px rgba(0,0,0,0.5);
+  transition: all 0.07s ease, opacity 0.5s ease, transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.btn.reset:hover  { color: #ddd; box-shadow: 0 0 0 1px #3a3a3a, 0 4px 0 0 #1a1a1a, 0 5px 8px rgba(0,0,0,0.5); }
 .btn.reset:active { transform: translateY(3px); box-shadow: 0 0 0 1px #2a2a2a, 0 1px 0 0 #1a1a1a, 0 2px 4px rgba(0,0,0,0.4); }
-.btn.primary { background: #161616; color: #d0d0d0; box-shadow: 0 0 0 1px #383838, 0 4px 0 0 #0a0a0a, 0 5px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04); }
+.btn.primary {
+  background: #161616; color: #eee;
+  box-shadow: 0 0 0 1px #383838, 0 4px 0 0 #0a0a0a, 0 5px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04);
+}
 .btn.primary:hover  { color: #fff; background: #1c1c1c; box-shadow: 0 0 0 1px #484848, 0 4px 0 0 #0a0a0a, 0 6px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06); }
 .btn.primary:active { transform: translateY(3px); background: #111; box-shadow: 0 0 0 1px #303030, 0 1px 0 0 #0a0a0a, 0 2px 6px rgba(0,0,0,0.5); }
 .btn:active::after  { content: ''; position: absolute; inset: 0; border-radius: 2px; background: rgba(255,255,255,0.03); }
-.dot { width: 3px; height: 3px; border-radius: 50%; background: #444; transition: opacity 0.5s ease; }
+.dot { width: 3px; height: 3px; border-radius: 50%; background: #666; transition: opacity 0.5s ease; }
 
 /* ── ZEN MODE ── */
 body.zen .top-left-group,
@@ -98,17 +106,9 @@ body.zen .dot {
   opacity: 0;
   pointer-events: none;
 }
-
-/* Pause button floats to bottom-center in zen */
-#pauseBtn {
-  transition: bottom 0.55s cubic-bezier(0.4,0,0.2,1), left 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1);
-}
 body.zen #pauseBtn {
-  position: fixed;
-  bottom: 2.8rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
+  position: fixed; bottom: 2.8rem; left: 50%;
+  transform: translateX(-50%); z-index: 20;
 }
 
 /* ── RANK MODAL ── */
@@ -120,89 +120,90 @@ body.zen #pauseBtn {
 .modal-overlay.open { opacity: 1; pointer-events: all; }
 .modal {
   width: min(560px, 94vw); max-height: 88vh; background: #0f0f0f;
-  border: 1px solid #1e1e1e; border-radius: 4px;
-  box-shadow: 0 0 0 1px #2a2a2a, 0 40px 80px rgba(0,0,0,0.8), 0 0 60px rgba(120,60,255,0.04);
+  border: 1px solid #2a2a2a; border-radius: 4px;
+  box-shadow: 0 0 0 1px #333, 0 40px 80px rgba(0,0,0,0.8), 0 0 60px rgba(120,60,255,0.04);
   display: flex; flex-direction: column;
   transform: translateY(18px) scale(0.98); transition: transform 0.3s ease; overflow: hidden;
 }
 .modal-overlay.open .modal { transform: translateY(0) scale(1); }
 .modal-header {
-  padding: 1.4rem 1.6rem 1.2rem; border-bottom: 1px solid #191919;
+  padding: 1.4rem 1.6rem 1.2rem; border-bottom: 1px solid #222;
   display: flex; align-items: flex-start; justify-content: space-between; flex-shrink: 0;
 }
-.modal-title { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: #777; font-weight: 400; }
+.modal-title { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: #aaa; font-weight: 500; }
 .modal-header-actions { display: flex; align-items: center; gap: 0.8rem; }
-.modal-close { background: none; border: none; cursor: pointer; color: #555; font-size: 18px; line-height: 1; padding: 0 2px; transition: color 0.2s; font-family: inherit; }
-.modal-close:hover { color: #aaa; }
+.modal-close { background: none; border: none; cursor: pointer; color: #888; font-size: 18px; line-height: 1; padding: 0 2px; transition: color 0.2s; font-family: inherit; }
+.modal-close:hover { color: #ddd; }
 
-/* ── LEADERBOARD ICON in modal header ── */
 .leaderboard-icon-btn {
   display: flex; align-items: center; gap: 6px;
-  background: #111; border: 1px solid #1e1e1e; border-radius: 2px;
-  cursor: pointer; color: #666;
+  background: #111; border: 1px solid #2a2a2a; border-radius: 2px;
+  cursor: pointer; color: #aaa;
   padding: 5px 10px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase;
+  font-size: 9px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase;
   transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
   white-space: nowrap;
 }
 .leaderboard-icon-btn:hover {
-  color: #a78bfa;
-  border-color: #2e1a6e;
+  color: #c4b5fd; border-color: #3d2a8a;
   box-shadow: 0 0 12px rgba(124,58,237,0.15);
 }
 
-.rank-hero { padding: 1.4rem 1.6rem; border-bottom: 1px solid #141414; display: flex; gap: 1.2rem; align-items: center; flex-shrink: 0; }
-.rank-hero-img { width: 56px; height: 56px; border-radius: 3px; background: #161616; border: 1px solid #252525; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.rank-hero { padding: 1.4rem 1.6rem; border-bottom: 1px solid #1e1e1e; display: flex; gap: 1.2rem; align-items: center; flex-shrink: 0; }
+.rank-hero-img { width: 56px; height: 56px; border-radius: 3px; background: #161616; border: 1px solid #333; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .rank-hero-img img { width: 100%; height: 100%; object-fit: cover; }
 .rank-hero-info { flex: 1; }
-.rank-hero-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #666; margin-bottom: 4px; }
-.rank-hero-name  { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #f0f0f0; margin-bottom: 6px; line-height: 1; }
-.rank-hero-pts   { font-size: 11px; color: #777; letter-spacing: 0.1em; }
-.rank-hero-pts span { color: #bbb; }
-.rank-hero-username { font-size: 10px; color: #555; letter-spacing: 0.25em; margin-top: 4px; }
-.rank-hero-username span { color: #888; }
-.progress-wrap { padding: 1.2rem 1.6rem; border-bottom: 1px solid #141414; flex-shrink: 0; }
+.rank-hero-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: #888; font-weight: 500; margin-bottom: 4px; }
+.rank-hero-name  { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #fff; margin-bottom: 6px; line-height: 1; }
+.rank-hero-pts   { font-size: 11px; color: #aaa; letter-spacing: 0.1em; font-weight: 400; }
+.rank-hero-pts span { color: #ddd; font-weight: 500; }
+.rank-hero-username { font-size: 10px; color: #888; letter-spacing: 0.25em; margin-top: 4px; font-weight: 400; }
+.rank-hero-username span { color: #bbb; font-weight: 500; }
+
+.progress-wrap { padding: 1.2rem 1.6rem; border-bottom: 1px solid #1e1e1e; flex-shrink: 0; }
 .progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.progress-next { font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase; color: #666; }
-.progress-pct  { font-size: 11px; font-weight: 500; color: #7c3aed; }
-.progress-track { height: 3px; background: #1a1a1a; border-radius: 2px; overflow: hidden; }
+.progress-next { font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase; color: #999; font-weight: 500; }
+.progress-pct  { font-size: 11px; font-weight: 600; color: #a78bfa; }
+.progress-track { height: 3px; background: #1e1e1e; border-radius: 2px; overflow: hidden; }
 .progress-fill {
   height: 100%; width: 0%; background: linear-gradient(90deg, #4c1d95, #7c3aed, #a78bfa);
   border-radius: 2px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 0 8px rgba(124,58,237,0.5);
 }
-.progress-label { margin-top: 6px; font-size: 9px; color: #555; letter-spacing: 0.2em; }
+.progress-label { margin-top: 6px; font-size: 9px; color: #888; letter-spacing: 0.2em; font-weight: 400; }
+
 .rank-list-wrap { overflow-y: auto; flex: 1; padding: 0.8rem 0; }
 .rank-list-wrap::-webkit-scrollbar { width: 4px; }
 .rank-list-wrap::-webkit-scrollbar-track { background: transparent; }
-.rank-list-wrap::-webkit-scrollbar-thumb { background: #1e1e1e; border-radius: 2px; }
+.rank-list-wrap::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
 .rank-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1.6rem; transition: background 0.15s; position: relative; }
 .rank-item:hover { background: #111; }
 .rank-item.current { background: #0d0d18; }
 .rank-item.current::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, #4c1d95, #7c3aed); }
-.rank-item-img { width: 36px; height: 36px; border-radius: 2px; background: #161616; border: 1px solid #202020; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.rank-item-img { width: 36px; height: 36px; border-radius: 2px; background: #161616; border: 1px solid #2a2a2a; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .rank-item-img img { width: 100%; height: 100%; object-fit: cover; }
-.rank-item-img.locked { opacity: 0.3; filter: grayscale(1); }
+.rank-item-img.locked { opacity: 0.25; filter: grayscale(1); }
 .rank-item-info { flex: 1; }
-.rank-item-name { font-size: 12px; font-weight: 500; color: #d0d0d0; letter-spacing: 0.03em; margin-bottom: 2px; }
-.rank-item-name.locked { color: #555; }
-.rank-item-pts  { font-size: 9px; color: #555; letter-spacing: 0.2em; }
-.rank-item-status { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; }
-.rank-item-status.unlocked { color: #666; }
-.rank-item-status.current  { color: #7c3aed; }
-.rank-item-status.locked   { color: #3a3a3a; }
-.current-badge { font-size: 8px; letter-spacing: 0.3em; text-transform: uppercase; color: #7c3aed; border: 1px solid #2e1a6e; padding: 2px 7px; border-radius: 1px; background: #0d0a1f; }
-.rank-item.eternal .rank-item-name { color: #f59e0b; }
-.rank-item.eternal .rank-item-img  { border-color: #44260a; box-shadow: 0 0 12px rgba(245,158,11,0.15); }
+.rank-item-name { font-size: 12px; font-weight: 500; color: #e0e0e0; letter-spacing: 0.03em; margin-bottom: 2px; }
+.rank-item-name.locked { color: #666; }
+.rank-item-pts  { font-size: 9px; color: #777; letter-spacing: 0.2em; font-weight: 400; }
+.rank-item-status { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 500; }
+.rank-item-status.unlocked { color: #888; }
+.rank-item-status.current  { color: #a78bfa; }
+.rank-item-status.locked   { color: #444; }
+.current-badge { font-size: 8px; letter-spacing: 0.3em; text-transform: uppercase; color: #a78bfa; border: 1px solid #3d2a8a; padding: 2px 7px; border-radius: 1px; background: #0d0a1f; font-weight: 500; }
+.rank-item.eternal .rank-item-name { color: #fbbf24; }
+.rank-item.eternal .rank-item-img  { border-color: #5a3010; box-shadow: 0 0 12px rgba(245,158,11,0.15); }
 .rank-item.eternal.current::before { background: linear-gradient(180deg, #92400e, #f59e0b); }
-.rank-item.eternal .rank-item-status.current { color: #f59e0b; }
+.rank-item.eternal .rank-item-status.current { color: #fbbf24; }
 .progress-fill.eternal { background: linear-gradient(90deg, #78350f, #f59e0b, #fde68a); box-shadow: 0 0 8px rgba(245,158,11,0.5); }
-.progress-pct.eternal { color: #f59e0b; }
+.progress-pct.eternal { color: #fbbf24; }
+
 .rankup-toast {
   position: fixed; bottom: 2.5rem; left: 50%; transform: translateX(-50%) translateY(20px);
-  background: #0d0a1f; border: 1px solid #2e1a6e; box-shadow: 0 0 30px rgba(124,58,237,0.2);
-  padding: 12px 24px; border-radius: 3px; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
-  color: #a78bfa; z-index: 200; opacity: 0; pointer-events: none;
+  background: #0d0a1f; border: 1px solid #3d2a8a; box-shadow: 0 0 30px rgba(124,58,237,0.2);
+  padding: 12px 24px; border-radius: 3px; font-size: 11px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase;
+  color: #c4b5fd; z-index: 200; opacity: 0; pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease; white-space: nowrap;
 }
 .rankup-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -211,12 +212,12 @@ body.zen #pauseBtn {
 .settings-btn {
   position: fixed; bottom: 1.8rem; left: 1.8rem;
   width: 36px; height: 36px; background: #0e0e0e;
-  border: 1px solid #1e1e1e; border-radius: 3px;
+  border: 1px solid #2a2a2a; border-radius: 3px;
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; color: #555; z-index: 50;
+  cursor: pointer; color: #888; z-index: 50;
   transition: color 0.2s, border-color 0.2s, opacity 0.5s ease; box-shadow: 0 4px 0 #0a0a0a;
 }
-.settings-btn:hover  { color: #aaa; border-color: #444; }
+.settings-btn:hover  { color: #ddd; border-color: #555; }
 .settings-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #0a0a0a; }
 
 .settings-popup {
@@ -231,36 +232,28 @@ body.zen #pauseBtn {
 .logout-btn {
   display: flex; align-items: center; gap: 8px;
   background: none; border: none; cursor: pointer;
-  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 400;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
   letter-spacing: 0.3em; text-transform: uppercase;
-  color: #777; padding: 9px 16px; border-radius: 2px;
+  color: #aaa; padding: 9px 16px; border-radius: 2px;
   width: 100%; white-space: nowrap; transition: color 0.15s, background 0.15s;
 }
-.logout-btn:hover { color: #ddd; background: #141414; }
+.logout-btn:hover { color: #fff; background: #141414; }
 
-/* ══════════════════════════════════════════════
-   USERNAME / IDENTITY MODAL (fullscreen)
-══════════════════════════════════════════════ */
+/* ── IDENTITY OVERLAY ── */
 #identityOverlay {
   position: fixed; inset: 0; z-index: 9999;
   background: #080808;
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.5s ease;
+  opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
 }
-#identityOverlay.visible {
-  opacity: 1; pointer-events: all;
-}
+#identityOverlay.visible { opacity: 1; pointer-events: all; }
 .identity-box {
   width: min(420px, 90vw);
-  display: flex; flex-direction: column; align-items: center;
-  gap: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 0;
   transform: translateY(24px);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-#identityOverlay.visible .identity-box {
-  transform: translateY(0);
-}
+#identityOverlay.visible .identity-box { transform: translateY(0); }
 .identity-title {
   font-size: clamp(20px, 5vw, 28px);
   font-weight: 600; letter-spacing: -0.01em; color: #f0f0f0;
@@ -268,104 +261,74 @@ body.zen #pauseBtn {
 }
 .identity-sub {
   font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
-  color: #666; text-align: center; margin-bottom: 2.4rem; line-height: 1.7;
+  color: #999; text-align: center; margin-bottom: 2.4rem; line-height: 1.7; font-weight: 400;
 }
-.identity-input-wrap {
-  width: 100%; position: relative; margin-bottom: 0.8rem;
-}
+.identity-input-wrap { width: 100%; position: relative; margin-bottom: 0.8rem; }
 .identity-input {
-  width: 100%;
-  background: #0e0e0e;
-  border: 1px solid #222;
-  border-radius: 2px;
-  padding: 14px 18px;
+  width: 100%; background: #0e0e0e; border: 1px solid #333;
+  border-radius: 2px; padding: 14px 18px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 15px; font-weight: 400; letter-spacing: 0.05em;
   color: #f0f0f0; outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  caret-color: #7c3aed;
+  transition: border-color 0.2s, box-shadow 0.2s; caret-color: #7c3aed;
 }
-.identity-input:focus {
-  border-color: #2a2a2a;
-  box-shadow: 0 0 0 1px #1e1e1e, 0 0 20px rgba(124,58,237,0.06);
-}
-.identity-input::placeholder { color: #444; }
+.identity-input:focus { border-color: #444; box-shadow: 0 0 0 1px #2a2a2a, 0 0 20px rgba(124,58,237,0.06); }
+.identity-input::placeholder { color: #555; }
 .identity-error {
   font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase;
-  color: #9b3030; height: 1.2rem; margin-bottom: 1.6rem;
-  transition: opacity 0.2s;
-  text-align: center;
+  color: #f87171; height: 1.2rem; margin-bottom: 1.6rem;
+  transition: opacity 0.2s; text-align: center; font-weight: 500;
 }
 .identity-error.visible { opacity: 1; }
 .identity-error:not(.visible) { opacity: 0; }
 .identity-begin-btn {
-  width: 100%;
-  background: #0f0f0f;
-  border: 1px solid #252525;
-  border-radius: 2px;
+  width: 100%; background: #0f0f0f; border: 1px solid #333; border-radius: 2px;
   padding: 14px 22px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 500; letter-spacing: 0.5em; text-transform: uppercase;
-  color: #888; cursor: pointer;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.5em; text-transform: uppercase;
+  color: #ccc; cursor: pointer;
   box-shadow: 0 4px 0 0 #0a0a0a;
   transition: all 0.07s ease, color 0.2s, background 0.2s;
   position: relative; overflow: hidden;
 }
-.identity-begin-btn:hover {
-  color: #d0d0d0; background: #141414; border-color: #333;
-  box-shadow: 0 4px 0 0 #0a0a0a, 0 0 20px rgba(255,255,255,0.03);
-}
-.identity-begin-btn:active {
-  transform: translateY(4px);
-  box-shadow: 0 0px 0 0 #0a0a0a;
-}
-.identity-begin-btn:disabled {
-  opacity: 0.4; cursor: not-allowed; transform: none;
-}
+.identity-begin-btn:hover { color: #fff; background: #141414; border-color: #444; box-shadow: 0 4px 0 0 #0a0a0a; }
+.identity-begin-btn:active { transform: translateY(4px); box-shadow: 0 0px 0 0 #0a0a0a; }
+.identity-begin-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 .identity-rules {
-  margin-top: 1.4rem;
-  font-size: 8px; letter-spacing: 0.3em; text-transform: uppercase;
-  color: #444; text-align: center; line-height: 2;
+  margin-top: 1.4rem; font-size: 8px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: #666; text-align: center; line-height: 2; font-weight: 400;
 }
 
-/* ── SYNC STATUS indicator ── */
+/* ── SYNC DOT ── */
 .sync-dot {
   position: fixed; bottom: 1.8rem; right: 1.8rem;
   width: 6px; height: 6px; border-radius: 50%;
-  background: #1e1e1e; z-index: 50;
+  background: #333; z-index: 50;
   transition: background 0.4s, box-shadow 0.4s, opacity 0.5s ease;
 }
 .sync-dot.syncing { background: #7c3aed; box-shadow: 0 0 8px rgba(124,58,237,0.6); }
-.sync-dot.synced  { background: #2a4a2a; box-shadow: none; }
-.sync-dot.error   { background: #4a1a1a; }
+.sync-dot.synced  { background: #2a5a2a; }
+.sync-dot.error   { background: #7a2020; }
 
 /* ── ZEN HINT ── */
 .zen-hint {
   position: fixed; bottom: 6.8rem; left: 50%; transform: translateX(-50%);
   font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase;
-  color: #333; z-index: 5; pointer-events: none;
-  opacity: 0; transition: opacity 1s ease;
+  color: #444; z-index: 5; pointer-events: none;
+  opacity: 0; transition: opacity 1s ease; font-weight: 400;
 }
 body.zen .zen-hint { opacity: 1; }
 </style>
 </head>
 <body>
 
-<!-- ══ IDENTITY OVERLAY (username setup) ══ -->
+<!-- IDENTITY OVERLAY -->
 <div id="identityOverlay">
   <div class="identity-box">
     <div class="identity-title">Choose Your Player</div>
     <div class="identity-sub">This name will appear on the global leaderboard.</div>
     <div class="identity-input-wrap">
-      <input
-        class="identity-input"
-        id="usernameInput"
-        type="text"
-        placeholder="your_name"
-        maxlength="16"
-        autocomplete="off"
-        spellcheck="false"
-      >
+      <input class="identity-input" id="usernameInput" type="text" placeholder="your_name" maxlength="16" autocomplete="off" spellcheck="false">
     </div>
     <div class="identity-error" id="identityError">—</div>
     <button class="identity-begin-btn" id="identityBeginBtn">BEGIN</button>
@@ -373,7 +336,7 @@ body.zen .zen-hint { opacity: 1; }
   </div>
 </div>
 
-<!-- Top-left group: rank + leaderboard -->
+<!-- Top-left: rank + trophy -->
 <div class="top-left-group">
   <button class="rank-btn" id="rankBtn">
     <span class="rank-btn-label">rank</span>
@@ -421,7 +384,6 @@ body.zen .zen-hint { opacity: 1; }
     <div class="modal-header">
       <span class="modal-title">Ranking</span>
       <div class="modal-header-actions">
-        <!-- Leaderboard button -->
         <button class="leaderboard-icon-btn" id="leaderboardBtn">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 9H4a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h.5"/>
@@ -436,9 +398,7 @@ body.zen .zen-hint { opacity: 1; }
       </div>
     </div>
     <div class="rank-hero">
-      <div class="rank-hero-img">
-        <img id="heroImg" src="" alt="rank">
-      </div>
+      <div class="rank-hero-img"><img id="heroImg" src="" alt="rank"></div>
       <div class="rank-hero-info">
         <div class="rank-hero-label">current rank</div>
         <div class="rank-hero-name" id="heroName">—</div>
@@ -451,9 +411,7 @@ body.zen .zen-hint { opacity: 1; }
         <span class="progress-next" id="progressNext">next rank</span>
         <span class="progress-pct" id="progressPct">0%</span>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
       <div class="progress-label" id="progressLabel">—</div>
     </div>
     <div class="rank-list-wrap" id="rankList"></div>
@@ -467,7 +425,6 @@ body.zen .zen-hint { opacity: 1; }
     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
   </svg>
 </button>
-
 <div class="settings-popup" id="settingsPopup">
   <button class="logout-btn" id="logoutBtn">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -480,43 +437,25 @@ body.zen .zen-hint { opacity: 1; }
 </div>
 
 <script>
-/* ══════════════════════════════════════════════════════════
-   RANK IMAGES
-══════════════════════════════════════════════════════════ */
 const RANK_IMAGES = [
-  './rank_png/Bronze_1_Rank.png',
-  './rank_png/Bronze_3_Rank.png',
-  './rank_png/Silver_1_Rank.png',
-  './rank_png/Silver_3_Rank.png',
-  './rank_png/Gold_1_Rank.png',
-  './rank_png/Gold_3_Rank.png',
-  './rank_png/Platinum_1_Rank.png',
-  './rank_png/Platinum_3_Rank.png',
-  './rank_png/Diamond_1_Rank.png',
-  './rank_png/Diamond_3_Rank.png',
-  './rank_png/Ascendant_1_Rank.png',
-  './rank_png/Ascendant_3_Rank.png',
-  './rank_png/Immortal_1_Rank.png',
-  './rank_png/Immortal_3_Rank.png',
+  './rank_png/Bronze_1_Rank.png',   './rank_png/Bronze_3_Rank.png',
+  './rank_png/Silver_1_Rank.png',   './rank_png/Silver_3_Rank.png',
+  './rank_png/Gold_1_Rank.png',     './rank_png/Gold_3_Rank.png',
+  './rank_png/Platinum_1_Rank.png', './rank_png/Platinum_3_Rank.png',
+  './rank_png/Diamond_1_Rank.png',  './rank_png/Diamond_3_Rank.png',
+  './rank_png/Ascendant_1_Rank.png','./rank_png/Ascendant_3_Rank.png',
+  './rank_png/Immortal_1_Rank.png', './rank_png/Immortal_3_Rank.png',
   './rank_png/Radiant_Rank.png',
 ];
 
-/* ── RANKING DATA ── */
 const RANKS = [
-  { name: 'Wanderer I',      pts: 0   },
-  { name: 'Wanderer II',     pts: 5   },
-  { name: 'Seeker I',        pts: 10  },
-  { name: 'Seeker II',       pts: 15  },
-  { name: 'Shadow I',        pts: 20  },
-  { name: 'Shadow II',       pts: 30  },
-  { name: 'Phantom I',       pts: 40  },
-  { name: 'Phantom II',      pts: 55  },
-  { name: 'Reaper I',        pts: 70  },
-  { name: 'Reaper II',       pts: 90  },
-  { name: 'Abyss Walker I',  pts: 110 },
-  { name: 'Abyss Walker II', pts: 140 },
-  { name: 'Eternal I',       pts: 170 },
-  { name: 'Eternal II',      pts: 210 },
+  { name: 'Wanderer I',      pts: 0   }, { name: 'Wanderer II',     pts: 5   },
+  { name: 'Seeker I',        pts: 10  }, { name: 'Seeker II',       pts: 15  },
+  { name: 'Shadow I',        pts: 20  }, { name: 'Shadow II',       pts: 30  },
+  { name: 'Phantom I',       pts: 40  }, { name: 'Phantom II',      pts: 55  },
+  { name: 'Reaper I',        pts: 70  }, { name: 'Reaper II',       pts: 90  },
+  { name: 'Abyss Walker I',  pts: 110 }, { name: 'Abyss Walker II', pts: 140 },
+  { name: 'Eternal I',       pts: 170 }, { name: 'Eternal II',      pts: 210 },
   { name: 'THE ETERNAL ONE', pts: 250 },
 ];
 
@@ -530,520 +469,277 @@ function getRankIndex(pts) {
   for (let i = 0; i < RANKS.length; i++) { if (pts >= RANKS[i].pts) idx = i; else break; }
   return idx;
 }
-function getRankIcon(rank) {
-  const idx = RANKS.findIndex(r => r.name === rank);
-  return RANK_IMAGES[idx >= 0 ? idx : 0] || '';
-}
 function getRankProgress(pts) {
-  const idx  = getRankIndex(pts);
-  const cur  = RANKS[idx];
-  const next = RANKS[idx + 1];
+  const idx = getRankIndex(pts), cur = RANKS[idx], next = RANKS[idx+1];
   if (!next) return { pct: 100, label: 'MAX', nextName: null };
   const pct = ((pts - cur.pts) / (next.pts - cur.pts)) * 100;
-  return { pct: Math.min(100, Math.max(0, pct)), label: `${(pts - cur.pts).toFixed(1)} / ${next.pts - cur.pts} pts`, nextName: next.name };
+  return { pct: Math.min(100, Math.max(0, pct)), label: `${(pts-cur.pts).toFixed(1)} / ${next.pts-cur.pts} pts`, nextName: next.name };
 }
 
-/* ── TIMER STATE ── */
 let totalStudiedMs = 0, sessionMs = 0, startTime = 0;
 let running = false, rafId = null, worker = null;
-let highscore = 0, brokeDuring = false;
-let prevRankIdx = 0;
-let currentUsername = null;
-let syncTimeout = null;
-let currentUid = null;
-let firestoreReady = false;
+let highscore = 0, brokeDuring = false, prevRankIdx = 0;
+let currentUsername = null, syncTimeout = null, currentUid = null, firestoreReady = false;
 
-function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
-function formatTime(ms) { const s = Math.floor(ms/1000); return pad(Math.floor(s/3600))+':'+pad(Math.floor((s%3600)/60))+':'+pad(s%60); }
-function msToPoints(ms) { return ms / 3600000; }
+function pad(n) { return String(Math.floor(n)).padStart(2,'0'); }
+function formatTime(ms) { const s=Math.floor(ms/1000); return pad(Math.floor(s/3600))+':'+pad(Math.floor((s%3600)/60))+':'+pad(s%60); }
+function msToPoints(ms) { return ms/3600000; }
 
-/* ── HS UI ── */
-const hsBox    = document.getElementById('hsBox');
-const hsTimeEl = document.getElementById('hsTime');
+const hsBox=document.getElementById('hsBox'), hsTimeEl=document.getElementById('hsTime');
 function renderHS() {
-  if (highscore === 0) { hsTimeEl.textContent = '--:--:--'; hsTimeEl.className = 'hs-time empty'; return; }
-  hsTimeEl.textContent = formatTime(highscore); hsTimeEl.className = 'hs-time';
+  if (highscore===0) { hsTimeEl.textContent='--:--:--'; hsTimeEl.className='hs-time empty'; return; }
+  hsTimeEl.textContent=formatTime(highscore); hsTimeEl.className='hs-time';
 }
 function checkHS(ms) {
-  if (ms > highscore) {
-    highscore = ms;
-    hsTimeEl.textContent = formatTime(highscore); hsTimeEl.className = 'hs-time';
-    if (!brokeDuring) {
-      brokeDuring = true;
-      hsBox.classList.remove('new'); void hsBox.offsetWidth; hsBox.classList.add('new');
-      setTimeout(() => hsBox.classList.remove('new'), 600);
-    }
+  if (ms>highscore) {
+    highscore=ms; hsTimeEl.textContent=formatTime(highscore); hsTimeEl.className='hs-time';
+    if (!brokeDuring) { brokeDuring=true; hsBox.classList.remove('new'); void hsBox.offsetWidth; hsBox.classList.add('new'); setTimeout(()=>hsBox.classList.remove('new'),600); }
   }
 }
 
-/* ── RANK UI ── */
-const rankBtnName   = document.getElementById('rankBtnName');
-const heroName      = document.getElementById('heroName');
-const heroImg       = document.getElementById('heroImg');
-const heroPts       = document.getElementById('heroPts');
-const heroHrs       = document.getElementById('heroHrs');
-const heroUsername  = document.getElementById('heroUsername');
-const progressNext  = document.getElementById('progressNext');
-const progressPct   = document.getElementById('progressPct');
-const progressFill  = document.getElementById('progressFill');
-const progressLabel = document.getElementById('progressLabel');
-const rankList      = document.getElementById('rankList');
-const rankupToast   = document.getElementById('rankupToast');
-let toastTimer = null;
+const rankBtnName=document.getElementById('rankBtnName'), heroName=document.getElementById('heroName');
+const heroImg=document.getElementById('heroImg'), heroPts=document.getElementById('heroPts'), heroHrs=document.getElementById('heroHrs');
+const heroUsername=document.getElementById('heroUsername'), progressNext=document.getElementById('progressNext');
+const progressPct=document.getElementById('progressPct'), progressFill=document.getElementById('progressFill');
+const progressLabel=document.getElementById('progressLabel'), rankList=document.getElementById('rankList');
+const rankupToast=document.getElementById('rankupToast');
+let toastTimer=null;
 
 function showRankUp(name) {
-  rankupToast.textContent = `rank up → ${name}`;
-  rankupToast.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => rankupToast.classList.remove('show'), 3200);
+  rankupToast.textContent=`rank up → ${name}`; rankupToast.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>rankupToast.classList.remove('show'),3200);
 }
 
 function updateRankUI(pts) {
-  const idx       = getRankIndex(pts);
-  const rank      = RANKS[idx];
-  const prog      = getRankProgress(pts);
-  const isEternal = idx === RANKS.length - 1;
-
-  rankBtnName.textContent = rank.name;
-  heroName.textContent    = rank.name;
-  heroImg.src             = RANK_IMAGES[idx] || '';
-  heroImg.alt             = rank.name;
-  heroPts.textContent     = pts.toFixed(2);
-  heroHrs.textContent     = pts.toFixed(1) + 'h';
-  heroUsername.textContent = currentUsername || '—';
-
-  progressNext.textContent  = prog.nextName ? 'next → ' + prog.nextName : 'max rank achieved';
-  progressLabel.textContent = prog.nextName ? prog.label : '—';
-  progressPct.textContent   = prog.pct.toFixed(1) + '%';
-  progressFill.style.width  = prog.pct + '%';
-  progressFill.classList.toggle('eternal', isEternal);
-  progressPct.classList.toggle('eternal', isEternal);
-
+  const idx=getRankIndex(pts), rank=RANKS[idx], prog=getRankProgress(pts), isEternal=idx===RANKS.length-1;
+  rankBtnName.textContent=rank.name; heroName.textContent=rank.name;
+  heroImg.src=RANK_IMAGES[idx]||''; heroImg.alt=rank.name;
+  heroPts.textContent=pts.toFixed(2); heroHrs.textContent=pts.toFixed(1)+'h';
+  heroUsername.textContent=currentUsername||'—';
+  progressNext.textContent=prog.nextName?'next → '+prog.nextName:'max rank achieved';
+  progressLabel.textContent=prog.nextName?prog.label:'—';
+  progressPct.textContent=prog.pct.toFixed(1)+'%'; progressFill.style.width=prog.pct+'%';
+  progressFill.classList.toggle('eternal',isEternal); progressPct.classList.toggle('eternal',isEternal);
   buildRankList(idx);
-  if (idx > prevRankIdx) { showRankUp(rank.name); prevRankIdx = idx; }
+  if (idx>prevRankIdx) { showRankUp(rank.name); prevRankIdx=idx; }
 }
 
 function buildRankList(currentIdx) {
-  rankList.innerHTML = '';
-  RANKS.forEach((r, i) => {
-    const isCurrent  = i === currentIdx;
-    const isUnlocked = i < currentIdx;
-    const isLocked   = i > currentIdx;
-    const isEternal  = i === RANKS.length - 1;
-
-    const item = document.createElement('div');
-    item.className = 'rank-item' + (isCurrent ? ' current' : '') + (isEternal ? ' eternal' : '');
-
-    const imgWrap = document.createElement('div');
-    imgWrap.className = 'rank-item-img' + (isLocked ? ' locked' : '');
-    const img = document.createElement('img');
-    img.src = RANK_IMAGES[i] || '';
-    img.alt = r.name;
+  rankList.innerHTML='';
+  RANKS.forEach((r,i)=>{
+    const isCurrent=i===currentIdx, isUnlocked=i<currentIdx, isLocked=i>currentIdx, isEternal=i===RANKS.length-1;
+    const item=document.createElement('div');
+    item.className='rank-item'+(isCurrent?' current':'')+(isEternal?' eternal':'');
+    const imgWrap=document.createElement('div');
+    imgWrap.className='rank-item-img'+(isLocked?' locked':'');
+    const img=document.createElement('img'); img.src=RANK_IMAGES[i]||''; img.alt=r.name;
     imgWrap.appendChild(img);
-
-    const info = document.createElement('div');
-    info.className = 'rank-item-info';
-    const name = document.createElement('div');
-    name.className = 'rank-item-name' + (isLocked ? ' locked' : '');
-    name.textContent = r.name;
-    const ptsEl = document.createElement('div');
-    ptsEl.className = 'rank-item-pts';
-    ptsEl.textContent = r.pts + ' pts' + (RANKS[i+1] ? ' → ' + RANKS[i+1].pts : '+');
+    const info=document.createElement('div'); info.className='rank-item-info';
+    const name=document.createElement('div'); name.className='rank-item-name'+(isLocked?' locked':''); name.textContent=r.name;
+    const ptsEl=document.createElement('div'); ptsEl.className='rank-item-pts';
+    ptsEl.textContent=r.pts+' pts'+(RANKS[i+1]?' → '+RANKS[i+1].pts:'+');
     info.appendChild(name); info.appendChild(ptsEl);
-
-    const status = document.createElement('div');
-    status.className = 'rank-item-status ' + (isCurrent ? 'current' : isUnlocked ? 'unlocked' : 'locked');
-    if (isCurrent) {
-      const badge = document.createElement('span');
-      badge.className = 'current-badge'; badge.textContent = 'current';
-      status.appendChild(badge);
-    } else { status.textContent = isUnlocked ? 'done' : 'locked'; }
-
+    const status=document.createElement('div');
+    status.className='rank-item-status '+(isCurrent?'current':isUnlocked?'unlocked':'locked');
+    if (isCurrent) { const b=document.createElement('span'); b.className='current-badge'; b.textContent='current'; status.appendChild(b); }
+    else status.textContent=isUnlocked?'done':'locked';
     item.appendChild(imgWrap); item.appendChild(info); item.appendChild(status);
     rankList.appendChild(item);
-    if (isCurrent) setTimeout(() => item.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 100);
+    if (isCurrent) setTimeout(()=>item.scrollIntoView({block:'nearest',behavior:'smooth'}),100);
   });
 }
 
-/* ── MODAL ── */
-const modalOverlay = document.getElementById('modalOverlay');
-document.getElementById('rankBtn').addEventListener('click', () => {
-  updateRankUI(msToPoints(totalStudiedMs));
-  modalOverlay.classList.add('open');
-});
-document.getElementById('modalClose').addEventListener('click', () => modalOverlay.classList.remove('open'));
-modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) modalOverlay.classList.remove('open'); });
-document.getElementById('leaderboardBtn').addEventListener('click', () => {
-  window.open('leaderboard.html', '_blank');
-});
+const modalOverlay=document.getElementById('modalOverlay');
+document.getElementById('rankBtn').addEventListener('click',()=>{ updateRankUI(msToPoints(totalStudiedMs)); modalOverlay.classList.add('open'); });
+document.getElementById('modalClose').addEventListener('click',()=>modalOverlay.classList.remove('open'));
+modalOverlay.addEventListener('click',e=>{ if(e.target===modalOverlay) modalOverlay.classList.remove('open'); });
+document.getElementById('leaderboardBtn').addEventListener('click',()=>window.open('leaderboard.html','_blank'));
+document.getElementById('trophyBtn').addEventListener('click',()=>window.open('leaderboard.html','_blank'));
 
-/* ── TROPHY BUTTON ── */
-document.getElementById('trophyBtn').addEventListener('click', () => {
-  window.open('leaderboard.html', '_blank');
-});
-
-/* ── WORKER ── */
-const workerSrc = `let iv=null;self.onmessage=function(e){if(e.data==='start'){if(!iv)iv=setInterval(()=>self.postMessage('tick'),500);}else if(e.data==='stop'){clearInterval(iv);iv=null;}};`;
+const workerSrc=`let iv=null;self.onmessage=function(e){if(e.data==='start'){if(!iv)iv=setInterval(()=>self.postMessage('tick'),500);}else if(e.data==='stop'){clearInterval(iv);iv=null;}};`;
 try {
-  worker = new Worker(URL.createObjectURL(new Blob([workerSrc], { type: 'application/javascript' })));
-  worker.onmessage = () => {
-    if (!running) return;
-    const sesMs = sessionMs + (performance.now() - startTime);
-    const liveTotal = totalStudiedMs + (performance.now() - startTime);
-    display.textContent = formatTime(sesMs); checkHS(sesMs);
-    const pts = msToPoints(liveTotal); const newIdx = getRankIndex(pts);
-    if (newIdx > prevRankIdx) { prevRankIdx = newIdx; showRankUp(RANKS[newIdx].name); rankBtnName.textContent = RANKS[newIdx].name; }
-    if (modalOverlay.classList.contains('open')) updateRankUI(pts);
+  worker=new Worker(URL.createObjectURL(new Blob([workerSrc],{type:'application/javascript'})));
+  worker.onmessage=()=>{
+    if(!running) return;
+    const sesMs=sessionMs+(performance.now()-startTime), liveTotal=totalStudiedMs+(performance.now()-startTime);
+    display.textContent=formatTime(sesMs); checkHS(sesMs);
+    const pts=msToPoints(liveTotal), newIdx=getRankIndex(pts);
+    if(newIdx>prevRankIdx){prevRankIdx=newIdx;showRankUp(RANKS[newIdx].name);rankBtnName.textContent=RANKS[newIdx].name;}
+    if(modalOverlay.classList.contains('open')) updateRankUI(pts);
   };
-} catch(e) {}
+} catch(e){}
 
 function rafTick() {
-  if (!running) return;
-  const sesMs = sessionMs + (performance.now() - startTime);
-  const liveTotal = totalStudiedMs + (performance.now() - startTime);
-  display.textContent = formatTime(sesMs); checkHS(sesMs);
-  const pts = msToPoints(liveTotal); const newIdx = getRankIndex(pts);
-  if (newIdx > prevRankIdx) { prevRankIdx = newIdx; showRankUp(RANKS[newIdx].name); rankBtnName.textContent = RANKS[newIdx].name; }
-  if (modalOverlay.classList.contains('open')) updateRankUI(pts);
-  rafId = requestAnimationFrame(rafTick);
+  if(!running) return;
+  const sesMs=sessionMs+(performance.now()-startTime), liveTotal=totalStudiedMs+(performance.now()-startTime);
+  display.textContent=formatTime(sesMs); checkHS(sesMs);
+  const pts=msToPoints(liveTotal), newIdx=getRankIndex(pts);
+  if(newIdx>prevRankIdx){prevRankIdx=newIdx;showRankUp(RANKS[newIdx].name);rankBtnName.textContent=RANKS[newIdx].name;}
+  if(modalOverlay.classList.contains('open')) updateRankUI(pts);
+  rafId=requestAnimationFrame(rafTick);
 }
 
-/* ── ZEN MODE ── */
 function enterZen() { document.body.classList.add('zen'); }
 function exitZen()  { document.body.classList.remove('zen'); }
 
-// Click anywhere on body exits zen (but not the pause button itself — that's handled separately)
-document.body.addEventListener('click', function(e) {
-  if (!document.body.classList.contains('zen')) return;
-  // Pause button click exits zen AND toggles pause — handled in pauseBtn listener
-  // Any other click just exits zen
-  if (e.target !== pauseBtn) exitZen();
+document.body.addEventListener('click',function(e){
+  if(!document.body.classList.contains('zen')) return;
+  if(e.target!==pauseBtn) exitZen();
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&document.body.classList.contains('zen')) exitZen();
 });
 
-// Escape key exits zen
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape' && document.body.classList.contains('zen')) exitZen();
-});
+const display=document.getElementById('display'), pauseBtn=document.getElementById('pauseBtn'), resetBtn=document.getElementById('resetBtn');
 
-/* ── TIMER CORE ── */
-const display  = document.getElementById('display');
-const pauseBtn = document.getElementById('pauseBtn');
-const resetBtn = document.getElementById('resetBtn');
-
-pauseBtn.addEventListener('click', () => {
-  if (!running) {
-    running = true; startTime = performance.now();
-    display.className = 'running'; pauseBtn.textContent = 'Pause';
-    if (worker) worker.postMessage('start');
-    rafId = requestAnimationFrame(rafTick);
-    // Enter zen mode when starting
+pauseBtn.addEventListener('click',()=>{
+  if(!running){
+    running=true; startTime=performance.now();
+    display.className='running'; pauseBtn.textContent='Pause';
+    if(worker) worker.postMessage('start');
+    rafId=requestAnimationFrame(rafTick);
     enterZen();
   } else {
-    const delta = performance.now() - startTime;
-    sessionMs += delta; totalStudiedMs += delta;
-    running = false; cancelAnimationFrame(rafId);
-    if (worker) worker.postMessage('stop');
-    display.className = 'paused'; pauseBtn.textContent = 'Resume';
-    // Exit zen when pausing
-    exitZen();
-    scheduleSync();
+    const delta=performance.now()-startTime;
+    sessionMs+=delta; totalStudiedMs+=delta;
+    running=false; cancelAnimationFrame(rafId);
+    if(worker) worker.postMessage('stop');
+    display.className='paused'; pauseBtn.textContent='Resume';
+    exitZen(); scheduleSync();
   }
 });
 
-resetBtn.addEventListener('click', () => {
-  if (running) {
-    const delta = performance.now() - startTime;
-    totalStudiedMs += delta;
-  }
-  running = false; sessionMs = 0; startTime = 0; brokeDuring = false;
-  cancelAnimationFrame(rafId); if (worker) worker.postMessage('stop');
-  display.textContent = '00:00:00'; display.className = 'paused'; pauseBtn.textContent = 'Start';
-  rankBtnName.textContent = RANKS[getRankIndex(msToPoints(totalStudiedMs))].name;
-  exitZen();
-  scheduleSync();
+resetBtn.addEventListener('click',()=>{
+  if(running){const delta=performance.now()-startTime;totalStudiedMs+=delta;}
+  running=false; sessionMs=0; startTime=0; brokeDuring=false;
+  cancelAnimationFrame(rafId); if(worker) worker.postMessage('stop');
+  display.textContent='00:00:00'; display.className='paused'; pauseBtn.textContent='Start';
+  rankBtnName.textContent=RANKS[getRankIndex(msToPoints(totalStudiedMs))].name;
+  exitZen(); scheduleSync();
 });
 
-/* ── SETTINGS ── */
-const settingsBtn   = document.getElementById('settingsBtn');
-const settingsPopup = document.getElementById('settingsPopup');
-const logoutBtn     = document.getElementById('logoutBtn');
+const settingsBtn=document.getElementById('settingsBtn'), settingsPopup=document.getElementById('settingsPopup'), logoutBtn=document.getElementById('logoutBtn');
+settingsBtn.addEventListener('click',function(e){ e.stopPropagation(); settingsPopup.classList.toggle('open'); });
+document.addEventListener('click',function(e){ if(!settingsPopup.contains(e.target)&&e.target!==settingsBtn) settingsPopup.classList.remove('open'); });
+logoutBtn.addEventListener('click',function(){ if(typeof window.__logout==='function') window.__logout(); else window.location.href='index.html'; });
 
-settingsBtn.addEventListener('click', function(e) {
-  e.stopPropagation();
-  settingsPopup.classList.toggle('open');
-});
-document.addEventListener('click', function(e) {
-  if (!settingsPopup.contains(e.target) && e.target !== settingsBtn) {
-    settingsPopup.classList.remove('open');
-  }
-});
-logoutBtn.addEventListener('click', function() {
-  if (typeof window.__logout === 'function') window.__logout();
-  else window.location.href = 'index.html';
-});
-
-/* ── IDENTITY OVERLAY ── */
-const identityOverlay  = document.getElementById('identityOverlay');
-const usernameInput    = document.getElementById('usernameInput');
-const identityError    = document.getElementById('identityError');
-const identityBeginBtn = document.getElementById('identityBeginBtn');
-
-function showIdentityOverlay() {
-  identityOverlay.classList.add('visible');
-  setTimeout(() => usernameInput.focus(), 600);
-}
-function hideIdentityOverlay() {
-  identityOverlay.style.transition = 'opacity 0.4s ease';
-  identityOverlay.style.opacity = '0';
-  setTimeout(() => {
-    identityOverlay.style.display = 'none';
-  }, 400);
-}
-
-function showIdentityError(msg) {
-  identityError.textContent = msg;
-  identityError.classList.add('visible');
-}
-function clearIdentityError() {
-  identityError.classList.remove('visible');
-}
-
-usernameInput.addEventListener('input', () => {
-  clearIdentityError();
-});
-usernameInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter') identityBeginBtn.click();
-});
-
-identityBeginBtn.addEventListener('click', async () => {
-  const raw = usernameInput.value.trim();
-  const valid = /^[a-zA-Z0-9_]{3,16}$/.test(raw);
-  if (!valid) {
-    showIdentityError('3–16 chars. Letters, numbers, underscore only.');
-    return;
-  }
-  identityBeginBtn.disabled = true;
-  identityBeginBtn.textContent = '...';
-  clearIdentityError();
-  // Delegates to module script
-  if (typeof window.__saveUsername === 'function') {
-    const result = await window.__saveUsername(raw);
-    if (result.ok) {
-      currentUsername = raw;
-      hideIdentityOverlay();
-    } else {
-      showIdentityError(result.error || 'Error. Try again.');
-      identityBeginBtn.disabled = false;
-      identityBeginBtn.textContent = 'BEGIN';
-    }
+const identityOverlay=document.getElementById('identityOverlay'), usernameInput=document.getElementById('usernameInput');
+const identityError=document.getElementById('identityError'), identityBeginBtn=document.getElementById('identityBeginBtn');
+function showIdentityOverlay(){ identityOverlay.classList.add('visible'); setTimeout(()=>usernameInput.focus(),600); }
+function hideIdentityOverlay(){ identityOverlay.style.transition='opacity 0.4s ease'; identityOverlay.style.opacity='0'; setTimeout(()=>{ identityOverlay.style.display='none'; },400); }
+function showIdentityError(msg){ identityError.textContent=msg; identityError.classList.add('visible'); }
+function clearIdentityError(){ identityError.classList.remove('visible'); }
+usernameInput.addEventListener('input',()=>clearIdentityError());
+usernameInput.addEventListener('keydown',e=>{ if(e.key==='Enter') identityBeginBtn.click(); });
+identityBeginBtn.addEventListener('click',async()=>{
+  const raw=usernameInput.value.trim();
+  if(!/^[a-zA-Z0-9_]{3,16}$/.test(raw)){ showIdentityError('3–16 chars. Letters, numbers, underscore only.'); return; }
+  identityBeginBtn.disabled=true; identityBeginBtn.textContent='...'; clearIdentityError();
+  if(typeof window.__saveUsername==='function'){
+    const result=await window.__saveUsername(raw);
+    if(result.ok){ currentUsername=raw; hideIdentityOverlay(); }
+    else{ showIdentityError(result.error||'Error. Try again.'); identityBeginBtn.disabled=false; identityBeginBtn.textContent='BEGIN'; }
   }
 });
 
-/* ── SYNC TO FIRESTORE (debounced) ── */
-function scheduleSync() {
-  if (!firestoreReady || !currentUid) return;
+function scheduleSync(){
+  if(!firestoreReady||!currentUid) return;
   clearTimeout(syncTimeout);
-  syncTimeout = setTimeout(() => {
-    if (typeof window.__syncProfile === 'function') {
-      window.__syncProfile();
-    }
-  }, 2000);
+  syncTimeout=setTimeout(()=>{ if(typeof window.__syncProfile==='function') window.__syncProfile(); },2000);
 }
 
-/* ── LOAD PROFILE DATA into UI ── */
-window.__loadProfileData = function(data) {
-  if (!data) return;
-  totalStudiedMs    = (data.totalStudyTime || 0) * 3600000;
-  highscore         = (data.highScore || 0) * 3600000;
-  prevRankIdx       = getRankIndex(data.rankPoints || 0);
-  currentUsername   = data.username || null;
-
+window.__loadProfileData=function(data){
+  if(!data) return;
+  totalStudiedMs=(data.totalStudyTime||0)*3600000;
+  highscore=(data.highScore||0)*3600000;
+  prevRankIdx=getRankIndex(data.rankPoints||0);
+  currentUsername=data.username||null;
   renderHS();
-  rankBtnName.textContent = getRank(data.rankPoints || 0);
-  prevRankIdx = getRankIndex(data.rankPoints || 0);
+  rankBtnName.textContent=getRank(data.rankPoints||0);
+  prevRankIdx=getRankIndex(data.rankPoints||0);
 };
 
-/* ── EXPOSE SYNC FUNCTION ── */
-window.__getTimerState = function() {
-  const liveTotal = totalStudiedMs + (running ? (performance.now() - startTime) : 0);
-  const pts = msToPoints(liveTotal);
-  return {
-    totalStudyTime: liveTotal / 3600000,
-    rankPoints:     pts,
-    currentRank:    getRank(pts),
-    highScore:      Math.max(highscore, sessionMs) / 3600000,
-  };
+window.__getTimerState=function(){
+  const liveTotal=totalStudiedMs+(running?(performance.now()-startTime):0);
+  const pts=msToPoints(liveTotal);
+  return { totalStudyTime:liveTotal/3600000, rankPoints:pts, currentRank:getRank(pts), highScore:Math.max(highscore,sessionMs)/3600000 };
 };
 
-window.__setFirestoreReady = function(uid) {
-  currentUid = uid;
-  firestoreReady = true;
-};
+window.__setFirestoreReady=function(uid){ currentUid=uid; firestoreReady=true; };
 
-/* Periodic auto-sync while timer running */
-setInterval(() => {
-  if (running && firestoreReady) scheduleSync();
-}, 60000); // sync every 60s while running
+setInterval(()=>{ if(running&&firestoreReady) scheduleSync(); },60000);
 </script>
 
 <!-- Firebase module -->
 <script type="module">
-  import { initializeApp }
-    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut }
-    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import {
-    getFirestore, doc, getDoc, setDoc, updateDoc,
-    collection, query, where, getDocs, serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDOQZw95uqm6B4TP_qGKlwqt2LYKfvITXM",
-  authDomain: "eternal-one-timer.firebaseapp.com",
-  projectId: "eternal-one-timer",
-  storageBucket: "eternal-one-timer.firebasestorage.app",
-  messagingSenderId: "1010437979682",
-  appId: "1:1010437979682:web:7a23edfd4e45439ba7547b",
-  measurementId: "G-6JR43ZSEN3"
+    authDomain: "eternal-one-timer.firebaseapp.com",
+    projectId: "eternal-one-timer",
+    storageBucket: "eternal-one-timer.firebasestorage.app",
+    messagingSenderId: "1010437979682",
+    appId: "1:1010437979682:web:7a23edfd4e45439ba7547b",
+    measurementId: "G-6JR43ZSEN3"
   };
 
-  const app  = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db   = getFirestore(app);
+  const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
+  const syncDot=document.getElementById('syncDot');
+  function setSyncState(s){ syncDot.className='sync-dot '+s; }
 
-  const syncDot = document.getElementById('syncDot');
-  function setSyncState(s) { syncDot.className = 'sync-dot ' + s; }
-
-  /* ── AUTH GATE ── */
-  onAuthStateChanged(auth, async user => {
-    if (!user) { window.location.href = 'index.html'; return; }
-
+  onAuthStateChanged(auth,async user=>{
+    if(!user){ window.location.href='index.html'; return; }
     window.__setFirestoreReady(user.uid);
-
-    // Load or create profile
-    const userRef  = doc(db, 'users', user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (!userSnap.exists()) {
-      // Brand new user — create base document, show username overlay
-      await setDoc(userRef, {
-        username:      null,
-        usernameLower: null,
-        rankPoints:    0,
-        currentRank:   'Wanderer I',
-        highScore:     0,
-        totalStudyTime:0,
-        rankHistory:   [],
-        createdAt:     serverTimestamp(),
-        updatedAt:     serverTimestamp(),
-      });
+    const userRef=doc(db,'users',user.uid), userSnap=await getDoc(userRef);
+    if(!userSnap.exists()){
+      await setDoc(userRef,{ username:null,usernameLower:null,rankPoints:0,currentRank:'Wanderer I',highScore:0,totalStudyTime:0,rankHistory:[],createdAt:serverTimestamp(),updatedAt:serverTimestamp() });
       showIdentityOverlay();
     } else {
-      const data = userSnap.data();
-      if (!data.username) {
-        // Old user without username
-        showIdentityOverlay();
-      } else {
-        hideIdentityOverlay();
-      }
-      // Load profile into UI
-      if (typeof window.__loadProfileData === 'function') {
-        window.__loadProfileData(data);
-      }
+      const data=userSnap.data();
+      if(!data.username) showIdentityOverlay(); else hideIdentityOverlay();
+      if(typeof window.__loadProfileData==='function') window.__loadProfileData(data);
     }
   });
 
-  function showIdentityOverlay() {
-    document.getElementById('identityOverlay').classList.add('visible');
-    setTimeout(() => document.getElementById('usernameInput').focus(), 600);
-  }
-  function hideIdentityOverlay() {
-    const el = document.getElementById('identityOverlay');
-    el.style.transition = 'opacity 0.4s ease';
-    el.style.opacity = '0';
-    setTimeout(() => { el.style.display = 'none'; }, 400);
-  }
+  function showIdentityOverlay(){ document.getElementById('identityOverlay').classList.add('visible'); setTimeout(()=>document.getElementById('usernameInput').focus(),600); }
+  function hideIdentityOverlay(){ const el=document.getElementById('identityOverlay'); el.style.transition='opacity 0.4s ease'; el.style.opacity='0'; setTimeout(()=>{ el.style.display='none'; },400); }
 
-  /* ── SAVE USERNAME ── */
-  window.__saveUsername = async function(raw) {
-    const lower   = raw.toLowerCase();
-    const authUser = auth.currentUser;
-    if (!authUser) return { ok: false, error: 'Not authenticated.' };
-
-    // Check uniqueness
-    const q = query(
-      collection(db, 'users'),
-      where('usernameLower', '==', lower)
-    );
-    const snap = await getDocs(q);
-    if (!snap.empty) {
-      return { ok: false, error: 'Identity already taken.' };
-    }
-
-    // Save
-    const userRef = doc(db, 'users', authUser.uid);
-    await updateDoc(userRef, {
-      username:      raw,
-      usernameLower: lower,
-      updatedAt:     serverTimestamp(),
-    });
-
-    return { ok: true };
+  window.__saveUsername=async function(raw){
+    const lower=raw.toLowerCase(), authUser=auth.currentUser;
+    if(!authUser) return{ok:false,error:'Not authenticated.'};
+    const q=query(collection(db,'users'),where('usernameLower','==',lower));
+    const snap=await getDocs(q);
+    if(!snap.empty) return{ok:false,error:'Identity already taken.'};
+    await updateDoc(doc(db,'users',authUser.uid),{ username:raw,usernameLower:lower,updatedAt:serverTimestamp() });
+    return{ok:true};
   };
 
-  /* ── SYNC PROFILE ── */
-  window.__syncProfile = async function() {
-    const authUser = auth.currentUser;
-    if (!authUser) return;
-    if (typeof window.__getTimerState !== 'function') return;
-
+  window.__syncProfile=async function(){
+    const authUser=auth.currentUser;
+    if(!authUser||typeof window.__getTimerState!=='function') return;
     setSyncState('syncing');
-    try {
-      const state   = window.__getTimerState();
-      const userRef = doc(db, 'users', authUser.uid);
-      const snap    = await getDoc(userRef);
-      const existing = snap.exists() ? snap.data() : {};
-
-      // Only update if we have more data than what's stored
-      const updateData = {
-        rankPoints:     state.rankPoints,
-        currentRank:    state.currentRank,
-        totalStudyTime: state.totalStudyTime,
-        updatedAt:      serverTimestamp(),
-      };
-
-      // Update highScore only if new one is higher
-      const storedHS = existing.highScore || 0;
-      if (state.highScore > storedHS) {
-        updateData.highScore = state.highScore;
+    try{
+      const state=window.__getTimerState(), userRef=doc(db,'users',authUser.uid);
+      const snap=await getDoc(userRef), existing=snap.exists()?snap.data():{};
+      const updateData={ rankPoints:state.rankPoints,currentRank:state.currentRank,totalStudyTime:state.totalStudyTime,updatedAt:serverTimestamp() };
+      if(state.highScore>(existing.highScore||0)) updateData.highScore=state.highScore;
+      if(existing.currentRank&&existing.currentRank!==state.currentRank){
+        const history=existing.rankHistory||[];
+        history.push({rank:state.currentRank,at:new Date().toISOString()});
+        updateData.rankHistory=history.slice(-50);
       }
-
-      // Append to rankHistory if rank changed
-      const storedRank = existing.currentRank;
-      if (storedRank && storedRank !== state.currentRank) {
-        const history = existing.rankHistory || [];
-        history.push({ rank: state.currentRank, at: new Date().toISOString() });
-        updateData.rankHistory = history.slice(-50); // keep last 50
-      }
-
-      await updateDoc(userRef, updateData);
-      setSyncState('synced');
-      setTimeout(() => setSyncState(''), 3000);
-    } catch(e) {
-      setSyncState('error');
-      setTimeout(() => setSyncState(''), 3000);
-      console.error('Sync error:', e);
-    }
+      await updateDoc(userRef,updateData);
+      setSyncState('synced'); setTimeout(()=>setSyncState(''),3000);
+    } catch(e){ setSyncState('error'); setTimeout(()=>setSyncState(''),3000); console.error('Sync error:',e); }
   };
 
-  /* ── LOGOUT ── */
-  window.__logout = async function() {
-    // Sync before logout
-    if (typeof window.__syncProfile === 'function') {
-      await window.__syncProfile();
-    }
-    try { await signOut(auth); } catch(e) {}
-    window.location.href = 'index.html';
+  window.__logout=async function(){
+    if(typeof window.__syncProfile==='function') await window.__syncProfile();
+    try{ await signOut(auth); } catch(e){}
+    window.location.href='index.html';
   };
 </script>
 </body>
