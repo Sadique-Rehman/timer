@@ -180,7 +180,6 @@ html, body {
   content: '';
   position: absolute; inset: 0;
   background: rgba(5,0,0,0.58);
-  /* Lower this opacity once your image is in, e.g. rgba(5,0,0,0.40) */
 }
 
 /* Ensure content sits above bg layer */
@@ -396,24 +395,6 @@ body.zen #pauseBtn {
 .modal-close { background: none; border: none; cursor: pointer; color: var(--text-off);
   font-size: 18px; line-height: 1; padding: 0 2px; transition: color 0.2s; font-family: inherit; }
 .modal-close:hover { color: var(--text); }
-
-.leaderboard-icon-btn {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--surface2); border: 1px solid var(--border); border-radius: 2px;
-  cursor: pointer; color: var(--text-muted);
-  padding: 5px 10px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase;
-  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s; white-space: nowrap;
-}
-.leaderboard-icon-btn:hover {
-  color: var(--accent-soft); border-color: var(--accent-border);
-  box-shadow: 0 0 12px rgba(124,58,237,0.15);
-}
-[data-theme="redbull"] .leaderboard-icon-btn:hover {
-  color: #60a5fa; border-color: var(--accent);
-  box-shadow: 0 0 12px rgba(29,111,232,0.3);
-}
 
 .rank-hero { padding: 1.4rem 1.6rem; border-bottom: 1px solid var(--border);
   display: flex; gap: 1.2rem; align-items: center; flex-shrink: 0; }
@@ -802,10 +783,6 @@ body.zen .zen-hint { opacity: 1; }
 [data-theme="redbull"] .sync-dot.syncing {
   box-shadow: 0 0 10px rgba(225,26,26,0.7);
 }
-[data-theme="redbull"] .leaderboard-icon-btn:hover {
-  color: #ff5555; border-color: #cc1a1a;
-  box-shadow: 0 0 12px rgba(225,26,26,0.2);
-}
 [data-theme="redbull"] .dot { background: #2a1010; }
 [data-theme="redbull"] .identity-input:focus {
   border-color: #e11a1a; box-shadow: 0 0 0 1px #150606, 0 0 20px rgba(225,26,26,0.12);
@@ -860,11 +837,170 @@ body.zen .zen-hint { opacity: 1; }
 }
 [data-theme="light"] #display.paused { color: #bbb; }
 [data-theme="light"] #display.running { color: #111; }
+
+/* ═══════════════════════════════════════════════
+   INLINE LEADERBOARD MODAL
+   ═══════════════════════════════════════════════ */
+.lb-modal-overlay {
+  position: fixed; inset: 0;
+  background: var(--modal-overlay);
+  backdrop-filter: blur(var(--overlay-blur));
+  z-index: 500; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.lb-modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.lb-modal {
+  width: min(480px, 92vw);
+  background: var(--modal-bg); border: 1px solid var(--border); border-radius: 4px;
+  box-shadow: 0 0 0 1px var(--border-bright), 0 40px 80px rgba(0,0,0,0.85);
+  display: flex; flex-direction: column;
+  transform: translateY(18px) scale(0.98); transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+  overflow: hidden;
+}
+[data-theme="redbull"] .lb-modal {
+  box-shadow: 0 0 0 1px #cc1a1a, 0 40px 80px rgba(0,0,0,0.95), 0 0 40px rgba(225,26,26,0.07);
+}
+[data-theme="light"] .lb-modal {
+  box-shadow: 0 0 0 1px var(--border), 0 40px 80px rgba(0,0,0,0.15);
+}
+.lb-modal-overlay.open .lb-modal { transform: translateY(0) scale(1); }
+
+/* Header — big title only */
+.lb-modal-header {
+  padding: 1.1rem 1.3rem 1rem; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+}
+.lb-modal-title {
+  font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: var(--text);
+}
+.lb-modal-close {
+  background: none; border: none; cursor: pointer; color: var(--text-off);
+  font-size: 16px; line-height: 1; padding: 0 2px;
+  transition: color 0.2s; font-family: inherit;
+}
+.lb-modal-close:hover { color: var(--text); }
+
+/* Table — no scroll wrapper, shows all rows inline */
+.lb-table-wrap { overflow: visible; }
+
+table.lb-tbl {
+  width: 100%; border-collapse: collapse; table-layout: fixed;
+}
+/* Fixed column widths — ratio 1 : 3 : 3.5 : 1.5 */
+table.lb-tbl colgroup col.lc-pos   { width: 10%; }
+table.lb-tbl colgroup col.lc-user  { width: 30%; }
+table.lb-tbl colgroup col.lc-rank  { width: 35%; }
+table.lb-tbl colgroup col.lc-score { width: 15%; }
+
+table.lb-tbl thead tr {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+table.lb-tbl thead th {
+  font-size: 7px; letter-spacing: 0.45em; text-transform: uppercase;
+  color: var(--text-dim); font-weight: 400;
+  padding: 0.45rem 0.75rem; text-align: left;
+  border-right: 1px solid var(--border);
+}
+table.lb-tbl thead th:last-child { border-right: none; }
+table.lb-tbl thead th.th-center { text-align: center; }
+table.lb-tbl thead th.th-right  { text-align: right; }
+
+table.lb-tbl tbody tr {
+  border-bottom: 1px solid var(--surface3);
+  transition: background 0.12s;
+}
+table.lb-tbl tbody tr:last-child { border-bottom: none; }
+table.lb-tbl tbody tr:hover { background: var(--surface2); }
+
+/* Row tints */
+table.lb-tbl tbody tr.lbr-gold   { background: rgba(180,140,30,0.04); }
+table.lb-tbl tbody tr.lbr-silver { background: rgba(160,160,160,0.03); }
+table.lb-tbl tbody tr.lbr-bronze { background: rgba(160,100,50,0.03); }
+table.lb-tbl tbody tr.lbr-me     { background: var(--accent-panel); }
+table.lb-tbl tbody tr.lbr-me td:first-child { border-left: 2px solid var(--accent); }
+[data-theme="redbull"] table.lb-tbl tbody tr.lbr-me { background: rgba(225,26,26,0.06); }
+[data-theme="redbull"] table.lb-tbl tbody tr.lbr-me td:first-child { border-left-color: #e11a1a; }
+
+/* Compact rows — all 10 visible without scrolling */
+table.lb-tbl tbody td {
+  padding: 0.38rem 0.75rem; vertical-align: middle;
+  border-right: 1px solid var(--surface3);
+  font-size: 11px; color: var(--text-muted);
+}
+table.lb-tbl tbody td:last-child { border-right: none; }
+
+/* # col */
+.lb-pos {
+  text-align: center; font-size: 10px; font-weight: 600;
+  font-variant-numeric: tabular-nums; color: var(--text-dim);
+}
+.lbr-gold   .lb-pos { color: #b8942a; }
+.lbr-silver .lb-pos { color: #888; }
+.lbr-bronze .lb-pos { color: #7a5832; }
+.lb-pos-inner { display: flex; align-items: center; justify-content: center; gap: 3px; }
+.lb-medal { font-size: 10px; line-height: 1; }
+
+/* Player col */
+.lb-user-cell { display: flex; align-items: center; gap: 5px; }
+.lb-username {
+  font-size: 11px; font-weight: 500; color: var(--text-muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.lbr-gold   .lb-username { color: var(--text); }
+.lbr-silver .lb-username { color: var(--text-muted); }
+.lbr-bronze .lb-username { color: var(--text-muted); }
+.lbr-me     .lb-username { color: var(--accent-soft); }
+[data-theme="redbull"] .lbr-me .lb-username { color: #ff6666; }
+.lb-you-tag {
+  font-size: 6px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--accent-soft); border: 1px solid var(--accent-border);
+  padding: 1px 3px; border-radius: 1px; background: var(--accent-badge-bg);
+  flex-shrink: 0; font-weight: 500;
+}
+[data-theme="redbull"] .lb-you-tag { color: #ff6666; border-color: #cc1a1a; background: rgba(225,26,26,0.08); }
+
+/* Rank col */
+.lb-rank-cell { display: flex; align-items: center; gap: 6px; }
+.lb-rank-img-wrap {
+  width: 20px; height: 20px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.lb-rank-img-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.lb-rank-name {
+  font-size: 10px; font-weight: 400; color: var(--text-dim);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.lb-rank-name.eternal { color: #f59e0b; }
+
+/* Hours col */
+.lb-score-cell { text-align: right; white-space: nowrap; }
+.lb-score-val {
+  font-size: 11px; font-weight: 600; color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.lb-score-unit {
+  font-size: 7px; color: var(--text-faint);
+  letter-spacing: 0.25em; text-transform: uppercase; margin-left: 2px;
+}
+.lbr-gold   .lb-score-val { color: var(--text-muted); }
+.lbr-silver .lb-score-val { color: var(--text-dim); }
+.lbr-bronze .lb-score-val { color: var(--text-dim); }
+.lbr-me     .lb-score-val { color: var(--accent-soft); }
+[data-theme="redbull"] .lbr-me .lb-score-val { color: #ff5555; }
+
+/* Empty */
+.lb-empty-row td {
+  text-align: center; padding: 2rem 0;
+  font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--text-faint);
+}
 </style>
 </head>
 <body>
 
-<!-- RED BULL BACKGROUND LAYER — add your image here via CSS later -->
+<!-- RED BULL BACKGROUND LAYER -->
 <div class="redbull-bg-layer" id="redbullBgLayer"></div>
 
 <!-- IDENTITY OVERLAY -->
@@ -923,22 +1059,12 @@ body.zen .zen-hint { opacity: 1; }
 <!-- Rank-up toast -->
 <div class="rankup-toast" id="rankupToast"></div>
 
-<!-- Rank modal -->
+<!-- Rank modal (no leaderboard button inside) -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-header">
       <span class="modal-title">Ranking</span>
       <div class="modal-header-actions">
-        <button class="leaderboard-icon-btn" id="leaderboardBtn">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 9H4a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h.5"/>
-            <path d="M18 9h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-.5"/>
-            <path d="M6 4h12v10a6 6 0 0 1-12 0V4z"/>
-            <line x1="12" y1="20" x2="12" y2="24"/>
-            <line x1="8"  y1="24" x2="16" y2="24"/>
-          </svg>
-          Leaderboard
-        </button>
         <button class="modal-close" id="modalClose">✕</button>
       </div>
     </div>
@@ -963,6 +1089,37 @@ body.zen .zen-hint { opacity: 1; }
   </div>
 </div>
 
+<!-- ══ INLINE LEADERBOARD MODAL ══ -->
+<div class="lb-modal-overlay" id="lbModalOverlay">
+  <div class="lb-modal">
+    <div class="lb-modal-header">
+      <div class="lb-modal-title">Leaderboard</div>
+      <button class="lb-modal-close" id="lbModalClose">✕</button>
+    </div>
+    <div class="lb-table-wrap">
+      <table class="lb-tbl">
+        <colgroup>
+          <col class="lc-pos">
+          <col class="lc-user">
+          <col class="lc-rank">
+          <col class="lc-score">
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="th-center">#</th>
+            <th>Player</th>
+            <th>Rank</th>
+            <th class="th-right">Hrs</th>
+          </tr>
+        </thead>
+        <tbody id="lbTableBody">
+          <tr class="lb-empty-row"><td colspan="4">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- Settings bottom-left -->
 <button class="settings-btn" id="settingsBtn" aria-label="Settings">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -971,7 +1128,7 @@ body.zen .zen-hint { opacity: 1; }
   </svg>
 </button>
 
-<!-- Settings popup — Themes button added ABOVE Logout -->
+<!-- Settings popup -->
 <div class="settings-popup" id="settingsPopup">
   <button class="themes-btn" id="themesBtn">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -991,7 +1148,7 @@ body.zen .zen-hint { opacity: 1; }
   </button>
 </div>
 
-<!-- ══ THEME SELECTION MODAL ══ -->
+<!-- THEME SELECTION MODAL -->
 <div class="theme-modal-overlay" id="themeModalOverlay">
   <div class="theme-modal" id="themeModal">
     <div class="theme-modal-header">
@@ -999,70 +1156,39 @@ body.zen .zen-hint { opacity: 1; }
       <button class="theme-modal-close" id="themeModalClose">✕</button>
     </div>
     <div class="theme-cards">
-
-      <!-- Dark (default) -->
       <button class="theme-card" data-theme-id="dark" tabindex="0">
         <div class="theme-preview preview-dark">
-          <div class="pv-bar">
-            <div class="pv-pill"></div>
-            <div class="pv-pill"></div>
-          </div>
+          <div class="pv-bar"><div class="pv-pill"></div><div class="pv-pill"></div></div>
           <div class="pv-time">00:00:00</div>
-          <div class="pv-btns">
-            <div class="pv-btn-r"></div>
-            <div class="pv-btn-g"></div>
-          </div>
+          <div class="pv-btns"><div class="pv-btn-r"></div><div class="pv-btn-g"></div></div>
         </div>
         <div class="theme-card-label">Dark</div>
         <div class="theme-card-tick">
-          <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1.5,5 4,7.5 8.5,2.5"/>
-          </svg>
+          <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
         </div>
       </button>
-
-      <!-- Light -->
       <button class="theme-card" data-theme-id="light" tabindex="0">
         <div class="theme-preview preview-light">
-          <div class="pv-bar">
-            <div class="pv-pill"></div>
-            <div class="pv-pill"></div>
-          </div>
+          <div class="pv-bar"><div class="pv-pill"></div><div class="pv-pill"></div></div>
           <div class="pv-time">00:00:00</div>
-          <div class="pv-btns">
-            <div class="pv-btn-r"></div>
-            <div class="pv-btn-g"></div>
-          </div>
+          <div class="pv-btns"><div class="pv-btn-r"></div><div class="pv-btn-g"></div></div>
         </div>
         <div class="theme-card-label">Light</div>
         <div class="theme-card-tick">
-          <svg viewBox="0 0 10 10" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1.5,5 4,7.5 8.5,2.5"/>
-          </svg>
+          <svg viewBox="0 0 10 10" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
         </div>
       </button>
-
-      <!-- Red Bull -->
       <button class="theme-card" data-theme-id="redbull" tabindex="0">
         <div class="theme-preview preview-redbull">
-          <div class="pv-bar">
-            <div class="pv-pill"></div>
-            <div class="pv-pill"></div>
-          </div>
+          <div class="pv-bar"><div class="pv-pill"></div><div class="pv-pill"></div></div>
           <div class="pv-time">00:00:00</div>
-          <div class="pv-btns">
-            <div class="pv-btn-r"></div>
-            <div class="pv-btn-g"></div>
-          </div>
+          <div class="pv-btns"><div class="pv-btn-r"></div><div class="pv-btn-g"></div></div>
         </div>
         <div class="theme-card-label">Red Bull F1</div>
         <div class="theme-card-tick">
-          <svg viewBox="0 0 10 10" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1.5,5 4,7.5 8.5,2.5"/>
-          </svg>
+          <svg viewBox="0 0 10 10" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
         </div>
       </button>
-
     </div>
   </div>
 </div>
@@ -1184,8 +1310,9 @@ const modalOverlay=document.getElementById('modalOverlay');
 document.getElementById('rankBtn').addEventListener('click',()=>{ updateRankUI(msToPoints(totalStudiedMs)); modalOverlay.classList.add('open'); });
 document.getElementById('modalClose').addEventListener('click',()=>modalOverlay.classList.remove('open'));
 modalOverlay.addEventListener('click',e=>{ if(e.target===modalOverlay) modalOverlay.classList.remove('open'); });
-document.getElementById('leaderboardBtn').addEventListener('click',()=>window.open('leaderboard.html','_blank'));
-document.getElementById('trophyBtn').addEventListener('click',()=>window.open('leaderboard.html','_blank'));
+
+// Trophy opens inline leaderboard
+document.getElementById('trophyBtn').addEventListener('click',()=>openLbModal());
 
 const workerSrc=`let iv=null;self.onmessage=function(e){if(e.data==='start'){if(!iv)iv=setInterval(()=>self.postMessage('tick'),500);}else if(e.data==='stop'){clearInterval(iv);iv=null;}};`;
 try {
@@ -1301,7 +1428,7 @@ window.__setFirestoreReady=function(uid){ currentUid=uid; firestoreReady=true; }
 setInterval(()=>{ if(running&&firestoreReady) scheduleSync(); },60000);
 
 /* ═══════════════════════════════════════════════
-   THEME SYSTEM JAVASCRIPT — NEW CODE ONLY
+   THEME SYSTEM
    ═══════════════════════════════════════════════ */
 (function() {
   const THEMES = ['dark', 'light', 'redbull'];
@@ -1310,18 +1437,12 @@ setInterval(()=>{ if(running&&firestoreReady) scheduleSync(); },60000);
   function applyTheme(themeId) {
     if (!THEMES.includes(themeId)) themeId = 'dark';
     const root = document.documentElement;
-    // Remove all theme attrs first
     root.removeAttribute('data-theme');
     document.body.removeAttribute('data-theme');
-    // Apply: dark = no attribute (uses :root defaults), others get data-theme
-    if (themeId !== 'dark') {
-      root.setAttribute('data-theme', themeId);
-    }
-    // Update active card
+    if (themeId !== 'dark') root.setAttribute('data-theme', themeId);
     document.querySelectorAll('.theme-card').forEach(card => {
       card.classList.toggle('active', card.dataset.themeId === themeId);
     });
-    // Persist
     try { localStorage.setItem(STORAGE_KEY, themeId); } catch(e) {}
   }
 
@@ -1329,10 +1450,8 @@ setInterval(()=>{ if(running&&firestoreReady) scheduleSync(); },60000);
     try { return localStorage.getItem(STORAGE_KEY) || 'dark'; } catch(e) { return 'dark'; }
   }
 
-  // Apply saved theme immediately on load
   applyTheme(getSavedTheme());
 
-  // Theme modal open/close
   const themeModalOverlay = document.getElementById('themeModalOverlay');
   const themesBtn = document.getElementById('themesBtn');
   const themeModalClose = document.getElementById('themeModalClose');
@@ -1343,36 +1462,48 @@ setInterval(()=>{ if(running&&firestoreReady) scheduleSync(); },60000);
     settingsPopupEl.classList.remove('open');
     themeModalOverlay.classList.add('open');
   });
+  themeModalClose.addEventListener('click', function() { themeModalOverlay.classList.remove('open'); });
+  themeModalOverlay.addEventListener('click', function(e) { if (e.target === themeModalOverlay) themeModalOverlay.classList.remove('open'); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') themeModalOverlay.classList.remove('open'); });
 
-  themeModalClose.addEventListener('click', function() {
-    themeModalOverlay.classList.remove('open');
-  });
-
-  themeModalOverlay.addEventListener('click', function(e) {
-    if (e.target === themeModalOverlay) themeModalOverlay.classList.remove('open');
-  });
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') themeModalOverlay.classList.remove('open');
-  });
-
-  // Theme card clicks
   document.querySelectorAll('.theme-card').forEach(card => {
-    card.addEventListener('click', function() {
-      applyTheme(this.dataset.themeId);
-    });
+    card.addEventListener('click', function() { applyTheme(this.dataset.themeId); });
     card.addEventListener('keydown', function(e) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applyTheme(this.dataset.themeId); }
     });
   });
 })();
+
+/* ═══════════════════════════════════════════════
+   INLINE LEADERBOARD — open/close
+   ═══════════════════════════════════════════════ */
+const lbModalOverlay = document.getElementById('lbModalOverlay');
+const lbModalClose   = document.getElementById('lbModalClose');
+
+function openLbModal() {
+  lbModalOverlay.classList.add('open');
+  // trigger firebase load if ready
+  if (typeof window.__startLbListener === 'function') window.__startLbListener();
+}
+function closeLbModal() {
+  lbModalOverlay.classList.remove('open');
+  if (typeof window.__stopLbListener === 'function') window.__stopLbListener();
+}
+
+lbModalClose.addEventListener('click', closeLbModal);
+lbModalOverlay.addEventListener('click', e => { if (e.target === lbModalOverlay) closeLbModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLbModal(); });
 </script>
 
-<!-- Firebase module — UNCHANGED -->
+<!-- Firebase module -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getFirestore, doc, getDoc, setDoc, updateDoc,
+    collection, query, where, orderBy, limit,
+    getDocs, onSnapshot, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDOQZw95uqm6B4TP_qGKlwqt2LYKfvITXM",
@@ -1388,17 +1519,143 @@ setInterval(()=>{ if(running&&firestoreReady) scheduleSync(); },60000);
   const syncDot=document.getElementById('syncDot');
   function setSyncState(s){ syncDot.className='sync-dot '+s; }
 
-  onAuthStateChanged(auth,async user=>{
-    if(!user){ window.location.href='index.html'; return; }
+  // ── Leaderboard inline rendering ──
+  const RANK_IMAGES_LB = [
+    './rank_png/Bronze_1_Rank.png',   './rank_png/Bronze_3_Rank.png',
+    './rank_png/Silver_1_Rank.png',   './rank_png/Silver_3_Rank.png',
+    './rank_png/Gold_1_Rank.png',     './rank_png/Gold_3_Rank.png',
+    './rank_png/Platinum_1_Rank.png', './rank_png/Platinum_3_Rank.png',
+    './rank_png/Diamond_1_Rank.png',  './rank_png/Diamond_3_Rank.png',
+    './rank_png/Ascendant_1_Rank.png','./rank_png/Ascendant_3_Rank.png',
+    './rank_png/Immortal_1_Rank.png', './rank_png/Immortal_3_Rank.png',
+    './rank_png/Radiant_Rank.png',
+  ];
+  const RANKS_LB = [
+    { name: 'Wanderer I',      pts: 0   }, { name: 'Wanderer II',     pts: 5   },
+    { name: 'Seeker I',        pts: 10  }, { name: 'Seeker II',       pts: 15  },
+    { name: 'Shadow I',        pts: 20  }, { name: 'Shadow II',       pts: 30  },
+    { name: 'Phantom I',       pts: 40  }, { name: 'Phantom II',      pts: 55  },
+    { name: 'Reaper I',        pts: 70  }, { name: 'Reaper II',       pts: 90  },
+    { name: 'Abyss Walker I',  pts: 110 }, { name: 'Abyss Walker II', pts: 140 },
+    { name: 'Eternal I',       pts: 170 }, { name: 'Eternal II',      pts: 210 },
+    { name: 'THE ETERNAL ONE', pts: 250 },
+  ];
+  function lbGetRankIdx(pts) {
+    let i = 0;
+    for (; i < RANKS_LB.length; i++) { if (pts < RANKS_LB[i].pts) break; else i = i; }
+    let idx = 0;
+    for (let j = 0; j < RANKS_LB.length; j++) { if (pts >= RANKS_LB[j].pts) idx = j; else break; }
+    return idx;
+  }
+
+  const lbBody = document.getElementById('lbTableBody');
+
+  let lbUnsub = null;
+  let currentUidLb = null;
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function renderLb(docs) {
+    // filter: must have username, rankPoints >= 0.5h
+    const users = docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .filter(u => u.username && Number(u.rankPoints || 0) >= 0.5)
+      .slice(0, 10);
+
+    if (users.length === 0) {
+      lbBody.innerHTML = '<tr class="lb-empty-row"><td colspan="4">no qualifying players yet</td></tr>';
+      return;
+    }
+
+    lbBody.innerHTML = '';
+    const MEDALS = ['🥇','🥈','🥉'];
+
+    users.forEach((u, i) => {
+      const pos      = i + 1;
+      const pts      = Number(u.rankPoints || 0);
+      const ridx     = lbGetRankIdx(pts);
+      const rankName = RANKS_LB[ridx].name;
+      const rankImg  = RANK_IMAGES_LB[ridx] || '';
+      const isEternal= rankName === 'THE ETERNAL ONE';
+      const isMe     = u.id === currentUidLb;
+      const hrs      = pts.toFixed(1);
+
+      let rowCls = '';
+      if (isMe)     rowCls += ' lbr-me';
+      if (pos === 1) rowCls += ' lbr-gold';
+      else if (pos === 2) rowCls += ' lbr-silver';
+      else if (pos === 3) rowCls += ' lbr-bronze';
+
+      const medal = MEDALS[i] || '';
+      const posTxt = String(pos).padStart(2,'0');
+
+      const tr = document.createElement('tr');
+      tr.className = rowCls.trim();
+
+      tr.innerHTML = `
+        <td>
+          <div class="lb-pos">
+            <div class="lb-pos-inner">
+              ${medal ? `<span class="lb-medal">${medal}</span>` : ''}
+              <span>${posTxt}</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="lb-user-cell">
+            <span class="lb-username">${escHtml(u.username)}</span>
+            ${isMe ? '<span class="lb-you-tag">you</span>' : ''}
+          </div>
+        </td>
+        <td>
+          <div class="lb-rank-cell">
+            <div class="lb-rank-img-wrap">
+              <img src="${rankImg}" alt="${rankName}" onerror="this.style.display='none'">
+            </div>
+            <span class="lb-rank-name${isEternal?' eternal':''}">${rankName}</span>
+          </div>
+        </td>
+        <td class="lb-score-cell">
+          <span class="lb-score-val">${hrs}</span><span class="lb-score-unit">h</span>
+        </td>
+      `;
+      lbBody.appendChild(tr);
+    });
+  }
+
+  window.__startLbListener = function() {
+    if (lbUnsub) return; // already listening
+    const q = query(
+      collection(db, 'users'),
+      orderBy('rankPoints', 'desc'),
+      limit(20) // fetch 20, then filter to get 10 qualifying
+    );
+    lbUnsub = onSnapshot(q, snap => {
+      renderLb(snap.docs);
+    }, err => {
+      console.error('LB error:', err);
+      lbBody.innerHTML = '<tr class="lb-empty-row"><td colspan="4">error loading</td></tr>';
+    });
+  };
+
+  window.__stopLbListener = function() {
+    if (lbUnsub) { lbUnsub(); lbUnsub = null; }
+  };
+
+  onAuthStateChanged(auth, async user => {
+    if (!user) { window.location.href='index.html'; return; }
     window.__setFirestoreReady(user.uid);
+    currentUidLb = user.uid;
     const userRef=doc(db,'users',user.uid), userSnap=await getDoc(userRef);
-    if(!userSnap.exists()){
+    if (!userSnap.exists()) {
       await setDoc(userRef,{ username:null,usernameLower:null,rankPoints:0,currentRank:'Wanderer I',highScore:0,totalStudyTime:0,rankHistory:[],createdAt:serverTimestamp(),updatedAt:serverTimestamp() });
       showIdentityOverlay();
     } else {
       const data=userSnap.data();
-      if(!data.username) showIdentityOverlay(); else hideIdentityOverlay();
-      if(typeof window.__loadProfileData==='function') window.__loadProfileData(data);
+      if (!data.username) showIdentityOverlay(); else hideIdentityOverlay();
+      if (typeof window.__loadProfileData==='function') window.__loadProfileData(data);
     }
   });
 
@@ -1436,6 +1693,7 @@ setInterval(()=>{ if(running&&firestoreReady) scheduleSync(); },60000);
 
   window.__logout=async function(){
     if(typeof window.__syncProfile==='function') await window.__syncProfile();
+    window.__stopLbListener && window.__stopLbListener();
     try{ await signOut(auth); } catch(e){}
     window.location.href='index.html';
   };
