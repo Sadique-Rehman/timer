@@ -190,7 +190,7 @@ html, body {
 
 /* Ensure content sits above bg layer */
 .top-left-group, .hs-box, .wrap, .sync-dot,
-.settings-btn, .settings-popup, .zen-hint,
+.settings-btn, .settings-popup,
 .modal-overlay, #identityOverlay, .rankup-toast {
   position: relative; z-index: 10;
 }
@@ -233,6 +233,47 @@ html, body {
 .btn:active::after { content: ''; position: absolute; inset: 0; border-radius: 999px; background: var(--btn-active-fg); }
 .btn-text, .dot { display: none; }
 
+.mode-switch {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.25rem; border-radius: 999px; background: transparent;
+}
+.mode-btn {
+  border: none; background: transparent; cursor: pointer;
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600;
+  letter-spacing: 0.32em; text-transform: uppercase; color: var(--text-dim);
+  padding: 0.45rem 0.75rem; border-radius: 999px;
+  transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+.mode-btn:hover { color: var(--text-muted); background: var(--soft-tint); }
+.mode-btn.active { color: var(--accent-soft); background: var(--soft-tint); }
+.timer-editor {
+  display: none; align-items: center; justify-content: center; gap: 0.75rem;
+  min-height: 34px; margin-top: -2.2rem; color: var(--text-muted);
+}
+.timer-editor.open { display: flex; }
+.timer-presets { display: inline-flex; align-items: center; gap: 0.35rem; }
+.timer-preset, .timer-apply {
+  border: none; background: transparent; color: var(--text-muted); cursor: pointer;
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; padding: 0.45rem 0.65rem; border-radius: 999px;
+  transition: color 0.18s ease, background 0.18s ease;
+}
+.timer-preset:hover, .timer-apply:hover { color: var(--text); background: var(--soft-tint); }
+.timer-apply { color: var(--accent-soft); }
+.timer-inputs { display: inline-flex; align-items: center; gap: 0.25rem; }
+.timer-inputs input {
+  width: 3.2rem; border: none; border-bottom: 1px solid var(--divider);
+  background: transparent; color: var(--text); outline: none; text-align: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 13px; font-variant-numeric: tabular-nums;
+  padding: 0.3rem 0.1rem;
+}
+.timer-inputs span { color: var(--text-dim); font-size: 11px; }
+body.zen .mode-switch, body.zen .timer-editor { opacity: 0; pointer-events: none; }
+body.zen .wrap { width: 100vw; min-height: 100vh; justify-content: center; gap: 4.5rem; }
+body.zen #display { font-size: clamp(112px, 24vw, 264px); }
+body.zen .controls { position: fixed; bottom: 2.8rem; left: 50%; transform: translateX(-50%); }
+body.zen #pauseBtn { position: static; transform: none; margin: 0; display: inline-flex; align-items: center; justify-content: center; }
+
 /* ── ZEN MODE ── */
 body.zen .top-left-group,
 body.zen .hs-box,
@@ -240,10 +281,6 @@ body.zen .settings-btn,
 body.zen .sync-dot,
 body.zen .btn.reset,
 body.zen .dot { opacity: 0; pointer-events: none; }
-body.zen #pauseBtn {
-  position: fixed; bottom: 2.8rem; left: 50%;
-  transform: translateX(-50%); z-index: 20;
-}
 
 /* ── RANK MODAL ── */
 .modal-overlay {
@@ -477,15 +514,6 @@ body.zen #pauseBtn {
 .sync-dot.synced  { background: var(--sync-done); }
 .sync-dot.error   { background: var(--sync-err); }
 
-/* ── ZEN HINT ── */
-.zen-hint {
-  position: fixed; bottom: 6.8rem; left: 50%; transform: translateX(-50%);
-  font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase;
-  color: var(--zen-hint-color); z-index: 5; pointer-events: none;
-  opacity: 0; transition: opacity 1s ease; font-weight: 400;
-}
-body.zen .zen-hint { opacity: 1; }
-
 /* ═══════════════════════════════════════════════
    THEME SYSTEM — NEW ADDITIONS BELOW
    ═══════════════════════════════════════════════ */
@@ -549,22 +577,22 @@ body.zen .zen-hint { opacity: 1; }
 
 .theme-card {
   position: relative; cursor: pointer; border-radius: 3px; overflow: hidden;
-  border: 1px solid var(--border);
-  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  border: 1px solid var(--divider);
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s, background 0.2s;
   outline: none;
 }
 .theme-card:hover { transform: translateY(-2px); }
 .theme-card.active {
-  border-color: var(--accent-soft);
-  box-shadow: 0 0 0 1px var(--accent-soft), 0 0 20px rgba(124,58,237,0.2);
+  border-color: transparent;
+  box-shadow: 0 0 24px rgba(124,58,237,0.16);
 }
 [data-theme="redbull"] .theme-card.active {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent), 0 0 20px rgba(29,111,232,0.3);
+  border-color: transparent;
+  box-shadow: 0 0 24px rgba(225,26,26,0.18);
 }
 [data-theme="light"] .theme-card.active {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent), 0 0 20px rgba(79,70,229,0.15);
+  border-color: transparent;
+  box-shadow: 0 0 24px rgba(79,70,229,0.14);
 }
 
 /* Active tick badge */
@@ -644,7 +672,7 @@ body.zen .zen-hint { opacity: 1; }
 .theme-card-label {
   padding: 7px 10px; font-size: 8px; letter-spacing: 0.35em;
   text-transform: uppercase; font-weight: 500; color: var(--text-muted);
-  background: var(--surface); border-top: 1px solid var(--border);
+  background: var(--surface); border-top: 1px solid var(--divider);
   text-align: center; transition: var(--theme-transition);
 }
 .theme-card.active .theme-card-label { color: var(--text); }
@@ -686,8 +714,8 @@ body.zen .zen-hint { opacity: 1; }
               0 0 30px rgba(225,26,26,0.07);
 }
 [data-theme="redbull"] .theme-card.active {
-  border-color: #e11a1a;
-  box-shadow: 0 0 0 1px #e11a1a, 0 0 16px rgba(225,26,26,0.2);
+  border-color: transparent;
+  box-shadow: 0 0 24px rgba(225,26,26,0.18);
 }
 [data-theme="redbull"] .progress-fill {
   box-shadow: 0 0 10px rgba(225,26,26,0.5);
@@ -703,7 +731,7 @@ body.zen .zen-hint { opacity: 1; }
   box-shadow: 0 0 24px rgba(79,70,229,0.12);
 }
 [data-theme="light"] .modal {
-  box-shadow: 0 0 0 1px var(--border), 0 40px 80px rgba(0,0,0,0.15);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.15);
 }
 [data-theme="light"] #display.paused { color: #bbb; }
 [data-theme="light"] #display.running { color: #111; }
@@ -722,17 +750,17 @@ body.zen .zen-hint { opacity: 1; }
 
 .lb-modal {
   width: min(480px, 92vw);
-  background: var(--modal-bg); border: 1px solid var(--border); border-radius: 4px;
-  box-shadow: 0 0 0 1px var(--border-bright), 0 40px 80px rgba(0,0,0,0.85);
+  background: var(--modal-bg); border: 1px solid var(--divider); border-radius: 16px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.85);
   display: flex; flex-direction: column;
   transform: translateY(18px) scale(0.98); transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
   overflow: hidden;
 }
 [data-theme="redbull"] .lb-modal {
-  box-shadow: 0 0 0 1px #cc1a1a, 0 40px 80px rgba(0,0,0,0.95), 0 0 40px rgba(225,26,26,0.07);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.95), 0 0 40px rgba(225,26,26,0.07);
 }
 [data-theme="light"] .lb-modal {
-  box-shadow: 0 0 0 1px var(--border), 0 40px 80px rgba(0,0,0,0.15);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.15);
 }
 .lb-modal-overlay.open .lb-modal { transform: translateY(0) scale(1); }
 
@@ -771,24 +799,25 @@ table.lb-tbl thead th {
   font-size: 7px; letter-spacing: 0.45em; text-transform: uppercase;
   color: var(--text-dim); font-weight: 400;
   padding: 0.45rem 0.75rem; text-align: left;
-  border-right: 1px solid var(--border);
+  border-right: none;
 }
 table.lb-tbl thead th:last-child { border-right: none; }
 table.lb-tbl thead th.th-center { text-align: center; }
 table.lb-tbl thead th.th-right  { text-align: right; }
 
 table.lb-tbl tbody tr {
-  border-bottom: 1px solid var(--surface3);
-  transition: background 0.12s;
+  border-bottom: 1px solid var(--divider);
+  transition: background 0.12s, opacity 0.12s;
 }
 table.lb-tbl tbody tr:last-child { border-bottom: none; }
 table.lb-tbl tbody tr:hover { background: var(--surface2); }
 
 /* Row tints */
-table.lb-tbl tbody tr.lbr-gold   { background: rgba(180,140,30,0.04); }
-table.lb-tbl tbody tr.lbr-silver { background: rgba(160,160,160,0.03); }
-table.lb-tbl tbody tr.lbr-bronze { background: rgba(160,100,50,0.03); }
-table.lb-tbl tbody tr.lbr-me     { background: var(--accent-panel); }
+table.lb-tbl tbody tr:nth-child(n+6) { opacity: 0.72; }
+table.lb-tbl tbody tr.lbr-gold   { background: rgba(180,140,30,0.035); opacity: 1; }
+table.lb-tbl tbody tr.lbr-silver { background: rgba(160,160,160,0.025); opacity: 0.94; }
+table.lb-tbl tbody tr.lbr-bronze { background: rgba(160,100,50,0.025); opacity: 0.9; }
+table.lb-tbl tbody tr.lbr-me     { background: var(--soft-tint); opacity: 1; }
 table.lb-tbl tbody tr.lbr-me td:first-child { border-left: 2px solid var(--accent); }
 [data-theme="redbull"] table.lb-tbl tbody tr.lbr-me { background: rgba(225,26,26,0.06); }
 [data-theme="redbull"] table.lb-tbl tbody tr.lbr-me td:first-child { border-left-color: #e11a1a; }
@@ -796,7 +825,7 @@ table.lb-tbl tbody tr.lbr-me td:first-child { border-left: 2px solid var(--accen
 /* Compact rows — all 10 visible without scrolling */
 table.lb-tbl tbody td {
   padding: 0.38rem 0.75rem; vertical-align: middle;
-  border-right: 1px solid var(--surface3);
+  border-right: none;
   font-size: 11px; color: var(--text-muted);
 }
 table.lb-tbl tbody td:last-child { border-right: none; }
@@ -915,15 +944,31 @@ table.lb-tbl tbody td:last-child { border-right: none; }
 
 <!-- Main timer -->
 <div class="wrap">
+  <div class="mode-switch" aria-label="Timer mode">
+    <button class="mode-btn active" id="stopwatchModeBtn" type="button">Stopwatch</button>
+    <button class="mode-btn" id="timerModeBtn" type="button">Timer</button>
+  </div>
   <div id="display" class="paused">00:00:00</div>
+  <div class="timer-editor" id="timerEditor" aria-label="Countdown duration">
+    <div class="timer-presets">
+      <button class="timer-preset" type="button" data-ms="1500000">25m</button>
+      <button class="timer-preset" type="button" data-ms="300000">5m</button>
+      <button class="timer-preset" type="button" data-ms="900000">15m</button>
+    </div>
+    <div class="timer-inputs">
+      <input id="timerHours" type="number" min="0" max="99" value="00" aria-label="Hours">
+      <span>:</span>
+      <input id="timerMinutes" type="number" min="0" max="59" value="25" aria-label="Minutes">
+      <span>:</span>
+      <input id="timerSeconds" type="number" min="0" max="59" value="00" aria-label="Seconds">
+    </div>
+    <button class="timer-apply" id="timerApplyBtn" type="button">Set</button>
+  </div>
   <div class="controls">
     <button class="btn reset" id="resetBtn" aria-label="Reset" title="Reset"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v6h6"/><path d="M20 17a8 8 0 0 1-13.7-5.6L4 13"/></svg><span class="btn-text">Reset</span></button>
     <button class="btn primary" id="pauseBtn" aria-label="Start" title="Start"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.5v13l10-6.5-10-6.5z"/></svg><span class="btn-text">Start</span></button>
   </div>
 </div>
-
-<!-- Zen hint -->
-<div class="zen-hint">click to exit zen</div>
 
 <!-- Rank-up toast -->
 <div class="rankup-toast" id="rankupToast"></div>
@@ -1103,6 +1148,7 @@ function getRankProgress(pts) {
 }
 
 let totalStudiedMs = 0, sessionMs = 0, startTime = 0;
+let timerTargetMs = 25 * 60 * 1000, mode = 'stopwatch';
 let running = false, rafId = null, worker = null;
 let highscore = 0, brokeDuring = false, prevRankIdx = 0;
 let currentUsername = null, syncTimeout = null, currentUid = null, firestoreReady = false;
@@ -1120,6 +1166,16 @@ function formatTimeHtml(ms) {
 }
 function renderDisplay(ms) { display.innerHTML = formatTimeHtml(ms); }
 function msToPoints(ms) { return ms/3600000; }
+function clampTimerInput(value, max) {
+  const n = Math.max(0, Math.min(max, Number(value) || 0));
+  return String(Math.floor(n)).padStart(2, '0');
+}
+function getLiveElapsed() { return running ? performance.now() - startTime : 0; }
+function getDisplayMs(elapsed = getLiveElapsed()) {
+  return mode === 'timer' ? Math.max(0, timerTargetMs - sessionMs - elapsed) : sessionMs + elapsed;
+}
+function getLiveStudyTotal(elapsed = getLiveElapsed()) { return totalStudiedMs + elapsed; }
+function isTimerComplete(elapsed = getLiveElapsed()) { return mode === 'timer' && timerTargetMs - sessionMs - elapsed <= 0; }
 
 const hsBox=document.getElementById('hsBox'), hsTimeEl=document.getElementById('hsTime');
 function renderHS() {
@@ -1198,22 +1254,34 @@ try {
   worker=new Worker(URL.createObjectURL(new Blob([workerSrc],{type:'application/javascript'})));
   worker.onmessage=()=>{
     if(!running) return;
-    const sesMs=sessionMs+(performance.now()-startTime), liveTotal=totalStudiedMs+(performance.now()-startTime);
-    renderDisplay(sesMs); checkHS(sesMs);
-    const pts=msToPoints(liveTotal), newIdx=getRankIndex(pts);
-    if(newIdx>prevRankIdx){prevRankIdx=newIdx;showRankUp(RANKS[newIdx].name);rankBtnName.textContent=RANKS[newIdx].name;}
-    if(modalOverlay.classList.contains('open')) updateRankUI(pts);
+    updateRunningFrame();
   };
 } catch(e){}
 
-function rafTick() {
-  if(!running) return;
-  const sesMs=sessionMs+(performance.now()-startTime), liveTotal=totalStudiedMs+(performance.now()-startTime);
-  renderDisplay(sesMs); checkHS(sesMs);
+function finishTimerRun() {
+  const delta = Math.max(0, timerTargetMs - sessionMs);
+  sessionMs = timerTargetMs;
+  totalStudiedMs += delta;
+  running = false; cancelAnimationFrame(rafId);
+  if(worker) worker.postMessage('stop');
+  display.className='paused'; setPauseButton('Start'); updateModeUI();
+  exitZen(); scheduleSync(); showRankUp('timer complete');
+}
+
+function updateRunningFrame() {
+  const elapsed = getLiveElapsed();
+  if (isTimerComplete(elapsed)) { finishTimerRun(); return; }
+  const displayMs = getDisplayMs(elapsed), liveTotal = getLiveStudyTotal(elapsed);
+  renderDisplay(displayMs); checkHS(mode === 'timer' ? elapsed : displayMs);
   const pts=msToPoints(liveTotal), newIdx=getRankIndex(pts);
   if(newIdx>prevRankIdx){prevRankIdx=newIdx;showRankUp(RANKS[newIdx].name);rankBtnName.textContent=RANKS[newIdx].name;}
   if(modalOverlay.classList.contains('open')) updateRankUI(pts);
-  rafId=requestAnimationFrame(rafTick);
+}
+
+function rafTick() {
+  if(!running) return;
+  updateRunningFrame();
+  if (running) rafId=requestAnimationFrame(rafTick);
 }
 
 function enterZen() { document.body.classList.add('zen'); }
@@ -1228,6 +1296,8 @@ document.addEventListener('keydown',function(e){
 });
 
 const display=document.getElementById('display'), pauseBtn=document.getElementById('pauseBtn'), resetBtn=document.getElementById('resetBtn');
+const stopwatchModeBtn=document.getElementById('stopwatchModeBtn'), timerModeBtn=document.getElementById('timerModeBtn');
+const timerEditor=document.getElementById('timerEditor'), timerHours=document.getElementById('timerHours'), timerMinutes=document.getElementById('timerMinutes'), timerSeconds=document.getElementById('timerSeconds'), timerApplyBtn=document.getElementById('timerApplyBtn');
 function setPauseButton(state) {
   const isPause = state === 'Pause';
   pauseBtn.title = state;
@@ -1236,21 +1306,54 @@ function setPauseButton(state) {
     ? '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 5h3.5v14H7V5zm6.5 0H17v14h-3.5V5z"/></svg><span class="btn-text">Pause</span>'
     : '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.5v13l10-6.5-10-6.5z"/></svg><span class="btn-text">'+state+'</span>';
 }
-renderDisplay(0);
+function syncTimerInputsFromTarget() {
+  const total = Math.floor(timerTargetMs / 1000);
+  timerHours.value = pad(Math.floor(total / 3600));
+  timerMinutes.value = pad(Math.floor((total % 3600) / 60));
+  timerSeconds.value = pad(total % 60);
+}
+function readTimerInputMs() {
+  const h = Number(clampTimerInput(timerHours.value, 99));
+  const m = Number(clampTimerInput(timerMinutes.value, 59));
+  const sec = Number(clampTimerInput(timerSeconds.value, 59));
+  timerHours.value = pad(h); timerMinutes.value = pad(m); timerSeconds.value = pad(sec);
+  return Math.max(1000, ((h * 3600) + (m * 60) + sec) * 1000);
+}
+function updateModeUI() {
+  stopwatchModeBtn.classList.toggle('active', mode === 'stopwatch');
+  timerModeBtn.classList.toggle('active', mode === 'timer');
+  timerEditor.classList.toggle('open', mode === 'timer' && !running);
+  renderDisplay(mode === 'timer' ? Math.max(0, timerTargetMs - sessionMs) : sessionMs);
+}
+function switchMode(nextMode) {
+  if (running || mode === nextMode) return;
+  mode = nextMode; sessionMs = 0; brokeDuring = false;
+  setPauseButton('Start'); syncTimerInputsFromTarget(); updateModeUI();
+}
+function applyTimerTarget(ms = readTimerInputMs()) {
+  if (running) return;
+  timerTargetMs = ms; sessionMs = 0; syncTimerInputsFromTarget(); updateModeUI();
+}
+syncTimerInputsFromTarget();
+updateModeUI();
 
 pauseBtn.addEventListener('click',()=>{
   if(!running){
+    if (mode === 'timer' && sessionMs >= timerTargetMs) sessionMs = 0;
     running=true; startTime=performance.now();
+    timerEditor.classList.remove('open');
     display.className='running'; setPauseButton('Pause');
     if(worker) worker.postMessage('start');
     rafId=requestAnimationFrame(rafTick);
     enterZen();
   } else {
     const delta=performance.now()-startTime;
-    sessionMs+=delta; totalStudiedMs+=delta;
+    sessionMs += delta; totalStudiedMs += delta;
+    if (mode === 'timer') sessionMs = Math.min(sessionMs, timerTargetMs);
     running=false; cancelAnimationFrame(rafId);
     if(worker) worker.postMessage('stop');
     display.className='paused'; setPauseButton('Resume');
+    renderDisplay(getDisplayMs(0)); updateModeUI();
     exitZen(); scheduleSync();
   }
 });
@@ -1259,9 +1362,19 @@ resetBtn.addEventListener('click',()=>{
   if(running){const delta=performance.now()-startTime;totalStudiedMs+=delta;}
   running=false; sessionMs=0; startTime=0; brokeDuring=false;
   cancelAnimationFrame(rafId); if(worker) worker.postMessage('stop');
-  renderDisplay(0); display.className='paused'; setPauseButton('Start');
+  display.className='paused'; setPauseButton('Start'); updateModeUI();
   rankBtnName.textContent=RANKS[getRankIndex(msToPoints(totalStudiedMs))].name;
   exitZen(); scheduleSync();
+});
+
+stopwatchModeBtn.addEventListener('click',()=>switchMode('stopwatch'));
+timerModeBtn.addEventListener('click',()=>switchMode('timer'));
+display.addEventListener('click',()=>{ if(!running && mode === 'timer') timerEditor.classList.add('open'); });
+timerApplyBtn.addEventListener('click',()=>applyTimerTarget());
+document.querySelectorAll('.timer-preset').forEach(btn => btn.addEventListener('click',()=>applyTimerTarget(Number(btn.dataset.ms))));
+[timerHours,timerMinutes,timerSeconds].forEach(input => {
+  input.addEventListener('blur',()=>applyTimerTarget());
+  input.addEventListener('keydown',e=>{ if(e.key==='Enter') { e.preventDefault(); applyTimerTarget(); input.blur(); } });
 });
 
 const settingsBtn=document.getElementById('settingsBtn'), settingsPopup=document.getElementById('settingsPopup'), logoutBtn=document.getElementById('logoutBtn');
@@ -1306,9 +1419,11 @@ window.__loadProfileData=function(data){
 };
 
 window.__getTimerState=function(){
-  const liveTotal=totalStudiedMs+(running?(performance.now()-startTime):0);
+  const elapsed = running ? performance.now()-startTime : 0;
+  const liveTotal=totalStudiedMs+elapsed;
+  const currentSession = mode === 'timer' ? elapsed : sessionMs + elapsed;
   const pts=msToPoints(liveTotal);
-  return { totalStudyTime:liveTotal/3600000, rankPoints:pts, currentRank:getRank(pts), highScore:Math.max(highscore,sessionMs)/3600000 };
+  return { totalStudyTime:liveTotal/3600000, rankPoints:pts, currentRank:getRank(pts), highScore:Math.max(highscore,currentSession)/3600000 };
 };
 
 window.__setFirestoreReady=function(uid){ currentUid=uid; firestoreReady=true; };
