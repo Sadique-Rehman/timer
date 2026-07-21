@@ -216,7 +216,7 @@ html, body {
 .hs-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
 .hs-time { font-size: 14px; font-weight: 600; letter-spacing: 0.03em; font-variant-numeric: tabular-nums; color: var(--text); }
 .hs-time.empty { color: var(--text-dim); }
-.wrap { display: flex; flex-direction: column; align-items: center; gap: 3rem; }
+.wrap { display: flex; flex-direction: column; align-items: center; gap: 3rem; position: relative; }
 #display { font-size: clamp(72px, 15vw, 152px); font-weight: 500; letter-spacing: -0.045em; font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1, "zero" 1; line-height: 1; user-select: none; white-space: nowrap; transition: color 0.35s ease; }
 #display .time-zero { opacity: 0.35; }
 #display.paused { color: var(--text-dim); }
@@ -268,7 +268,7 @@ html, body {
   padding: 0.3rem 0.1rem;
 }
 .timer-inputs span { color: var(--text-dim); font-size: 11px; }
-body.zen .mode-switch, body.zen .timer-editor { opacity: 0; pointer-events: none; }
+body.zen .mode-switch, body.zen .timer-editor { opacity: 0; pointer-events: none; position: absolute; }
 body.zen .wrap { width: 100vw; min-height: 100vh; justify-content: center; gap: 4.5rem; }
 body.zen #display { font-size: clamp(112px, 24vw, 264px); }
 body.zen .controls {
