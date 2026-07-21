@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timer</title>
+<link rel="icon" type="image/jpeg" href="logo2.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   THEME VARIABLE SYSTEM — DARK (default)
+   ═══════════════════════════════════════════════ */
+:root {
+  --bg:              #0c0c0c;
+  --surface:         #0e0e0e;
+  --surface2:        #111;
+  --surface3:        #141414;
+  --border:          #2a2a2a;
+  --border-bright:   #383838;
+  --border-top:      #f0f0f0;
+  --shadow-key:      #a0a0a0;
+  --text:            #f2f2f2;
+  --text-muted:      #aaa;
+  --text-dim:        #666;
+  --text-off:        #888;
+  --text-faint:      #444;
+  --accent:          #7c3aed;
+  --accent-soft:     #a78bfa;
+  --accent-dim:      #4c1d95;
+  --accent-panel:    #0d0a1f;
+  --accent-border:   #3d2a8a;
+  --accent-badge-bg: #0d0a1f;
+  --modal-bg:        #0f0f0f;
+  --modal-overlay:   rgba(0,0,0,0.82);
+  --overlay-blur:    6px;
+  --btn-reset-bg:    #0c0c0c;
+  --btn-primary-bg:  #161616;
+  --btn-primary-bg2: #1c1c1c;
+  --btn-primary-bg3: #111;
+  --btn-active-fg:   rgba(255,255,255,0.03);
+  --identity-bg:     #080808;
+  --input-bg:        #0e0e0e;
+  --input-border:    #333;
+  --toast-bg:        #0d0a1f;
+  --toast-border:    #3d2a8a;
+  --toast-color:     #c4b5fd;
+  --hs-flash-glow:   rgba(255,255,255,0.25);
+  --scrollbar-thumb: #2a2a2a;
+  --divider:         rgba(255,255,255,0.07);
+  --soft-tint:       rgba(255,255,255,0.045);
+  --progress-track:  #1e1e1e;
+  --progress-grad:   linear-gradient(90deg,#4c1d95,#7c3aed,#a78bfa);
+  --zen-hint-color:  #ffffff;
+  --sync-idle:       #333;
+  --sync-active:     #7c3aed;
+  --sync-done:       #2a5a2a;
+  --sync-err:        #7a2020;
+  --theme-transition: background 0.35s ease, color 0.35s ease,
+                      border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* ─── LIGHT THEME ─── */
+[data-theme="light"] {
+  --bg:              #f0f0f0;
+  --surface:         #ffffff;
+  --surface2:        #f8f8f8;
+  --surface3:        #f2f2f2;
+  --border:          #e0e0e0;
+  --border-bright:   #cccccc;
+  --border-top:      #c8c8c8;
+  --shadow-key:      #b0b0b0;
+  --text:            #111111;
+  --text-muted:      #555555;
+  --text-dim:        #888888;
+  --text-off:        #777777;
+  --text-faint:      #bbbbbb;
+  --accent:          #4f46e5;
+  --accent-soft:     #6366f1;
+  --accent-dim:      #312e81;
+  --accent-panel:    #eef2ff;
+  --accent-border:   #a5b4fc;
+  --accent-badge-bg: #eef2ff;
+  --modal-bg:        #ffffff;
+  --modal-overlay:   rgba(0,0,0,0.35);
+  --overlay-blur:    8px;
+  --btn-reset-bg:    #f5f5f5;
+  --btn-primary-bg:  #ffffff;
+  --btn-primary-bg2: #f8f8f8;
+  --btn-primary-bg3: #efefef;
+  --btn-active-fg:   rgba(0,0,0,0.04);
+  --identity-bg:     #f5f5f5;
+  --input-bg:        #ffffff;
+  --input-border:    #d1d5db;
+  --toast-bg:        #eef2ff;
+  --toast-border:    #a5b4fc;
+  --toast-color:     #4338ca;
+  --hs-flash-glow:   rgba(79,70,229,0.2);
+  --scrollbar-thumb: #d1d5db;
+  --divider:         rgba(17,17,17,0.08);
+  --soft-tint:       rgba(79,70,229,0.07);
+  --progress-track:  #e5e7eb;
+  --progress-grad:   linear-gradient(90deg,#312e81,#4f46e5,#818cf8);
+  --zen-hint-color:  #000000;
+  --sync-idle:       #d1d5db;
+  --sync-active:     #4f46e5;
+  --sync-done:       #16a34a;
+  --sync-err:        #dc2626;
+}
+
+/* ─── RED BULL F1 THEME ─── */
+[data-theme="redbull"] {
+  --bg:              #080808;
+  --surface:         rgba(15,8,8,0.88);
+  --surface2:        rgba(22,10,10,0.85);
+  --surface3:        rgba(30,12,12,0.82);
+  --border:          #2a1010;
+  --border-bright:   #4a1818;
+  --border-top:      #cc1a1a;
+  --shadow-key:      #1a0808;
+  --text:            #f5e8e8;
+  --text-muted:      #c49090;
+  --text-dim:        #6a3030;
+  --text-off:        #8a5050;
+  --text-faint:      #3a1818;
+  --accent:          #e11a1a;
+  --accent-soft:     #ff4444;
+  --accent-dim:      #7a0a0a;
+  --accent-panel:    rgba(225,26,26,0.08);
+  --accent-border:   #cc1a1a;
+  --accent-badge-bg: rgba(225,26,26,0.12);
+  --modal-bg:        rgba(8,3,3,0.96);
+  --modal-overlay:   rgba(5,0,0,0.88);
+  --overlay-blur:    10px;
+  --btn-reset-bg:    rgba(15,8,8,0.9);
+  --btn-primary-bg:  rgba(20,8,8,0.95);
+  --btn-primary-bg2: rgba(35,12,12,0.9);
+  --btn-primary-bg3: rgba(10,4,4,0.95);
+  --btn-active-fg:   rgba(225,26,26,0.06);
+  --identity-bg:     #050202;
+  --input-bg:        rgba(15,8,8,0.9);
+  --input-border:    #cc1a1a;
+  --toast-bg:        rgba(12,4,4,0.95);
+  --toast-border:    #e11a1a;
+  --toast-color:     #ff6666;
+  --hs-flash-glow:   rgba(225,26,26,0.45);
+  --scrollbar-thumb: #2a1010;
+  --divider:         rgba(255,232,232,0.08);
+  --soft-tint:       rgba(225,26,26,0.08);
+  --progress-track:  #150606;
+  --progress-grad:   linear-gradient(90deg,#7a0a0a,#e11a1a,#ff5555);
+  --zen-hint-color:  #ffe5e5;
+  --sync-idle:       #2a1010;
+  --sync-active:     #e11a1a;
+  --sync-done:       #16a34a;
+  --sync-err:        #ff4444;
+}
+
+/* ═══════════════════════════════════════════════
+   EXISTING STYLES — now using CSS variables
+   ═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%; background: var(--bg);
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+  color: var(--text);
+  transition: var(--theme-transition);
+}
+
+/* ─── RED BULL BACKGROUND LAYER ─── */
+.redbull-bg-layer {
+  display: none;
+  position: fixed; inset: 0; z-index: 0;
+  background: #080808;
+  background-image: url('redbulltheme.jpeg');
+     background-size: cover;
+     background-position: center;
+     background-repeat: no-repeat;
+}
+[data-theme="redbull"] .redbull-bg-layer { display: block; }
+
+/* Dark overlay — keeps text readable over image */
+.redbull-bg-layer::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(5,0,0,0.58);
+}
+
+/* Ensure content sits above bg layer */
+.top-left-group, .hs-box, .wrap, .sync-dot,
+.settings-btn, .settings-popup,
+.modal-overlay, #identityOverlay, .rankup-toast {
+  position: relative; z-index: 10;
+}
+.top-left-group { z-index: 10; }
+.modal-overlay  { z-index: 100; }
+#identityOverlay{ z-index: 9999; }
+.rankup-toast   { z-index: 200; }
+
+/* ── TOP-LEFT GROUP ── */
+.top-left-group { position: fixed; top: 1.6rem; left: 1.8rem; display: flex; align-items: center; gap: 0.7rem; z-index: 10; transition: opacity 0.5s ease; }
+.rank-btn { display: inline-flex; flex-direction: row; align-items: center; justify-content: center; gap: 0.55rem; padding: 8px 10px; border-radius: 999px; background: transparent; box-shadow: none; border: none; cursor: pointer; font-family: 'JetBrains Mono', monospace; transition: background 0.18s ease, transform 0.18s ease, color 0.18s ease, var(--theme-transition); }
+.rank-btn:hover { background: var(--soft-tint); transform: translateY(-1px); }
+.rank-btn:active { transform: translateY(0); }
+.rank-btn-label { font-size: 10px; letter-spacing: 0; text-transform: none; color: var(--accent-soft); font-weight: 500; opacity: 0.9; }
+.rank-btn-label::before { content: '✦'; margin-right: 0.45rem; color: var(--accent); }
+.rank-btn-name { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.03em; white-space: nowrap; }
+.trophy-btn { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 999px; background: transparent; box-shadow: none; border: none; cursor: pointer; color: var(--text-muted); opacity: 0.72; transition: opacity 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.18s ease, var(--theme-transition); }
+.trophy-btn:hover { color: var(--text); opacity: 1; background: var(--soft-tint); transform: translateY(-1px); }
+.trophy-btn:active { transform: translateY(0); }
+.hs-box { position: fixed; top: 1.6rem; right: 1.8rem; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 3px; padding: 8px 0; border-radius: 0; background: transparent; box-shadow: none; min-width: 116px; z-index: 10; transition: opacity 0.5s ease, var(--theme-transition); }
+@keyframes hsFlash { 0% { text-shadow: 0 0 28px var(--accent-soft); } 100% { text-shadow: none; } }
+.hs-box.new { animation: hsFlash 0.5s ease; }
+.hs-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+.hs-time { font-size: 14px; font-weight: 600; letter-spacing: 0.03em; font-variant-numeric: tabular-nums; color: var(--text); }
+.hs-time.empty { color: var(--text-dim); }
+.wrap { display: flex; flex-direction: column; align-items: center; gap: 3rem; }
+#display { font-size: clamp(72px, 15vw, 152px); font-weight: 500; letter-spacing: -0.045em; font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1, "zero" 1; line-height: 1; user-select: none; white-space: nowrap; transition: color 0.35s ease; }
+#display .time-zero { opacity: 0.35; }
+#display.paused { color: var(--text-dim); }
+#display.running { color: var(--text); }
+[data-theme="redbull"] #display.running { color: #f5e8e8; text-shadow: 0 0 40px rgb(233, 232, 232), 0 0 80px rgba(225,26,26,0.08); }
+[data-theme="redbull"] #display.paused { color: #3a1818; }
+.controls { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem; border-radius: 999px; background: var(--soft-tint); border: 1px solid var(--divider); backdrop-filter: blur(12px); }
+.btn { font-family: 'JetBrains Mono', monospace; cursor: pointer; border: none; outline: none; width: 44px; height: 44px; padding: 0; border-radius: 999px; position: relative; display: inline-flex; align-items: center; justify-content: center; color: var(--text-muted); background: transparent; box-shadow: none; transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease, var(--theme-transition); -webkit-user-select: none; user-select: none; font-size: 0; }
+.btn svg { width: 18px; height: 18px; stroke: currentColor; }
+.btn.reset:hover, .btn.primary:hover { color: var(--text); background: var(--soft-tint); transform: translateY(-1px); }
+.btn.primary { color: var(--accent-soft); }
+.btn.primary:hover { color: var(--accent); }
+.btn:active { transform: translateY(0); }
+.btn:active::after { content: ''; position: absolute; inset: 0; border-radius: 999px; background: var(--btn-active-fg); }
+.btn-text, .dot { display: none; }
+
+.mode-switch {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.25rem; border-radius: 999px; background: transparent;
+}
+.mode-btn {
+  border: none; background: transparent; cursor: pointer;
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600;
+  letter-spacing: 0.32em; text-transform: uppercase; color: var(--text-dim);
+  padding: 0.45rem 0.75rem; border-radius: 999px;
+  transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+.mode-btn:hover { color: var(--text-muted); background: var(--soft-tint); }
+.mode-btn.active { color: var(--accent-soft); background: var(--soft-tint); }
+.timer-editor {
+  display: none; align-items: center; justify-content: center; gap: 0.75rem;
+  min-height: 34px; margin-top: -2.2rem; color: var(--text-muted);
+}
+.timer-editor.open { display: flex; }
+.timer-presets { display: inline-flex; align-items: center; gap: 0.35rem; }
+.timer-preset, .timer-apply {
+  border: none; background: transparent; color: var(--text-muted); cursor: pointer;
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; padding: 0.45rem 0.65rem; border-radius: 999px;
+  transition: color 0.18s ease, background 0.18s ease;
+}
+.timer-preset:hover, .timer-apply:hover { color: var(--text); background: var(--soft-tint); }
+.timer-apply { color: var(--accent-soft); }
+.timer-inputs { display: inline-flex; align-items: center; gap: 0.25rem; }
+.timer-inputs input {
+  width: 3.2rem; border: none; border-bottom: 1px solid var(--divider);
+  background: transparent; color: var(--text); outline: none; text-align: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 13px; font-variant-numeric: tabular-nums;
+  padding: 0.3rem 0.1rem;
+}
+.timer-inputs span { color: var(--text-dim); font-size: 11px; }
+body.zen .mode-switch, body.zen .timer-editor { opacity: 0; pointer-events: none; }
+body.zen .wrap { width: 100vw; min-height: 100vh; justify-content: center; gap: 4.5rem; }
+body.zen #display { font-size: clamp(112px, 24vw, 264px); }
+body.zen .controls {
+  position: fixed; bottom: 2.8rem; left: 50%; transform: translateX(-50%);
+  width: 56px; height: 56px; padding: 0; gap: 0; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+body.zen .controls .btn.reset { display: none; }
+body.zen #pauseBtn {
+  position: static; transform: none; margin: 0; width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center; flex: 0 0 56px;
+}
+body.zen #pauseBtn svg { display: block; width: 18px; height: 18px; margin: 0; }
+
+/* ── ZEN MODE ── */
+body.zen .top-left-group,
+body.zen .hs-box,
+body.zen .settings-btn,
+body.zen .sync-dot,
+body.zen .btn.reset,
+body.zen .dot { opacity: 0; pointer-events: none; }
+
+/* ── RANK MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: var(--modal-overlay);
+  backdrop-filter: blur(var(--overlay-blur));
+  z-index: 100; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  width: min(560px, 94vw); max-height: 88vh; background: var(--modal-bg);
+  border: 1px solid var(--divider); border-radius: 18px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.8),
+              0 0 60px rgba(120,60,255,0.04);
+  display: flex; flex-direction: column;
+  transform: translateY(18px) scale(0.98); transition: transform 0.3s ease;
+  overflow: hidden;
+}
+[data-theme="redbull"] .modal {
+  box-shadow: 0 0 0 1px var(--accent), 0 40px 80px rgba(0,0,0,0.9),
+              0 0 60px rgba(29,111,232,0.12);
+}
+.modal-overlay.open .modal { transform: translateY(0) scale(1); }
+.modal-header {
+  padding: 1.4rem 1.6rem 1.2rem; border-bottom: 1px solid var(--divider);
+  display: flex; align-items: flex-start; justify-content: space-between; flex-shrink: 0;
+}
+.modal-title { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--text-muted); font-weight: 500; }
+.modal-header-actions { display: flex; align-items: center; gap: 0.8rem; }
+.modal-close { background: none; border: none; cursor: pointer; color: var(--text-off);
+  font-size: 18px; line-height: 1; padding: 0 2px; transition: color 0.2s; font-family: inherit; }
+.modal-close:hover { color: var(--text); }
+
+.rank-hero { padding: 1.4rem 1.6rem; border-bottom: 1px solid var(--divider);
+  display: flex; gap: 1.2rem; align-items: center; flex-shrink: 0; }
+.rank-hero-img { width: 56px; height: 56px; border-radius: 3px; background: var(--surface2);
+  border: none; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.rank-hero-img img { width: 100%; height: 100%; object-fit: cover; }
+.rank-hero-info { flex: 1; }
+.rank-hero-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--text-off); font-weight: 500; margin-bottom: 4px; }
+.rank-hero-name  { font-size: 22px; font-weight: 600; letter-spacing: -0.01em;
+  color: var(--text); margin-bottom: 6px; line-height: 1; }
+.rank-hero-pts   { font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; font-weight: 400; }
+.rank-hero-pts span { color: var(--text); font-weight: 500; }
+.rank-hero-username { font-size: 8px; color: var(--text-dim); letter-spacing: 0.22em;
+  margin-top: 4px; font-weight: 400; }
+.rank-hero-username span { color: var(--text-off); font-weight: 400; }
+
+.progress-wrap { padding: 1.2rem 1.6rem; border-bottom: 1px solid var(--divider); flex-shrink: 0; }
+.progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.progress-next { font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--text-off); font-weight: 500; }
+.progress-pct  { font-size: 11px; font-weight: 600; color: var(--accent-soft); }
+.progress-track { height: 8px; background: var(--progress-track); border-radius: 999px; overflow: hidden; padding: 2px; }
+.progress-fill {
+  height: 100%; width: 0%; background: var(--progress-grad);
+  border-radius: 999px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 0 8px rgba(124,58,237,0.5);
+}
+[data-theme="redbull"] .progress-fill {
+  box-shadow: 0 0 12px rgba(29,111,232,0.6);
+}
+[data-theme="light"] .progress-fill {
+  box-shadow: 0 0 8px rgba(79,70,229,0.3);
+}
+.progress-label { margin-top: 6px; font-size: 9px; color: var(--text-off);
+  letter-spacing: 0.2em; font-weight: 400; }
+
+.rank-list-wrap { overflow-y: auto; flex: 1; padding: 0.8rem 0; }
+.rank-list-wrap::-webkit-scrollbar { width: 4px; }
+.rank-list-wrap::-webkit-scrollbar-track { background: transparent; }
+.rank-list-wrap::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 2px; }
+.rank-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1.6rem;
+  transition: background 0.15s, opacity 0.15s; position: relative; }
+.rank-item.locked { opacity: 0.4; }
+.rank-item:hover { background: var(--surface2); }
+.rank-item.current { background: var(--accent-panel); }
+.rank-item.current::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px; background: linear-gradient(180deg, var(--accent-dim), var(--accent)); }
+.rank-item-img { width: 36px; height: 36px; border-radius: 8px; background: var(--surface2);
+  border: none; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.rank-item-img img { width: 100%; height: 100%; object-fit: cover; }
+.rank-item-img.locked { opacity: 1; filter: grayscale(1); }
+.rank-item-info { flex: 1; }
+.rank-item-name { font-size: 12px; font-weight: 500; color: var(--text);
+  letter-spacing: 0.03em; margin-bottom: 2px; }
+.rank-item-name.locked { color: var(--text-dim); }
+.rank-item-pts  { font-size: 9px; color: var(--text-dim); letter-spacing: 0.2em; font-weight: 400; }
+.rank-item-status { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 500; }
+.rank-item-status.unlocked { color: var(--text-off); }
+.rank-item-status.current  { color: var(--accent-soft); }
+.rank-item-status.locked   { color: var(--text-faint); }
+.current-badge { font-size: 8px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--accent-soft); border: none;
+  padding: 3px 9px; border-radius: 999px; background: var(--accent-badge-bg); font-weight: 500; }
+.rank-item.eternal .rank-item-name { color: #fbbf24; }
+.rank-item.eternal .rank-item-img  { border-color: #5a3010; box-shadow: 0 0 12px rgba(245,158,11,0.15); }
+.rank-item.eternal.current::before { background: linear-gradient(180deg, #92400e, #f59e0b); }
+.rank-item.eternal .rank-item-status.current { color: #fbbf24; }
+.progress-fill.eternal { background: linear-gradient(90deg, #78350f, #f59e0b, #fde68a);
+  box-shadow: 0 0 8px rgba(245,158,11,0.5); }
+.progress-pct.eternal { color: #fbbf24; }
+
+.rankup-toast {
+  position: fixed; bottom: 2.5rem; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--toast-bg); border: 1px solid var(--toast-border);
+  box-shadow: 0 0 30px rgba(124,58,237,0.2);
+  padding: 12px 24px; border-radius: 3px; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--toast-color); z-index: 200; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease; white-space: nowrap;
+}
+[data-theme="redbull"] .rankup-toast {
+  box-shadow: 0 0 30px rgba(225,29,72,0.25);
+}
+.rankup-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── SETTINGS bottom-left ── */
+.settings-btn {
+  position: fixed; bottom: 1.8rem; left: 1.8rem;
+  width: 36px; height: 36px; background: transparent;
+  border: none; border-radius: 999px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text-off); z-index: 50;
+  opacity: 0.55;
+  transition: color 0.2s, background 0.2s, opacity 0.5s ease, transform 0.2s ease, var(--theme-transition);
+  box-shadow: none;
+}
+.settings-btn:hover  { color: var(--text); opacity: 1; background: var(--soft-tint); }
+.settings-btn:active { transform: translateY(1px); box-shadow: none; }
+
+.settings-popup {
+  position: fixed; bottom: 5.2rem; left: 1.8rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+  padding: 4px; z-index: 999;
+  opacity: 0; pointer-events: none; transform: translateY(6px);
+  transition: opacity 0.15s ease, transform 0.15s ease, var(--theme-transition);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+}
+[data-theme="light"] .settings-popup {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+.settings-popup.open { opacity: 1; pointer-events: all; transform: translateY(0); }
+.logout-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: none; border: none; cursor: pointer;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--text-muted); padding: 9px 16px; border-radius: 2px;
+  width: 100%; white-space: nowrap; transition: color 0.15s, background 0.15s;
+}
+.logout-btn:hover { color: var(--text); background: var(--surface2); }
+
+/* ── IDENTITY OVERLAY ── */
+#identityOverlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--identity-bg);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+}
+#identityOverlay.visible { opacity: 1; pointer-events: all; }
+.identity-box {
+  width: min(420px, 90vw);
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+  transform: translateY(24px);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#identityOverlay.visible .identity-box { transform: translateY(0); }
+.identity-title {
+  font-size: clamp(20px, 5vw, 28px);
+  font-weight: 600; letter-spacing: -0.01em; color: var(--text);
+  margin-bottom: 0.6rem; text-align: center;
+}
+.identity-sub {
+  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--text-muted); text-align: center; margin-bottom: 2.4rem;
+  line-height: 1.7; font-weight: 400;
+}
+.identity-input-wrap { width: 100%; position: relative; margin-bottom: 0.8rem; }
+.identity-input {
+  width: 100%; background: var(--input-bg); border: 1px solid var(--input-border);
+  border-radius: 2px; padding: 14px 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px; font-weight: 400; letter-spacing: 0.05em;
+  color: var(--text); outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, var(--theme-transition);
+  caret-color: var(--accent);
+}
+.identity-input:focus { border-color: var(--border-bright);
+  box-shadow: 0 0 0 1px var(--border), 0 0 20px rgba(124,58,237,0.06); }
+.identity-input::placeholder { color: var(--text-dim); }
+.identity-error {
+  font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase;
+  color: #f87171; height: 1.2rem; margin-bottom: 1.6rem;
+  transition: opacity 0.2s; text-align: center; font-weight: 500;
+}
+.identity-error.visible { opacity: 1; }
+.identity-error:not(.visible) { opacity: 0; }
+.identity-begin-btn {
+  width: 100%; background: var(--btn-primary-bg); border: 1px solid var(--border);
+  border-radius: 2px; padding: 14px 22px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.5em; text-transform: uppercase;
+  color: var(--text); cursor: pointer;
+  box-shadow: 0 4px 0 0 var(--border);
+  transition: all 0.07s ease, color 0.2s, background 0.2s;
+  position: relative; overflow: hidden;
+}
+.identity-begin-btn:hover { color: var(--text); background: var(--btn-primary-bg2);
+  border-color: var(--border-bright); box-shadow: 0 4px 0 0 var(--border); }
+.identity-begin-btn:active { transform: translateY(4px); box-shadow: 0 0px 0 0 var(--border); }
+.identity-begin-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.identity-rules {
+  margin-top: 1.4rem; font-size: 8px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--text-faint); text-align: center; line-height: 2; font-weight: 400;
+}
+
+/* ── SYNC DOT ── */
+.sync-dot {
+  position: fixed; bottom: 1.8rem; right: 1.8rem;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--sync-idle); z-index: 50;
+  transition: background 0.4s, box-shadow 0.4s, opacity 0.5s ease;
+}
+.sync-dot.syncing { background: var(--sync-active); box-shadow: 0 0 8px var(--sync-active); }
+.sync-dot.synced  { background: var(--sync-done); }
+.sync-dot.error   { background: var(--sync-err); }
+
+/* ═══════════════════════════════════════════════
+   THEME SYSTEM — NEW ADDITIONS BELOW
+   ═══════════════════════════════════════════════ */
+
+/* Themes button inside settings popup */
+.themes-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: none; border: none; cursor: pointer;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--text-muted); padding: 9px 16px; border-radius: 2px;
+  width: 100%; white-space: nowrap; transition: color 0.15s, background 0.15s;
+  border-bottom: 1px solid var(--divider);
+  margin-bottom: 2px;
+}
+.themes-btn:hover { color: var(--text); background: var(--surface2); }
+
+/* ── THEME SELECTION MODAL ── */
+.theme-modal-overlay {
+  position: fixed; inset: 0;
+  background: var(--modal-overlay);
+  backdrop-filter: blur(var(--overlay-blur));
+  z-index: 9000; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+}
+.theme-modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.theme-modal {
+  width: min(480px, 92vw);
+  background: var(--modal-bg); border: 1px solid var(--border); border-radius: 4px;
+  box-shadow: 0 0 0 1px var(--border-bright), 0 40px 80px rgba(0,0,0,0.9);
+  transform: translateY(16px) scale(0.97);
+  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), var(--theme-transition);
+  overflow: hidden;
+}
+[data-theme="redbull"] .theme-modal {
+  box-shadow: 0 0 0 1px var(--accent), 0 40px 80px rgba(0,0,0,0.95),
+              0 0 50px rgba(29,111,232,0.1);
+}
+.theme-modal-overlay.open .theme-modal { transform: translateY(0) scale(1); }
+
+.theme-modal-header {
+  padding: 1.2rem 1.4rem 1rem; border-bottom: 1px solid var(--divider);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.theme-modal-title {
+  font-size: 10px; letter-spacing: 0.45em; text-transform: uppercase;
+  color: var(--text-muted); font-weight: 500;
+}
+.theme-modal-close {
+  background: none; border: none; cursor: pointer; color: var(--text-off);
+  font-size: 16px; line-height: 1; padding: 0 2px;
+  transition: color 0.2s; font-family: inherit;
+}
+.theme-modal-close:hover { color: var(--text); }
+
+.theme-cards {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.8rem; padding: 1.2rem 1.4rem 1.4rem;
+}
+
+.theme-card {
+  position: relative; cursor: pointer; border-radius: 3px; overflow: hidden;
+  border: 1px solid var(--divider);
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s, background 0.2s;
+  outline: none;
+}
+.theme-card:hover { transform: translateY(-2px); }
+.theme-card.active {
+  border-color: transparent;
+  box-shadow: 0 0 24px rgba(124,58,237,0.16);
+}
+[data-theme="redbull"] .theme-card.active {
+  border-color: transparent;
+  box-shadow: 0 0 24px rgba(225,26,26,0.18);
+}
+[data-theme="light"] .theme-card.active {
+  border-color: transparent;
+  box-shadow: 0 0 24px rgba(79,70,229,0.14);
+}
+
+/* Active tick badge */
+.theme-card-tick {
+  position: absolute; top: 6px; right: 6px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent-soft); display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.2s;
+}
+.theme-card.active .theme-card-tick { opacity: 1; }
+.theme-card-tick svg { width: 9px; height: 9px; }
+
+/* Preview panes */
+.theme-preview {
+  height: 90px; width: 100%; position: relative; overflow: hidden;
+}
+
+/* Dark preview */
+.preview-dark { background: #0c0c0c; }
+.preview-dark .pv-bar { position: absolute; top: 10px; left: 0; right: 0;
+  display: flex; justify-content: space-between; padding: 0 10px; }
+.preview-dark .pv-pill { width: 28px; height: 8px; background: #1a1a1a;
+  border-radius: 1px; border: 1px solid #2a2a2a; }
+.preview-dark .pv-time { position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%); font-size: 14px; font-weight: 600;
+  letter-spacing: -0.02em; color: #f2f2f2; font-family: 'JetBrains Mono', monospace; }
+.preview-dark .pv-btns { position: absolute; bottom: 10px; left: 50%;
+  transform: translateX(-50%); display: flex; gap: 6px; }
+.preview-dark .pv-btn-r { width: 28px; height: 10px; background: #111;
+  border-radius: 1px; border: 1px solid #2a2a2a; }
+.preview-dark .pv-btn-g { width: 36px; height: 10px; background: #161616;
+  border-radius: 1px; border: 1px solid #333; }
+
+/* Light preview */
+.preview-light { background: #f0f0f0; }
+.preview-light .pv-bar { position: absolute; top: 10px; left: 0; right: 0;
+  display: flex; justify-content: space-between; padding: 0 10px; }
+.preview-light .pv-pill { width: 28px; height: 8px; background: #fff;
+  border-radius: 1px; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.06); }
+.preview-light .pv-time { position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%); font-size: 14px; font-weight: 600;
+  letter-spacing: -0.02em; color: #111; font-family: 'JetBrains Mono', monospace; }
+.preview-light .pv-btns { position: absolute; bottom: 10px; left: 50%;
+  transform: translateX(-50%); display: flex; gap: 6px; }
+.preview-light .pv-btn-r { width: 28px; height: 10px; background: #f5f5f5;
+  border-radius: 1px; border: 1px solid #ddd; }
+.preview-light .pv-btn-g { width: 36px; height: 10px; background: #fff;
+  border-radius: 1px; border: 1px solid #ccc; }
+
+/* Red Bull preview */
+.preview-redbull {
+  background: #080808;
+  position: relative; overflow: hidden;
+}
+.preview-redbull::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 60%, rgba(225,26,26,0.18) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(180,10,10,0.12) 0%, transparent 50%);
+}
+.preview-redbull .pv-bar { position: absolute; top: 10px; left: 0; right: 0;
+  display: flex; justify-content: space-between; padding: 0 10px; z-index: 1; }
+.preview-redbull .pv-pill { width: 28px; height: 8px;
+  background: rgba(15,8,8,0.9); border-radius: 1px; border: 1px solid #cc1a1a; }
+.preview-redbull .pv-time { position: absolute; top: 50%; left: 50%; z-index: 1;
+  transform: translate(-50%,-50%); font-size: 14px; font-weight: 600;
+  letter-spacing: -0.02em; color: #f5e8e8; font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 12px rgba(225,26,26,0.45); }
+.preview-redbull .pv-btns { position: absolute; bottom: 10px; left: 50%; z-index: 1;
+  transform: translateX(-50%); display: flex; gap: 6px; }
+.preview-redbull .pv-btn-r { width: 28px; height: 10px;
+  background: rgba(15,8,8,0.9); border-radius: 1px; border: 1px solid #2a1010; }
+.preview-redbull .pv-btn-g { width: 36px; height: 10px;
+  background: rgba(20,8,8,0.95); border-radius: 1px; border: 1px solid #e11a1a;
+  box-shadow: 0 0 8px rgba(225,26,26,0.3); }
+
+/* Card label */
+.theme-card-label {
+  padding: 7px 10px; font-size: 8px; letter-spacing: 0.35em;
+  text-transform: uppercase; font-weight: 500; color: var(--text-muted);
+  background: var(--surface); border-top: 1px solid var(--divider);
+  text-align: center; transition: var(--theme-transition);
+}
+.theme-card.active .theme-card-label { color: var(--text); }
+
+/* ── RED BULL extra glow accents — full red ── */
+[data-theme="redbull"] #display.running {
+  color: #f5e8e8;
+  text-shadow: 0 0 40px rgb(233, 232, 232), 0 0 80px rgba(225,26,26,0.08);
+}
+[data-theme="redbull"] #display.paused { color: #3a1818; }
+[data-theme="redbull"] .rank-btn-label,
+[data-theme="redbull"] .hs-label { color: #ff5555; }
+[data-theme="redbull"] .progress-pct { color: #ff5555; }
+[data-theme="redbull"] .rank-item-status.current { color: #ff5555; }
+[data-theme="redbull"] .current-badge {
+  color: #ff5555; border: none; background: rgba(225,26,26,0.1);
+}
+[data-theme="redbull"] .rank-item.current::before {
+  background: linear-gradient(180deg, #7a0a0a, #e11a1a);
+}
+[data-theme="redbull"] .sync-dot.syncing {
+  box-shadow: 0 0 10px rgba(225,26,26,0.7);
+}
+[data-theme="redbull"] .dot { background: #2a1010; }
+[data-theme="redbull"] .identity-input:focus {
+  border-color: #e11a1a; box-shadow: 0 0 0 1px #150606, 0 0 20px rgba(225,26,26,0.12);
+}
+[data-theme="redbull"] .rank-btn,
+[data-theme="redbull"] .trophy-btn,
+[data-theme="redbull"] .hs-box,
+[data-theme="redbull"] .btn.primary,
+[data-theme="redbull"] .btn.primary:hover { box-shadow: none; }
+[data-theme="redbull"] .modal {
+  box-shadow: 0 0 0 1px #cc1a1a, 0 40px 80px rgba(0,0,0,0.95),
+              0 0 40px rgba(225,26,26,0.07);
+}
+[data-theme="redbull"] .theme-modal {
+  box-shadow: 0 0 0 1px #cc1a1a, 0 40px 80px rgba(0,0,0,0.95),
+              0 0 30px rgba(225,26,26,0.07);
+}
+[data-theme="redbull"] .theme-card.active {
+  border-color: transparent;
+  box-shadow: 0 0 24px rgba(225,26,26,0.18);
+}
+[data-theme="redbull"] .progress-fill {
+  box-shadow: 0 0 10px rgba(225,26,26,0.5);
+}
+[data-theme="redbull"] .rankup-toast {
+  box-shadow: 0 0 24px rgba(225,26,26,0.18);
+}
+
+/* ── LIGHT extra polish ── */
+[data-theme="light"] body { color: #111; }
+[data-theme="light"] .dot { background: #ccc; }
+[data-theme="light"] .rankup-toast {
+  box-shadow: 0 0 24px rgba(79,70,229,0.12);
+}
+[data-theme="light"] .modal {
+  box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+}
+[data-theme="light"] #display.paused { color: #bbb; }
+[data-theme="light"] #display.running { color: #111; }
+
+/* ═══════════════════════════════════════════════
+   INLINE LEADERBOARD MODAL
+   ═══════════════════════════════════════════════ */
+.lb-modal-overlay {
+  position: fixed; inset: 0;
+  background: var(--modal-overlay);
+  backdrop-filter: blur(var(--overlay-blur));
+  z-index: 500; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.lb-modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.lb-modal {
+  width: min(480px, 92vw);
+  background: var(--modal-bg); border: 1px solid var(--divider); border-radius: 16px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.85);
+  display: flex; flex-direction: column;
+  transform: translateY(18px) scale(0.98); transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+  overflow: hidden;
+}
+[data-theme="redbull"] .lb-modal {
+  box-shadow: 0 40px 80px rgba(0,0,0,0.95), 0 0 40px rgba(225,26,26,0.07);
+}
+[data-theme="light"] .lb-modal {
+  box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+}
+.lb-modal-overlay.open .lb-modal { transform: translateY(0) scale(1); }
+
+/* Header — big title only */
+.lb-modal-header {
+  padding: 1.1rem 1.3rem 1rem; border-bottom: 1px solid var(--divider);
+  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+}
+.lb-modal-title {
+  font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: var(--text);
+}
+.lb-modal-close {
+  background: none; border: none; cursor: pointer; color: var(--text-off);
+  font-size: 16px; line-height: 1; padding: 0 2px;
+  transition: color 0.2s; font-family: inherit;
+}
+.lb-modal-close:hover { color: var(--text); }
+
+/* Table — no scroll wrapper, shows all rows inline */
+.lb-table-wrap { overflow: visible; }
+
+table.lb-tbl {
+  width: 100%; border-collapse: collapse; table-layout: fixed;
+}
+/* Fixed column widths — ratio 1 : 3 : 3.5 : 1.5 */
+table.lb-tbl colgroup col.lc-pos   { width: 10%; }
+table.lb-tbl colgroup col.lc-user  { width: 30%; }
+table.lb-tbl colgroup col.lc-rank  { width: 35%; }
+table.lb-tbl colgroup col.lc-score { width: 15%; }
+
+table.lb-tbl thead tr {
+  border-bottom: 1px solid var(--divider);
+  background: var(--surface);
+}
+table.lb-tbl thead th {
+  font-size: 7px; letter-spacing: 0.45em; text-transform: uppercase;
+  color: var(--text-dim); font-weight: 400;
+  padding: 0.45rem 0.75rem; text-align: left;
+  border-right: none;
+}
+table.lb-tbl thead th:last-child { border-right: none; }
+table.lb-tbl thead th.th-center { text-align: center; }
+table.lb-tbl thead th.th-right  { text-align: right; }
+
+table.lb-tbl tbody tr {
+  border-bottom: 1px solid var(--divider);
+  transition: background 0.12s, opacity 0.12s;
+}
+table.lb-tbl tbody tr:last-child { border-bottom: none; }
+table.lb-tbl tbody tr:hover { background: var(--surface2); }
+
+/* Row tints */
+table.lb-tbl tbody tr:nth-child(n+6) { opacity: 0.72; }
+table.lb-tbl tbody tr.lbr-gold   { background: rgba(180,140,30,0.035); opacity: 1; }
+table.lb-tbl tbody tr.lbr-silver { background: rgba(160,160,160,0.025); opacity: 0.94; }
+table.lb-tbl tbody tr.lbr-bronze { background: rgba(160,100,50,0.025); opacity: 0.9; }
+table.lb-tbl tbody tr.lbr-me     { background: var(--soft-tint); opacity: 1; }
+table.lb-tbl tbody tr.lbr-me td:first-child { border-left: 2px solid var(--accent); }
+[data-theme="redbull"] table.lb-tbl tbody tr.lbr-me { background: rgba(225,26,26,0.06); }
+[data-theme="redbull"] table.lb-tbl tbody tr.lbr-me td:first-child { border-left-color: #e11a1a; }
+
+/* Compact rows — all 10 visible without scrolling */
+table.lb-tbl tbody td {
+  padding: 0.38rem 0.75rem; vertical-align: middle;
+  border-right: none;
+  font-size: 11px; color: var(--text-muted);
+}
+table.lb-tbl tbody td:last-child { border-right: none; }
+
+/* # col */
+.lb-pos {
+  text-align: center; font-size: 10px; font-weight: 600;
+  font-variant-numeric: tabular-nums; color: var(--text-dim);
+}
+.lbr-gold   .lb-pos { color: #b8942a; }
+.lbr-silver .lb-pos { color: #888; }
+.lbr-bronze .lb-pos { color: #7a5832; }
+.lb-pos-inner { display: flex; align-items: center; justify-content: center; gap: 3px; }
+.lb-medal { font-size: 10px; line-height: 1; }
+
+/* Player col */
+.lb-user-cell { display: flex; align-items: center; gap: 5px; }
+.lb-username {
+  font-size: 11px; font-weight: 500; color: var(--text-muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.lbr-gold   .lb-username { color: var(--text); }
+.lbr-silver .lb-username { color: var(--text-muted); }
+.lbr-bronze .lb-username { color: var(--text-muted); }
+.lbr-me     .lb-username { color: var(--accent-soft); }
+[data-theme="redbull"] .lbr-me .lb-username { color: #ff6666; }
+.lb-you-tag {
+  font-size: 6px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--accent-soft); border: 1px solid var(--accent-border);
+  padding: 1px 3px; border-radius: 1px; background: var(--accent-badge-bg);
+  flex-shrink: 0; font-weight: 500;
+}
+[data-theme="redbull"] .lb-you-tag { color: #ff6666; border-color: #cc1a1a; background: rgba(225,26,26,0.08); }
+
+/* Rank col */
+.lb-rank-cell { display: flex; align-items: center; gap: 6px; }
+.lb-rank-img-wrap {
+  width: 20px; height: 20px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.lb-rank-img-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.lb-rank-name {
+  font-size: 10px; font-weight: 400; color: var(--text-dim);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.lb-rank-name.eternal { color: #f59e0b; }
+
+/* Hours col */
+.lb-score-cell { text-align: right; white-space: nowrap; }
+.lb-score-val {
+  font-size: 11px; font-weight: 600; color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.lb-score-unit {
+  font-size: 7px; color: var(--text-faint);
+  letter-spacing: 0.25em; text-transform: uppercase; margin-left: 2px;
+}
+.lbr-gold   .lb-score-val { color: var(--text-muted); }
+.lbr-silver .lb-score-val { color: var(--text-dim); }
+.lbr-bronze .lb-score-val { color: var(--text-dim); }
+.lbr-me     .lb-score-val { color: var(--accent-soft); }
+[data-theme="redbull"] .lbr-me .lb-score-val { color: #ff5555; }
+
+/* Empty */
+.lb-empty-row td {
+  text-align: center; padding: 2rem 0;
+  font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--text-faint);
+}
+</style>
+</head>
+<body>
+
+<!-- RED BULL BACKGROUND LAYER -->
+<div class="redbull-bg-layer" id="redbullBgLayer"></div>
+
+<!-- IDENTITY OVERLAY -->
+<div id="identityOverlay">
+  <div class="identity-box">
+    <div class="identity-title">Choose Your Player</div>
+    <div class="identity-sub">This name will appear on the global leaderboard.</div>
+    <div class="identity-input-wrap">
+      <input class="identity-input" id="usernameInput" type="text" placeholder="your_name" maxlength="16" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="identity-error" id="identityError">—</div>
+    <button class="identity-begin-btn" id="identityBeginBtn">BEGIN</button>
+    <div class="identity-rules">3–16 chars · letters · numbers · underscore</div>
+  </div>
+</div>
+
+<!-- Top-left: rank + trophy -->
+<div class="top-left-group">
+  <button class="rank-btn" id="rankBtn">
+    <span class="rank-btn-label">rank</span>
+    <span class="rank-btn-name" id="rankBtnName">—</span>
+  </button>
+  <button class="trophy-btn" id="trophyBtn" title="Leaderboard">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 9H4a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h.5"/>
+      <path d="M18 9h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-.5"/>
+      <path d="M6 4h12v10a6 6 0 0 1-12 0V4z"/>
+      <line x1="12" y1="20" x2="12" y2="24"/>
+      <line x1="8"  y1="24" x2="16" y2="24"/>
+    </svg>
+  </button>
+</div>
+
+<!-- HS box top-right -->
+<div class="hs-box" id="hsBox">
+  <span class="hs-label">best</span>
+  <span class="hs-time empty" id="hsTime">--:--:--</span>
+</div>
+
+<!-- Sync dot -->
+<div class="sync-dot" id="syncDot"></div>
+
+<!-- Main timer -->
+<div class="wrap">
+  <div class="mode-switch" aria-label="Timer mode">
+    <button class="mode-btn active" id="stopwatchModeBtn" type="button">Stopwatch</button>
+    <button class="mode-btn" id="timerModeBtn" type="button">Timer</button>
+  </div>
+  <div id="display" class="paused">00:00:00</div>
+  <div class="timer-editor" id="timerEditor" aria-label="Countdown duration">
+    <div class="timer-presets">
+      <button class="timer-preset" type="button" data-ms="1500000">25m</button>
+      <button class="timer-preset" type="button" data-ms="300000">5m</button>
+      <button class="timer-preset" type="button" data-ms="900000">15m</button>
+    </div>
+    <div class="timer-inputs">
+      <input id="timerHours" type="number" min="0" max="99" value="00" aria-label="Hours">
+      <span>:</span>
+      <input id="timerMinutes" type="number" min="0" max="59" value="25" aria-label="Minutes">
+      <span>:</span>
+      <input id="timerSeconds" type="number" min="0" max="59" value="00" aria-label="Seconds">
+    </div>
+    <button class="timer-apply" id="timerApplyBtn" type="button">Set</button>
+  </div>
+  <div class="controls">
+    <button class="btn reset" id="resetBtn" aria-label="Reset" title="Reset"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v6h6"/><path d="M20 17a8 8 0 0 1-13.7-5.6L4 13"/></svg><span class="btn-text">Reset</span></button>
+    <button class="btn primary" id="pauseBtn" aria-label="Start" title="Start"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.5v13l10-6.5-10-6.5z"/></svg><span class="btn-text">Start</span></button>
+  </div>
+</div>
+
+<!-- Rank-up toast -->
+<div class="rankup-toast" id="rankupToast"></div>
+
+<!-- Rank modal (no leaderboard button inside) -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Ranking</span>
+      <div class="modal-header-actions">
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+    </div>
+    <div class="rank-hero">
+      <div class="rank-hero-img"><img id="heroImg" src="" alt="rank"></div>
+      <div class="rank-hero-info">
+        <div class="rank-hero-label">current rank</div>
+        <div class="rank-hero-name" id="heroName">—</div>
+        <div class="rank-hero-pts"><span id="heroPts">0</span> pts · <span id="heroHrs">0h</span> studied</div>
+        <div class="rank-hero-username">id · <span id="heroUsername">—</span></div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span class="progress-next" id="progressNext">next rank</span>
+        <span class="progress-pct" id="progressPct">0%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">—</div>
+    </div>
+    <div class="rank-list-wrap" id="rankList"></div>
+  </div>
+</div>
+
+<!-- ══ INLINE LEADERBOARD MODAL ══ -->
+<div class="lb-modal-overlay" id="lbModalOverlay">
+  <div class="lb-modal">
+    <div class="lb-modal-header">
+      <div class="lb-modal-title">Leaderboard</div>
+      <button class="lb-modal-close" id="lbModalClose">✕</button>
+    </div>
+    <div class="lb-table-wrap">
+      <table class="lb-tbl">
+        <colgroup>
+          <col class="lc-pos">
+          <col class="lc-user">
+          <col class="lc-rank">
+          <col class="lc-score">
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="th-center">#</th>
+            <th>Player</th>
+            <th>Rank</th>
+            <th class="th-right">Hrs</th>
+          </tr>
+        </thead>
+        <tbody id="lbTableBody">
+          <tr class="lb-empty-row"><td colspan="4">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Settings bottom-left -->
+<button class="settings-btn" id="settingsBtn" aria-label="Settings">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </svg>
+</button>
+
+<!-- Settings popup -->
+<div class="settings-popup" id="settingsPopup">
+  <button class="themes-btn" id="themesBtn">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M12 2a10 10 0 0 1 0 20"/>
+      <path d="M2 12h20"/>
+    </svg>
+    Themes
+  </button>
+  <button class="logout-btn" id="logoutBtn">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+      <polyline points="16 17 21 12 16 7"/>
+      <line x1="21" y1="12" x2="9" y2="12"/>
+    </svg>
+    Logout
+  </button>
+</div>
+
+<!-- THEME SELECTION MODAL -->
+<div class="theme-modal-overlay" id="themeModalOverlay">
+  <div class="theme-modal" id="themeModal">
+    <div class="theme-modal-header">
+      <span class="theme-modal-title">Select Theme</span>
+      <button class="theme-modal-close" id="themeModalClose">✕</button>
+    </div>
+    <div class="theme-cards">
+      <button class="theme-card" data-theme-id="dark" tabindex="0">
+        <div class="theme-preview preview-dark">
+          <div class="pv-bar"><div class="pv-pill"></div><div class="pv-pill"></div></div>
+          <div class="pv-time">00:00:00</div>
+          <div class="pv-btns"><div class="pv-btn-r"></div><div class="pv-btn-g"></div></div>
+        </div>
+        <div class="theme-card-label">Dark</div>
+        <div class="theme-card-tick">
+          <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
+        </div>
+      </button>
+      <button class="theme-card" data-theme-id="light" tabindex="0">
+        <div class="theme-preview preview-light">
+          <div class="pv-bar"><div class="pv-pill"></div><div class="pv-pill"></div></div>
+          <div class="pv-time">00:00:00</div>
+          <div class="pv-btns"><div class="pv-btn-r"></div><div class="pv-btn-g"></div></div>
+        </div>
+        <div class="theme-card-label">Light</div>
+        <div class="theme-card-tick">
+          <svg viewBox="0 0 10 10" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
+        </div>
+      </button>
+      <button class="theme-card" data-theme-id="redbull" tabindex="0">
+        <div class="theme-preview preview-redbull">
+          <div class="pv-bar"><div class="pv-pill"></div><div class="pv-pill"></div></div>
+          <div class="pv-time">00:00:00</div>
+          <div class="pv-btns"><div class="pv-btn-r"></div><div class="pv-btn-g"></div></div>
+        </div>
+        <div class="theme-card-label">Red Bull F1</div>
+        <div class="theme-card-tick">
+          <svg viewBox="0 0 10 10" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const RANK_IMAGES = [
+  './rank_png/Bronze_1_Rank.png',   './rank_png/Bronze_3_Rank.png',
+  './rank_png/Silver_1_Rank.png',   './rank_png/Silver_3_Rank.png',
+  './rank_png/Gold_1_Rank.png',     './rank_png/Gold_3_Rank.png',
+  './rank_png/Platinum_1_Rank.png', './rank_png/Platinum_3_Rank.png',
+  './rank_png/Diamond_1_Rank.png',  './rank_png/Diamond_3_Rank.png',
+  './rank_png/Ascendant_1_Rank.png','./rank_png/Ascendant_3_Rank.png',
+  './rank_png/Immortal_1_Rank.png', './rank_png/Immortal_3_Rank.png',
+  './rank_png/Radiant_Rank.png',
+];
+
+const RANKS = [
+  { name: 'Wanderer I',      pts: 0   }, { name: 'Wanderer II',     pts: 5   },
+  { name: 'Seeker I',        pts: 10  }, { name: 'Seeker II',       pts: 15  },
+  { name: 'Shadow I',        pts: 20  }, { name: 'Shadow II',       pts: 30  },
+  { name: 'Phantom I',       pts: 40  }, { name: 'Phantom II',      pts: 55  },
+  { name: 'Reaper I',        pts: 70  }, { name: 'Reaper II',       pts: 90  },
+  { name: 'Abyss Walker I',  pts: 110 }, { name: 'Abyss Walker II', pts: 140 },
+  { name: 'Eternal I',       pts: 170 }, { name: 'Eternal II',      pts: 210 },
+  { name: 'THE ETERNAL ONE', pts: 250 },
+];
+
+function getRank(pts) {
+  let idx = 0;
+  for (let i = 0; i < RANKS.length; i++) { if (pts >= RANKS[i].pts) idx = i; else break; }
+  return RANKS[idx].name;
+}
+function getRankIndex(pts) {
+  let idx = 0;
+  for (let i = 0; i < RANKS.length; i++) { if (pts >= RANKS[i].pts) idx = i; else break; }
+  return idx;
+}
+function getRankProgress(pts) {
+  const idx = getRankIndex(pts), cur = RANKS[idx], next = RANKS[idx+1];
+  if (!next) return { pct: 100, label: 'MAX', nextName: null };
+  const pct = ((pts - cur.pts) / (next.pts - cur.pts)) * 100;
+  return { pct: Math.min(100, Math.max(0, pct)), label: `${(pts-cur.pts).toFixed(1)} / ${next.pts-cur.pts} pts`, nextName: next.name };
+}
+
+let totalStudiedMs = 0, sessionMs = 0, startTime = 0;
+let timerTargetMs = 25 * 60 * 1000, mode = 'stopwatch';
+let running = false, rafId = null, worker = null;
+let highscore = 0, brokeDuring = false, prevRankIdx = 0;
+let currentUsername = null, syncTimeout = null, currentUid = null, firestoreReady = false;
+
+function pad(n) { return String(Math.floor(n)).padStart(2,'0'); }
+function formatTime(ms) { const s=Math.floor(ms/1000); return pad(Math.floor(s/3600))+':'+pad(Math.floor((s%3600)/60))+':'+pad(s%60); }
+function formatTimeHtml(ms) {
+  const raw = formatTime(ms);
+  let seenActive = false;
+  return raw.split('').map(ch => {
+    if (ch !== '0' && ch !== ':') seenActive = true;
+    if (ch === '0' && !seenActive) return '<span class="time-zero">0</span>';
+    return ch;
+  }).join('');
+}
+function renderDisplay(ms) { display.innerHTML = formatTimeHtml(ms); }
+function msToPoints(ms) { return ms/3600000; }
+function clampTimerInput(value, max) {
+  const n = Math.max(0, Math.min(max, Number(value) || 0));
+  return String(Math.floor(n)).padStart(2, '0');
+}
+function getLiveElapsed() { return running ? performance.now() - startTime : 0; }
+function getDisplayMs(elapsed = getLiveElapsed()) {
+  return mode === 'timer' ? Math.max(0, timerTargetMs - sessionMs - elapsed) : sessionMs + elapsed;
+}
+function getLiveStudyTotal(elapsed = getLiveElapsed()) { return totalStudiedMs + elapsed; }
+function isTimerComplete(elapsed = getLiveElapsed()) { return mode === 'timer' && timerTargetMs - sessionMs - elapsed <= 0; }
+
+const hsBox=document.getElementById('hsBox'), hsTimeEl=document.getElementById('hsTime');
+function renderHS() {
+  if (highscore===0) { hsTimeEl.textContent='--:--:--'; hsTimeEl.className='hs-time empty'; return; }
+  hsTimeEl.textContent=formatTime(highscore); hsTimeEl.className='hs-time';
+}
+function checkHS(ms) {
+  if (ms>highscore) {
+    highscore=ms; hsTimeEl.textContent=formatTime(highscore); hsTimeEl.className='hs-time';
+    if (!brokeDuring) { brokeDuring=true; hsBox.classList.remove('new'); void hsBox.offsetWidth; hsBox.classList.add('new'); setTimeout(()=>hsBox.classList.remove('new'),600); }
+  }
+}
+
+const rankBtnName=document.getElementById('rankBtnName'), heroName=document.getElementById('heroName');
+const heroImg=document.getElementById('heroImg'), heroPts=document.getElementById('heroPts'), heroHrs=document.getElementById('heroHrs');
+const heroUsername=document.getElementById('heroUsername'), progressNext=document.getElementById('progressNext');
+const progressPct=document.getElementById('progressPct'), progressFill=document.getElementById('progressFill');
+const progressLabel=document.getElementById('progressLabel'), rankList=document.getElementById('rankList');
+const rankupToast=document.getElementById('rankupToast');
+let toastTimer=null;
+
+function showRankUp(name) {
+  rankupToast.textContent=`rank up → ${name}`; rankupToast.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>rankupToast.classList.remove('show'),3200);
+}
+
+function updateRankUI(pts) {
+  const idx=getRankIndex(pts), rank=RANKS[idx], prog=getRankProgress(pts), isEternal=idx===RANKS.length-1;
+  rankBtnName.textContent=rank.name; heroName.textContent=rank.name;
+  heroImg.src=RANK_IMAGES[idx]||''; heroImg.alt=rank.name;
+  heroPts.textContent=pts.toFixed(2); heroHrs.textContent=pts.toFixed(1)+'h';
+  heroUsername.textContent=currentUsername||'—';
+  progressNext.textContent=prog.nextName?'next → '+prog.nextName:'max rank achieved';
+  progressLabel.textContent=prog.nextName?prog.label:'—';
+  progressPct.textContent=prog.pct.toFixed(1)+'%'; progressFill.style.width=prog.pct+'%';
+  progressFill.classList.toggle('eternal',isEternal); progressPct.classList.toggle('eternal',isEternal);
+  buildRankList(idx);
+  if (idx>prevRankIdx) { showRankUp(rank.name); prevRankIdx=idx; }
+}
+
+function buildRankList(currentIdx) {
+  rankList.innerHTML='';
+  RANKS.forEach((r,i)=>{
+    const isCurrent=i===currentIdx, isUnlocked=i<currentIdx, isLocked=i>currentIdx, isEternal=i===RANKS.length-1;
+    const item=document.createElement('div');
+    item.className='rank-item'+(isCurrent?' current':'')+(isLocked?' locked':'')+(isEternal?' eternal':'');
+    const imgWrap=document.createElement('div');
+    imgWrap.className='rank-item-img'+(isLocked?' locked':'');
+    const img=document.createElement('img'); img.src=RANK_IMAGES[i]||''; img.alt=r.name;
+    imgWrap.appendChild(img);
+    const info=document.createElement('div'); info.className='rank-item-info';
+    const name=document.createElement('div'); name.className='rank-item-name'+(isLocked?' locked':''); name.textContent=r.name;
+    const ptsEl=document.createElement('div'); ptsEl.className='rank-item-pts';
+    ptsEl.textContent=r.pts+' pts'+(RANKS[i+1]?' → '+RANKS[i+1].pts:'+');
+    info.appendChild(name); info.appendChild(ptsEl);
+    const status=document.createElement('div');
+    status.className='rank-item-status '+(isCurrent?'current':isUnlocked?'unlocked':'locked');
+    if (isCurrent) { const b=document.createElement('span'); b.className='current-badge'; b.textContent='current'; status.appendChild(b); }
+    else status.textContent=isUnlocked?'done':'locked';
+    item.appendChild(imgWrap); item.appendChild(info); item.appendChild(status);
+    rankList.appendChild(item);
+    if (isCurrent) setTimeout(()=>item.scrollIntoView({block:'nearest',behavior:'smooth'}),100);
+  });
+}
+
+const modalOverlay=document.getElementById('modalOverlay');
+document.getElementById('rankBtn').addEventListener('click',()=>{ updateRankUI(msToPoints(totalStudiedMs)); modalOverlay.classList.add('open'); });
+document.getElementById('modalClose').addEventListener('click',()=>modalOverlay.classList.remove('open'));
+modalOverlay.addEventListener('click',e=>{ if(e.target===modalOverlay) modalOverlay.classList.remove('open'); });
+
+// Trophy opens inline leaderboard
+document.getElementById('trophyBtn').addEventListener('click',()=>openLbModal());
+
+const workerSrc=`let iv=null;self.onmessage=function(e){if(e.data==='start'){if(!iv)iv=setInterval(()=>self.postMessage('tick'),500);}else if(e.data==='stop'){clearInterval(iv);iv=null;}};`;
+try {
+  worker=new Worker(URL.createObjectURL(new Blob([workerSrc],{type:'application/javascript'})));
+  worker.onmessage=()=>{
+    if(!running) return;
+    updateRunningFrame();
+  };
+} catch(e){}
+
+function finishTimerRun() {
+  const delta = Math.max(0, timerTargetMs - sessionMs);
+  sessionMs = timerTargetMs;
+  totalStudiedMs += delta;
+  running = false; cancelAnimationFrame(rafId);
+  if(worker) worker.postMessage('stop');
+  display.className='paused'; setPauseButton('Start'); updateModeUI();
+  exitZen(); scheduleSync(); showRankUp('timer complete');
+}
+
+function updateRunningFrame() {
+  const elapsed = getLiveElapsed();
+  if (isTimerComplete(elapsed)) { finishTimerRun(); return; }
+  const displayMs = getDisplayMs(elapsed), liveTotal = getLiveStudyTotal(elapsed);
+  renderDisplay(displayMs); checkHS(mode === 'timer' ? elapsed : displayMs);
+  const pts=msToPoints(liveTotal), newIdx=getRankIndex(pts);
+  if(newIdx>prevRankIdx){prevRankIdx=newIdx;showRankUp(RANKS[newIdx].name);rankBtnName.textContent=RANKS[newIdx].name;}
+  if(modalOverlay.classList.contains('open')) updateRankUI(pts);
+}
+
+function rafTick() {
+  if(!running) return;
+  updateRunningFrame();
+  if (running) rafId=requestAnimationFrame(rafTick);
+}
+
+function enterZen() { document.body.classList.add('zen'); }
+function exitZen()  { document.body.classList.remove('zen'); }
+
+document.body.addEventListener('click',function(e){
+  if(!document.body.classList.contains('zen')) return;
+  if(e.target!==pauseBtn) exitZen();
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&document.body.classList.contains('zen')) exitZen();
+});
+
+const display=document.getElementById('display'), pauseBtn=document.getElementById('pauseBtn'), resetBtn=document.getElementById('resetBtn');
+const stopwatchModeBtn=document.getElementById('stopwatchModeBtn'), timerModeBtn=document.getElementById('timerModeBtn');
+const timerEditor=document.getElementById('timerEditor'), timerHours=document.getElementById('timerHours'), timerMinutes=document.getElementById('timerMinutes'), timerSeconds=document.getElementById('timerSeconds'), timerApplyBtn=document.getElementById('timerApplyBtn');
+function setPauseButton(state) {
+  const isPause = state === 'Pause';
+  pauseBtn.title = state;
+  pauseBtn.setAttribute('aria-label', state);
+  pauseBtn.innerHTML = isPause
+    ? '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 5h3.5v14H7V5zm6.5 0H17v14h-3.5V5z"/></svg><span class="btn-text">Pause</span>'
+    : '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.5v13l10-6.5-10-6.5z"/></svg><span class="btn-text">'+state+'</span>';
+}
+function syncTimerInputsFromTarget() {
+  const total = Math.floor(timerTargetMs / 1000);
+  timerHours.value = pad(Math.floor(total / 3600));
+  timerMinutes.value = pad(Math.floor((total % 3600) / 60));
+  timerSeconds.value = pad(total % 60);
+}
+function readTimerInputMs() {
+  const h = Number(clampTimerInput(timerHours.value, 99));
+  const m = Number(clampTimerInput(timerMinutes.value, 59));
+  const sec = Number(clampTimerInput(timerSeconds.value, 59));
+  timerHours.value = pad(h); timerMinutes.value = pad(m); timerSeconds.value = pad(sec);
+  return Math.max(1000, ((h * 3600) + (m * 60) + sec) * 1000);
+}
+function updateModeUI() {
+  stopwatchModeBtn.classList.toggle('active', mode === 'stopwatch');
+  timerModeBtn.classList.toggle('active', mode === 'timer');
+  timerEditor.classList.toggle('open', mode === 'timer' && !running);
+  renderDisplay(mode === 'timer' ? Math.max(0, timerTargetMs - sessionMs) : sessionMs);
+}
+function switchMode(nextMode) {
+  if (running || mode === nextMode) return;
+  mode = nextMode; sessionMs = 0; brokeDuring = false;
+  setPauseButton('Start'); syncTimerInputsFromTarget(); updateModeUI();
+}
+function applyTimerTarget(ms = readTimerInputMs()) {
+  if (running) return;
+  timerTargetMs = ms; sessionMs = 0; syncTimerInputsFromTarget(); updateModeUI();
+}
+syncTimerInputsFromTarget();
+updateModeUI();
+
+pauseBtn.addEventListener('click',()=>{
+  if(!running){
+    if (mode === 'timer' && sessionMs >= timerTargetMs) sessionMs = 0;
+    running=true; startTime=performance.now();
+    timerEditor.classList.remove('open');
+    display.className='running'; setPauseButton('Pause');
+    if(worker) worker.postMessage('start');
+    rafId=requestAnimationFrame(rafTick);
+    enterZen();
+  } else {
+    const delta=performance.now()-startTime;
+    sessionMs += delta; totalStudiedMs += delta;
+    if (mode === 'timer') sessionMs = Math.min(sessionMs, timerTargetMs);
+    running=false; cancelAnimationFrame(rafId);
+    if(worker) worker.postMessage('stop');
+    display.className='paused'; setPauseButton('Resume');
+    renderDisplay(getDisplayMs(0)); updateModeUI();
+    exitZen(); scheduleSync();
+  }
+});
+
+resetBtn.addEventListener('click',()=>{
+  if(running){const delta=performance.now()-startTime;totalStudiedMs+=delta;}
+  running=false; sessionMs=0; startTime=0; brokeDuring=false;
+  cancelAnimationFrame(rafId); if(worker) worker.postMessage('stop');
+  display.className='paused'; setPauseButton('Start'); updateModeUI();
+  rankBtnName.textContent=RANKS[getRankIndex(msToPoints(totalStudiedMs))].name;
+  exitZen(); scheduleSync();
+});
+
+stopwatchModeBtn.addEventListener('click',()=>switchMode('stopwatch'));
+timerModeBtn.addEventListener('click',()=>switchMode('timer'));
+display.addEventListener('click',()=>{ if(!running && mode === 'timer') timerEditor.classList.add('open'); });
+timerApplyBtn.addEventListener('click',()=>applyTimerTarget());
+document.querySelectorAll('.timer-preset').forEach(btn => btn.addEventListener('click',()=>applyTimerTarget(Number(btn.dataset.ms))));
+[timerHours,timerMinutes,timerSeconds].forEach(input => {
+  input.addEventListener('blur',()=>applyTimerTarget());
+  input.addEventListener('keydown',e=>{ if(e.key==='Enter') { e.preventDefault(); applyTimerTarget(); input.blur(); } });
+});
+
+const settingsBtn=document.getElementById('settingsBtn'), settingsPopup=document.getElementById('settingsPopup'), logoutBtn=document.getElementById('logoutBtn');
+settingsBtn.addEventListener('click',function(e){ e.stopPropagation(); settingsPopup.classList.toggle('open'); });
+document.addEventListener('click',function(e){ if(!settingsPopup.contains(e.target)&&e.target!==settingsBtn) settingsPopup.classList.remove('open'); });
+logoutBtn.addEventListener('click',function(){ if(typeof window.__logout==='function') window.__logout(); else window.location.href='index.html'; });
+
+const identityOverlay=document.getElementById('identityOverlay'), usernameInput=document.getElementById('usernameInput');
+const identityError=document.getElementById('identityError'), identityBeginBtn=document.getElementById('identityBeginBtn');
+function showIdentityOverlay(){ identityOverlay.classList.add('visible'); setTimeout(()=>usernameInput.focus(),600); }
+function hideIdentityOverlay(){ identityOverlay.style.transition='opacity 0.4s ease'; identityOverlay.style.opacity='0'; setTimeout(()=>{ identityOverlay.style.display='none'; },400); }
+function showIdentityError(msg){ identityError.textContent=msg; identityError.classList.add('visible'); }
+function clearIdentityError(){ identityError.classList.remove('visible'); }
+usernameInput.addEventListener('input',()=>clearIdentityError());
+usernameInput.addEventListener('keydown',e=>{ if(e.key==='Enter') identityBeginBtn.click(); });
+identityBeginBtn.addEventListener('click',async()=>{
+  const raw=usernameInput.value.trim();
+  if(!/^[a-zA-Z0-9_]{3,16}$/.test(raw)){ showIdentityError('3–16 chars. Letters, numbers, underscore only.'); return; }
+  identityBeginBtn.disabled=true; identityBeginBtn.textContent='...'; clearIdentityError();
+  if(typeof window.__saveUsername==='function'){
+    const result=await window.__saveUsername(raw);
+    if(result.ok){ currentUsername=raw; hideIdentityOverlay(); }
+    else{ showIdentityError(result.error||'Error. Try again.'); identityBeginBtn.disabled=false; identityBeginBtn.textContent='BEGIN'; }
+  }
+});
+
+function scheduleSync(){
+  if(!firestoreReady||!currentUid) return;
+  clearTimeout(syncTimeout);
+  syncTimeout=setTimeout(()=>{ if(typeof window.__syncProfile==='function') window.__syncProfile(); },2000);
+}
+
+window.__loadProfileData=function(data){
+  if(!data) return;
+  totalStudiedMs=(data.totalStudyTime||0)*3600000;
+  highscore=(data.highScore||0)*3600000;
+  prevRankIdx=getRankIndex(data.rankPoints||0);
+  currentUsername=data.username||null;
+  renderHS();
+  rankBtnName.textContent=getRank(data.rankPoints||0);
+  prevRankIdx=getRankIndex(data.rankPoints||0);
+};
+
+window.__getTimerState=function(){
+  const elapsed = running ? performance.now()-startTime : 0;
+  const liveTotal=totalStudiedMs+elapsed;
+  const currentSession = mode === 'timer' ? elapsed : sessionMs + elapsed;
+  const pts=msToPoints(liveTotal);
+  return { totalStudyTime:liveTotal/3600000, rankPoints:pts, currentRank:getRank(pts), highScore:Math.max(highscore,currentSession)/3600000 };
+};
+
+window.__setFirestoreReady=function(uid){ currentUid=uid; firestoreReady=true; };
+
+setInterval(()=>{ if(running&&firestoreReady) scheduleSync(); },60000);
+
+/* ═══════════════════════════════════════════════
+   THEME SYSTEM
+   ═══════════════════════════════════════════════ */
+(function() {
+  const THEMES = ['dark', 'light', 'redbull'];
+  const STORAGE_KEY = 'selectedTheme';
+
+  function applyTheme(themeId) {
+    if (!THEMES.includes(themeId)) themeId = 'dark';
+    const root = document.documentElement;
+    root.removeAttribute('data-theme');
+    document.body.removeAttribute('data-theme');
+    if (themeId !== 'dark') root.setAttribute('data-theme', themeId);
+    document.querySelectorAll('.theme-card').forEach(card => {
+      card.classList.toggle('active', card.dataset.themeId === themeId);
+    });
+    try { localStorage.setItem(STORAGE_KEY, themeId); } catch(e) {}
+  }
+
+  function getSavedTheme() {
+    try { return localStorage.getItem(STORAGE_KEY) || 'dark'; } catch(e) { return 'dark'; }
+  }
+
+  applyTheme(getSavedTheme());
+
+  const themeModalOverlay = document.getElementById('themeModalOverlay');
+  const themesBtn = document.getElementById('themesBtn');
+  const themeModalClose = document.getElementById('themeModalClose');
+  const settingsPopupEl = document.getElementById('settingsPopup');
+
+  themesBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    settingsPopupEl.classList.remove('open');
+    themeModalOverlay.classList.add('open');
+  });
+  themeModalClose.addEventListener('click', function() { themeModalOverlay.classList.remove('open'); });
+  themeModalOverlay.addEventListener('click', function(e) { if (e.target === themeModalOverlay) themeModalOverlay.classList.remove('open'); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') themeModalOverlay.classList.remove('open'); });
+
+  document.querySelectorAll('.theme-card').forEach(card => {
+    card.addEventListener('click', function() { applyTheme(this.dataset.themeId); });
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applyTheme(this.dataset.themeId); }
+    });
+  });
+})();
+
+/* ═══════════════════════════════════════════════
+   INLINE LEADERBOARD — open/close
+   ═══════════════════════════════════════════════ */
+const lbModalOverlay = document.getElementById('lbModalOverlay');
+const lbModalClose   = document.getElementById('lbModalClose');
+
+function openLbModal() {
+  lbModalOverlay.classList.add('open');
+  // trigger firebase load if ready
+  if (typeof window.__startLbListener === 'function') window.__startLbListener();
+}
+function closeLbModal() {
+  lbModalOverlay.classList.remove('open');
+  if (typeof window.__stopLbListener === 'function') window.__stopLbListener();
+}
+
+lbModalClose.addEventListener('click', closeLbModal);
+lbModalOverlay.addEventListener('click', e => { if (e.target === lbModalOverlay) closeLbModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLbModal(); });
+</script>
+
+<!-- Firebase module -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import {
+    getFirestore, doc, getDoc, setDoc, updateDoc,
+    collection, query, where, orderBy, limit,
+    getDocs, onSnapshot, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDOQZw95uqm6B4TP_qGKlwqt2LYKfvITXM",
+    authDomain: "eternal-one-timer.firebaseapp.com",
+    projectId: "eternal-one-timer",
+    storageBucket: "eternal-one-timer.firebasestorage.app",
+    messagingSenderId: "1010437979682",
+    appId: "1:1010437979682:web:7a23edfd4e45439ba7547b",
+    measurementId: "G-6JR43ZSEN3"
+  };
+
+  const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
+  const syncDot=document.getElementById('syncDot');
+  function setSyncState(s){ syncDot.className='sync-dot '+s; }
+
+  // ── Leaderboard inline rendering ──
+  const RANK_IMAGES_LB = [
+    './rank_png/Bronze_1_Rank.png',   './rank_png/Bronze_3_Rank.png',
+    './rank_png/Silver_1_Rank.png',   './rank_png/Silver_3_Rank.png',
+    './rank_png/Gold_1_Rank.png',     './rank_png/Gold_3_Rank.png',
+    './rank_png/Platinum_1_Rank.png', './rank_png/Platinum_3_Rank.png',
+    './rank_png/Diamond_1_Rank.png',  './rank_png/Diamond_3_Rank.png',
+    './rank_png/Ascendant_1_Rank.png','./rank_png/Ascendant_3_Rank.png',
+    './rank_png/Immortal_1_Rank.png', './rank_png/Immortal_3_Rank.png',
+    './rank_png/Radiant_Rank.png',
+  ];
+  const RANKS_LB = [
+    { name: 'Wanderer I',      pts: 0   }, { name: 'Wanderer II',     pts: 5   },
+    { name: 'Seeker I',        pts: 10  }, { name: 'Seeker II',       pts: 15  },
+    { name: 'Shadow I',        pts: 20  }, { name: 'Shadow II',       pts: 30  },
+    { name: 'Phantom I',       pts: 40  }, { name: 'Phantom II',      pts: 55  },
+    { name: 'Reaper I',        pts: 70  }, { name: 'Reaper II',       pts: 90  },
+    { name: 'Abyss Walker I',  pts: 110 }, { name: 'Abyss Walker II', pts: 140 },
+    { name: 'Eternal I',       pts: 170 }, { name: 'Eternal II',      pts: 210 },
+    { name: 'THE ETERNAL ONE', pts: 250 },
+  ];
+  function lbGetRankIdx(pts) {
+    let i = 0;
+    for (; i < RANKS_LB.length; i++) { if (pts < RANKS_LB[i].pts) break; else i = i; }
+    let idx = 0;
+    for (let j = 0; j < RANKS_LB.length; j++) { if (pts >= RANKS_LB[j].pts) idx = j; else break; }
+    return idx;
+  }
+
+  const lbBody = document.getElementById('lbTableBody');
+
+  let lbUnsub = null;
+  let currentUidLb = null;
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function renderLb(docs) {
+    // filter: must have username, rankPoints >= 0.5h
+    const users = docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .filter(u => u.username && Number(u.rankPoints || 0) >= 0.5)
+      .slice(0, 10);
+
+    if (users.length === 0) {
+      lbBody.innerHTML = '<tr class="lb-empty-row"><td colspan="4">no qualifying players yet</td></tr>';
+      return;
+    }
+
+    lbBody.innerHTML = '';
+    const MEDALS = ['🥇','🥈','🥉'];
+
+    users.forEach((u, i) => {
+      const pos      = i + 1;
+      const pts      = Number(u.rankPoints || 0);
+      const ridx     = lbGetRankIdx(pts);
+      const rankName = RANKS_LB[ridx].name;
+      const rankImg  = RANK_IMAGES_LB[ridx] || '';
+      const isEternal= rankName === 'THE ETERNAL ONE';
+      const isMe     = u.id === currentUidLb;
+      const hrs      = pts.toFixed(1);
+
+      let rowCls = '';
+      if (isMe)     rowCls += ' lbr-me';
+      if (pos === 1) rowCls += ' lbr-gold';
+      else if (pos === 2) rowCls += ' lbr-silver';
+      else if (pos === 3) rowCls += ' lbr-bronze';
+
+      const medal = MEDALS[i] || '';
+      const posTxt = String(pos).padStart(2,'0');
+
+      const tr = document.createElement('tr');
+      tr.className = rowCls.trim();
+
+      tr.innerHTML = `
+        <td>
+          <div class="lb-pos">
+            <div class="lb-pos-inner">
+              ${medal ? `<span class="lb-medal">${medal}</span>` : ''}
+              <span>${posTxt}</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="lb-user-cell">
+            <span class="lb-username">${escHtml(u.username)}</span>
+            ${isMe ? '<span class="lb-you-tag">you</span>' : ''}
+          </div>
+        </td>
+        <td>
+          <div class="lb-rank-cell">
+            <div class="lb-rank-img-wrap">
+              <img src="${rankImg}" alt="${rankName}" onerror="this.style.display='none'">
+            </div>
+            <span class="lb-rank-name${isEternal?' eternal':''}">${rankName}</span>
+          </div>
+        </td>
+        <td class="lb-score-cell">
+          <span class="lb-score-val">${hrs}</span><span class="lb-score-unit">h</span>
+        </td>
+      `;
+      lbBody.appendChild(tr);
+    });
+  }
+
+  window.__startLbListener = function() {
+    if (lbUnsub) return; // already listening
+    const q = query(
+      collection(db, 'users'),
+      orderBy('rankPoints', 'desc'),
+      limit(20) // fetch 20, then filter to get 10 qualifying
+    );
+    lbUnsub = onSnapshot(q, snap => {
+      renderLb(snap.docs);
+    }, err => {
+      console.error('LB error:', err);
+      lbBody.innerHTML = '<tr class="lb-empty-row"><td colspan="4">error loading</td></tr>';
+    });
+  };
+
+  window.__stopLbListener = function() {
+    if (lbUnsub) { lbUnsub(); lbUnsub = null; }
+  };
+
+  onAuthStateChanged(auth, async user => {
+    if (!user) { window.location.href='index.html'; return; }
+    window.__setFirestoreReady(user.uid);
+    currentUidLb = user.uid;
+    const userRef=doc(db,'users',user.uid), userSnap=await getDoc(userRef);
+    if (!userSnap.exists()) {
+      await setDoc(userRef,{ username:null,usernameLower:null,rankPoints:0,currentRank:'Wanderer I',highScore:0,totalStudyTime:0,rankHistory:[],createdAt:serverTimestamp(),updatedAt:serverTimestamp() });
+      showIdentityOverlay();
+    } else {
+      const data=userSnap.data();
+      if (!data.username) showIdentityOverlay(); else hideIdentityOverlay();
+      if (typeof window.__loadProfileData==='function') window.__loadProfileData(data);
+    }
+  });
+
+  function showIdentityOverlay(){ document.getElementById('identityOverlay').classList.add('visible'); setTimeout(()=>document.getElementById('usernameInput').focus(),600); }
+  function hideIdentityOverlay(){ const el=document.getElementById('identityOverlay'); el.style.transition='opacity 0.4s ease'; el.style.opacity='0'; setTimeout(()=>{ el.style.display='none'; },400); }
+
+  window.__saveUsername=async function(raw){
+    const lower=raw.toLowerCase(), authUser=auth.currentUser;
+    if(!authUser) return{ok:false,error:'Not authenticated.'};
+    const q=query(collection(db,'users'),where('usernameLower','==',lower));
+    const snap=await getDocs(q);
+    if(!snap.empty) return{ok:false,error:'Identity already taken.'};
+    await updateDoc(doc(db,'users',authUser.uid),{ username:raw,usernameLower:lower,updatedAt:serverTimestamp() });
+    return{ok:true};
+  };
+
+  window.__syncProfile=async function(){
+    const authUser=auth.currentUser;
+    if(!authUser||typeof window.__getTimerState!=='function') return;
+    setSyncState('syncing');
+    try{
+      const state=window.__getTimerState(), userRef=doc(db,'users',authUser.uid);
+      const snap=await getDoc(userRef), existing=snap.exists()?snap.data():{};
+      const updateData={ rankPoints:state.rankPoints,currentRank:state.currentRank,totalStudyTime:state.totalStudyTime,updatedAt:serverTimestamp() };
+      if(state.highScore>(existing.highScore||0)) updateData.highScore=state.highScore;
+      if(existing.currentRank&&existing.currentRank!==state.currentRank){
+        const history=existing.rankHistory||[];
+        history.push({rank:state.currentRank,at:new Date().toISOString()});
+        updateData.rankHistory=history.slice(-50);
+      }
+      await updateDoc(userRef,updateData);
+      setSyncState('synced'); setTimeout(()=>setSyncState(''),3000);
+    } catch(e){ setSyncState('error'); setTimeout(()=>setSyncState(''),3000); console.error('Sync error:',e); }
+  };
+
+  window.__logout=async function(){
+    if(typeof window.__syncProfile==='function') await window.__syncProfile();
+    window.__stopLbListener && window.__stopLbListener();
+    try{ await signOut(auth); } catch(e){}
+    window.location.href='index.html';
+  };
+</script>
+</body>
+</html>
