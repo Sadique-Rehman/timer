@@ -216,8 +216,8 @@ html, body {
 .hs-label { font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
 .hs-time { font-size: 14px; font-weight: 600; letter-spacing: 0.03em; font-variant-numeric: tabular-nums; color: var(--text); }
 .hs-time.empty { color: var(--text-dim); }
-.wrap { display: flex; flex-direction: column; align-items: center; gap: 3rem; position: relative; }
-#display { font-size: clamp(72px, 15vw, 152px); font-weight: 500; letter-spacing: -0.045em; font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1, "zero" 1; line-height: 1; user-select: none; white-space: nowrap; transition: color 0.35s ease; }
+.wrap { width: 100%; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3rem; position: relative; padding: 4.5rem 1rem; }
+#display { max-width: calc(100vw - 2rem); font-size: clamp(72px, 15vw, 152px); font-weight: 500; letter-spacing: -0.045em; font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1, "zero" 1; line-height: 1; user-select: none; white-space: nowrap; transition: color 0.35s ease; }
 #display .time-zero { opacity: 0.35; }
 #display.paused { color: var(--text-dim); }
 #display.running { color: var(--text); }
@@ -247,30 +247,20 @@ html, body {
 .mode-btn:hover { color: var(--text-muted); background: var(--soft-tint); }
 .mode-btn.active { color: var(--accent-soft); background: var(--soft-tint); }
 .timer-editor {
-  display: none; align-items: center; justify-content: center; gap: 0.75rem;
+  display: none; align-items: center; justify-content: center;
   min-height: 34px; margin-top: -2.2rem; color: var(--text-muted);
 }
 .timer-editor.open { display: flex; }
-.timer-presets { display: inline-flex; align-items: center; gap: 0.35rem; }
-.timer-preset, .timer-apply {
-  border: none; background: transparent; color: var(--text-muted); cursor: pointer;
-  font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em;
-  text-transform: uppercase; padding: 0.45rem 0.65rem; border-radius: 999px;
-  transition: color 0.18s ease, background 0.18s ease;
-}
-.timer-preset:hover, .timer-apply:hover { color: var(--text); background: var(--soft-tint); }
-.timer-apply { color: var(--accent-soft); }
-.timer-inputs { display: inline-flex; align-items: center; gap: 0.25rem; }
+.timer-inputs { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.3rem 0.45rem; border: 1px solid var(--divider); border-radius: 0.4rem; background: var(--soft-tint); }
 .timer-inputs input {
-  width: 3.2rem; border: none; border-bottom: 1px solid var(--divider);
-  background: transparent; color: var(--text); outline: none; text-align: center;
-  font-family: 'JetBrains Mono', monospace; font-size: 13px; font-variant-numeric: tabular-nums;
-  padding: 0.3rem 0.1rem;
+  width: 3.35rem; border: none; background: transparent; color: var(--text); outline: none; text-align: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 13px; font-variant-numeric: tabular-nums; line-height: 1;
+  padding: 0.25rem 0.1rem;
 }
 .timer-inputs span { color: var(--text-dim); font-size: 11px; }
 body.zen .mode-switch, body.zen .timer-editor { opacity: 0; pointer-events: none; position: absolute; }
-body.zen .wrap { width: 100vw; min-height: 100vh; justify-content: center; gap: 4.5rem; }
-body.zen #display { font-size: clamp(112px, 24vw, 264px); }
+body.zen .wrap { position: fixed; inset: 0; width: auto; min-height: 0; padding: 0 1rem; justify-content: center; gap: 0; }
+body.zen #display { font-size: clamp(112px, min(24vw, calc((100vw - 2rem) / 7.5)), 264px); }
 body.zen .controls {
   position: fixed; bottom: 2.8rem; left: 50%; transform: translateX(-50%);
   width: 56px; height: 56px; padding: 0; gap: 0; border-radius: 50%;
@@ -959,19 +949,13 @@ table.lb-tbl tbody td:last-child { border-right: none; }
   </div>
   <div id="display" class="paused">00:00:00</div>
   <div class="timer-editor" id="timerEditor" aria-label="Countdown duration">
-    <div class="timer-presets">
-      <button class="timer-preset" type="button" data-ms="1500000">25m</button>
-      <button class="timer-preset" type="button" data-ms="300000">5m</button>
-      <button class="timer-preset" type="button" data-ms="900000">15m</button>
-    </div>
-    <div class="timer-inputs">
-      <input id="timerHours" type="number" min="0" max="99" value="00" aria-label="Hours">
+    <div class="timer-inputs" aria-label="Countdown duration. Scroll a value to increase or decrease it.">
+      <input id="timerHours" type="number" min="0" max="99" step="1" value="00" inputmode="numeric" aria-label="Hours">
       <span>:</span>
-      <input id="timerMinutes" type="number" min="0" max="59" value="25" aria-label="Minutes">
+      <input id="timerMinutes" type="number" min="0" max="59" step="1" value="25" inputmode="numeric" aria-label="Minutes">
       <span>:</span>
-      <input id="timerSeconds" type="number" min="0" max="59" value="00" aria-label="Seconds">
+      <input id="timerSeconds" type="number" min="0" max="59" step="1" value="00" inputmode="numeric" aria-label="Seconds">
     </div>
-    <button class="timer-apply" id="timerApplyBtn" type="button">Set</button>
   </div>
   <div class="controls">
     <button class="btn reset" id="resetBtn" aria-label="Reset" title="Reset"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v6h6"/><path d="M20 17a8 8 0 0 1-13.7-5.6L4 13"/></svg><span class="btn-text">Reset</span></button>
@@ -1306,7 +1290,7 @@ document.addEventListener('keydown',function(e){
 
 const display=document.getElementById('display'), pauseBtn=document.getElementById('pauseBtn'), resetBtn=document.getElementById('resetBtn');
 const stopwatchModeBtn=document.getElementById('stopwatchModeBtn'), timerModeBtn=document.getElementById('timerModeBtn');
-const timerEditor=document.getElementById('timerEditor'), timerHours=document.getElementById('timerHours'), timerMinutes=document.getElementById('timerMinutes'), timerSeconds=document.getElementById('timerSeconds'), timerApplyBtn=document.getElementById('timerApplyBtn');
+const timerEditor=document.getElementById('timerEditor'), timerHours=document.getElementById('timerHours'), timerMinutes=document.getElementById('timerMinutes'), timerSeconds=document.getElementById('timerSeconds');
 function setPauseButton(state) {
   const isPause = state === 'Pause';
   pauseBtn.title = state;
@@ -1379,11 +1363,15 @@ resetBtn.addEventListener('click',()=>{
 stopwatchModeBtn.addEventListener('click',()=>switchMode('stopwatch'));
 timerModeBtn.addEventListener('click',()=>switchMode('timer'));
 display.addEventListener('click',()=>{ if(!running && mode === 'timer') timerEditor.classList.add('open'); });
-timerApplyBtn.addEventListener('click',()=>applyTimerTarget());
-document.querySelectorAll('.timer-preset').forEach(btn => btn.addEventListener('click',()=>applyTimerTarget(Number(btn.dataset.ms))));
 [timerHours,timerMinutes,timerSeconds].forEach(input => {
   input.addEventListener('blur',()=>applyTimerTarget());
   input.addEventListener('keydown',e=>{ if(e.key==='Enter') { e.preventDefault(); applyTimerTarget(); input.blur(); } });
+  input.addEventListener('input',()=>applyTimerTarget());
+  input.addEventListener('wheel',e=>{
+    e.preventDefault();
+    input.stepUp(e.deltaY < 0 ? 1 : -1);
+    applyTimerTarget();
+  }, { passive: false });
 });
 
 const settingsBtn=document.getElementById('settingsBtn'), settingsPopup=document.getElementById('settingsPopup'), logoutBtn=document.getElementById('logoutBtn');
